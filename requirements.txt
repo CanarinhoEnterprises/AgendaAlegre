@@ -1,0 +1,3 @@
+JDK 21
+Postgre 18.4
+Apache Maven 3.9.16
