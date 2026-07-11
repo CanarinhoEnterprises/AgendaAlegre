@@ -1,0 +1,159 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        var(--azul-principal),
+        var(--verde-principal)
+    );
+}
+
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    padding: 30px;
+}
+
+.auth-box {
+    width: 430px;
+
+    background: var(--branco);
+
+    padding: 40px;
+
+    border-radius: 18px;
+
+    box-shadow: var(--sombra);
+}
+
+.auth-box h1 {
+    text-align: center;
+
+    color: var(--azul-principal);
+
+    margin-bottom: 10px;
+}
+
+.auth-box p {
+    text-align: center;
+
+    color: var(--cinza);
+
+    margin-bottom: 35px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+
+    color: var(--texto);
+
+    font-weight: bold;
+}
+
+/* Campos de texto e seleção */
+input,
+select {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-bottom: 18px;
+
+    border: 1px solid var(--borda);
+
+    border-radius: 8px;
+
+    font-size: 16px;
+
+    color: var(--texto);
+
+    background: var(--branco);
+
+    transition: .3s;
+}
+
+/* Quando o usuário clicar no campo */
+input:focus,
+select:focus {
+    outline: none;
+
+    border-color: var(--azul-principal);
+
+    box-shadow: 0 0 5px rgba(15, 76, 129, .3);
+}
+
+/* Apenas o select possui essas propriedades */
+select {
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%232C3E50' viewBox='0 0 16 16'%3E%3Cpath d='M3.204 5h9.592L8 10.481 3.204 5z'/%3E%3C/svg%3E");
+
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+
+    padding-right: 40px;
+}
+
+button {
+    margin-top: 10px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--verde-principal);
+
+    color: var(--branco);
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+button:hover {
+    background: var(--verde-hover);
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .15);
+}
+
+.link {
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: var(--texto);
+}
+
+.link a {
+    color: var(--verde-principal);
+
+    font-weight: bold;
+}
+
+.link a:hover {
+    text-decoration: underline;
+}

@@ -7,31 +7,31 @@
     <title>Login | Agenda Alegre</title>
 
     <link rel="stylesheet" href="../assets/css/styles.css">
-    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/auth.css">
 </head>
 
 <body>
 
-    <main class="login-container">
+    <main class="auth-container">
 
-        <section class="login-box">
+        <section class="auth-box">
 
             <h1>Agenda Alegre</h1>
             <p>Faça login para continuar</p>
 
             <form>
 
-                <label>Email</label>
+                <label for="email">Email</label>
                 <input
                     type="email"
-                    placeholder="Digite seu email"
-                    required>
+                    id="email"
+                    placeholder="Digite seu email">
 
-                <label>Senha</label>
+                <label for="senha">Senha</label>
                 <input
                     type="password"
-                    placeholder="Digite sua senha"
-                    required>
+                    id="senha"
+                    placeholder="Digite sua senha">
 
                 <button type="submit">
                     Entrar
@@ -39,15 +39,10 @@
 
             </form>
 
-            <a href="#">Esqueceu sua senha?</a>
+            <div class="link">
 
-            <div class="cadastro">
-
-                <span>Não possui conta?</span>
-
-                <a href="cadastro.html">
-                    Criar conta
-                </a>
+                <span>Não possui uma conta?</span>
+                <a href="cadastro.html">Criar conta</a>
 
             </div>
 
