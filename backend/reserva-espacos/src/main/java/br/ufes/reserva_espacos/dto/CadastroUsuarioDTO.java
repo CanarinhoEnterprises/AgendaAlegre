@@ -2,6 +2,7 @@ package br.ufes.reserva_espacos.dto;
 
 import br.ufes.reserva_espacos.enums.TipoPessoa;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class CadastroUsuarioDTO {
 
@@ -20,7 +21,7 @@ public class CadastroUsuarioDTO {
     @NotBlank(message = "Cpf/Cnpj é obrigatório")
     private String cpfCnpj;
 
-    @NotBlank(message = "Tipo de pessoa é obrigatório")
+    @NotNull(message = "Tipo de pessoa é obrigatório")
     private TipoPessoa tipoPessoa;
 
 

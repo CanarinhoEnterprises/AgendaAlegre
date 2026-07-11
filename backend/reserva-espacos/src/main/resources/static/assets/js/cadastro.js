@@ -30,7 +30,7 @@ async function cadastrarUsuario(){
 }
 
 
-document.getElementById("formCadastro") .addEventListener("submit", async function(event){
+document.getElementById("formCadastro").addEventListener("submit", async function(event){
 
         event.preventDefault();
         await cadastrarUsuario();
