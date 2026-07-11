@@ -16,7 +16,7 @@ import jakarta.persistence.Table;
 public class Solicitante {
     
     @Id
-    @Column(name="idUsuario", nullable=false)
+    @Column(name="idusuario", nullable=false)
     private Integer idSolicitante;
 
     public Integer getId(){
@@ -26,7 +26,7 @@ public class Solicitante {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name="idUsuario")
+    @JoinColumn(name="idusuario")
     private Usuario usuario;
 
     public Usuario getUsuario(){
@@ -39,7 +39,7 @@ public class Solicitante {
 
 
     @Enumerated(EnumType.STRING)
-    @Column(name="tipoPessoa", nullable = false, columnDefinition = "tipo_pessoa")
+    @Column(name="tipopessoa", nullable = false, columnDefinition = "tipo_pessoa")
     private TipoPessoa tipoPessoa;
 
     public TipoPessoa getTipoPessoa(){

@@ -1,6 +1,8 @@
 package br.ufes.reserva_espacos.service;
 
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import br.ufes.reserva_espacos.dto.CadastroUsuarioDTO;
@@ -8,6 +10,7 @@ import br.ufes.reserva_espacos.entity.Solicitante;
 import br.ufes.reserva_espacos.entity.Usuario;
 import br.ufes.reserva_espacos.repositories.SolicitanteRepository;
 import br.ufes.reserva_espacos.repositories.UsuarioRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UsuarioService {
@@ -22,7 +25,7 @@ public class UsuarioService {
         this.solicitanteRepository = solicitanteRepository;
     }
 
-
+    @Transactional
     public Usuario cadastrar(CadastroUsuarioDTO dto) {
 
         if (usuarioRepository.existsByEmail(dto.getEmail())) {
@@ -56,6 +59,40 @@ public class UsuarioService {
         return usuario;
     }
 
-    
+    public List<Usuario> listar(){
+        return usuarioRepository.findAll();
+    }
+
+    public Usuario buscarPorId(Integer id) {
+
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+    }
+
+    public void excluir(Integer id) {
+
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Usuário não encontrado.");
+        }
+
+        usuarioRepository.deleteById(id);
+    }
+
+        public Usuario atualizar(Integer id, Usuario dados) {
+
+        Usuario usuario = buscarPorId(id);
+
+        if (!usuario.getEmail().equals(dados.getEmail())
+                && usuarioRepository.existsByEmail(dados.getEmail())) {
+            throw new RuntimeException("Email já cadastrado.");
+        }
+
+        usuario.setNome(dados.getNome());
+        usuario.setTelefone(dados.getTelefone());
+        usuario.setEmail(dados.getEmail());
+        usuario.setSenha(dados.getSenha());
+
+        return usuarioRepository.save(usuario);
+    }
 
 }
