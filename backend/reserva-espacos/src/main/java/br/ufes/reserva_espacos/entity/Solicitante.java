@@ -1,5 +1,8 @@
 package br.ufes.reserva_espacos.entity;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import br.ufes.reserva_espacos.enums.TipoPessoa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,6 +41,7 @@ public class Solicitante {
     }
 
 
+   @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Enumerated(EnumType.STRING)
     @Column(name="tipopessoa", nullable = false, columnDefinition = "tipo_pessoa")
     private TipoPessoa tipoPessoa;
