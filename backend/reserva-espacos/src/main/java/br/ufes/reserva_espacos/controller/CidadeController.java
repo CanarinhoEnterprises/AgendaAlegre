@@ -1,8 +1,6 @@
 package br.ufes.reserva_espacos.controller;
 
-import br.ufes.reserva_espacos.repositories.CidadeRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufes.reserva_espacos.dto.CidadeDropdownDTO;
@@ -26,12 +24,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
-    private final CidadeRepository cidadeRepository;
     private final CidadeService cidadeService;
 
-    public CidadeController(CidadeService cidadeService, CidadeRepository cidadeRepository){
+    public CidadeController(CidadeService cidadeService){
         this.cidadeService = cidadeService;
-        this.cidadeRepository = cidadeRepository;
     }
 
     @PostMapping
