@@ -359,9 +359,13 @@ body {
 }
 
 .category-card {
+    display: block;
+
     padding: 30px 24px;
 
     background: var(--branco);
+
+    color: inherit;
 
     border: 1px solid var(--borda);
 
@@ -413,6 +417,28 @@ body {
 
     font-size: 14px;
     line-height: 1.6;
+}
+
+.section-cta {
+    text-align: center;
+
+    margin-top: 40px;
+}
+
+.link-arrow {
+    display: inline-block;
+
+    color: var(--azul-principal);
+
+    font-weight: bold;
+
+    font-size: 15px;
+
+    transition: .3s;
+}
+
+.link-arrow:hover {
+    color: var(--verde-principal);
 }
 
 /* ---------- Como funciona ---------- */
