@@ -40,7 +40,7 @@ public class CidadeController {
         return cidadeService.listarUF_Nome();
     }
 
-    @GetMapping
+    @GetMapping("/combo")
     public List<CidadeDropdownDTO> listarCombo() {
         return cidadeService.listarCombo();
     }

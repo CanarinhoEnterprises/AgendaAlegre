@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.ufes.reserva_espacos.dto.CadastroUsuarioDTO;
 import br.ufes.reserva_espacos.entity.Usuario;
 import br.ufes.reserva_espacos.service.UsuarioService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -25,7 +26,7 @@ public class UsuarioController {
     }
 
      @PostMapping
-    public Usuario cadastrar(@RequestBody CadastroUsuarioDTO dto) {
+    public Usuario cadastrar(@Valid @RequestBody CadastroUsuarioDTO dto) {
         return usuarioService.cadastrar(dto);
     }
 
