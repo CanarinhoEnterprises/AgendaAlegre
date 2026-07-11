@@ -1,0 +1,717 @@
+body {
+    padding-top: 80px;
+}
+
+.btn {
+    display: inline-block;
+
+    padding: 14px 28px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+}
+
+.btn-primary {
+    background: var(--verde-principal);
+    color: var(--branco);
+}
+
+.btn-primary:hover {
+    background: var(--verde-hover);
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .15);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--branco);
+
+    border: 1.5px solid rgba(255, 255, 255, .7);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, .12);
+
+    transform: translateY(-2px);
+}
+
+.btn-light {
+    background: var(--branco);
+    color: var(--verde-principal);
+}
+
+.btn-light:hover {
+    background: var(--azul-claro);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+    background: linear-gradient(
+        135deg,
+        var(--azul-principal),
+        var(--verde-principal)
+    );
+
+    padding: 70px 30px;
+
+    color: var(--branco);
+}
+
+.hero-inner {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    align-items: center;
+    gap: 60px;
+}
+
+.hero-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    padding: 6px 14px;
+
+    background: rgba(255, 255, 255, .15);
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: .04em;
+}
+
+.hero-content h1 {
+    font-size: 40px;
+    line-height: 1.25;
+
+    margin-bottom: 20px;
+}
+
+.hero-content .lead {
+    font-size: 17px;
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, .9);
+
+    max-width: 480px;
+
+    margin-bottom: 32px;
+}
+
+.hero-cta {
+    display: flex;
+
+    gap: 16px;
+
+    margin-bottom: 46px;
+}
+
+.hero-stats {
+    display: flex;
+
+    gap: 36px;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.stat-label {
+    font-size: 13px;
+
+    color: rgba(255, 255, 255, .8);
+}
+
+/* ---------- Hero visual (booking card) ---------- */
+
+.hero-visual {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+}
+
+.booking-card,
+.booking-card-back {
+    width: 320px;
+
+    border-radius: 18px;
+
+    padding: 28px;
+}
+
+.booking-card-back {
+    position: absolute;
+
+    top: -18px;
+    right: 10px;
+
+    background: rgba(255, 255, 255, .18);
+
+    color: var(--branco);
+
+    transform: rotate(4deg);
+}
+
+.booking-card-back .booking-space {
+    opacity: .85;
+}
+
+.booking-card {
+    position: relative;
+
+    background: var(--branco);
+
+    box-shadow: var(--sombra);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-label {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+
+    color: var(--cinza);
+
+    margin-bottom: 6px;
+}
+
+.booking-card .booking-label {
+    color: var(--cinza);
+}
+
+.booking-space {
+    font-size: 19px;
+    font-weight: bold;
+
+    color: var(--texto);
+
+    margin-bottom: 18px;
+}
+
+.booking-row {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 14px;
+
+    color: var(--texto);
+
+    margin-bottom: 10px;
+}
+
+.booking-row svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+
+    color: var(--azul-principal);
+}
+
+.week-strip {
+    display: flex;
+
+    gap: 6px;
+
+    margin: 14px 0 18px;
+}
+
+.day-chip {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--azul-claro);
+
+    color: var(--azul-principal);
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.day-chip.active {
+    background: var(--verde-principal);
+    color: var(--branco);
+}
+
+.booking-badge {
+    align-self: flex-start;
+
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 8px 14px;
+
+    background: rgba(46, 139, 87, .12);
+
+    color: var(--verde-principal);
+
+    border-radius: 20px;
+
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.booking-badge svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* ---------- Generic section ---------- */
+
+.section {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 90px 30px;
+}
+
+.section-tinted {
+    max-width: none;
+
+    background: var(--azul-claro);
+}
+
+.section-tinted .steps {
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.section-header {
+    text-align: center;
+
+    max-width: 620px;
+
+    margin: 0 auto 56px;
+}
+
+.section-eyebrow {
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    color: var(--verde-principal);
+
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.section-title {
+    font-size: 30px;
+
+    color: var(--azul-principal);
+
+    margin-bottom: 14px;
+}
+
+.section-subtitle {
+    color: var(--cinza);
+
+    font-size: 16px;
+
+    line-height: 1.6;
+}
+
+/* ---------- Categorias ---------- */
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 24px;
+}
+
+.category-card {
+    padding: 30px 24px;
+
+    background: var(--branco);
+
+    border: 1px solid var(--borda);
+
+    border-radius: 18px;
+
+    transition: .3s;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+
+    box-shadow: var(--sombra);
+
+    border-color: transparent;
+}
+
+.category-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 52px;
+    height: 52px;
+
+    margin-bottom: 20px;
+
+    border-radius: 12px;
+
+    background: var(--azul-claro);
+
+    color: var(--azul-principal);
+}
+
+.category-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.category-card h3 {
+    color: var(--texto);
+
+    font-size: 18px;
+
+    margin-bottom: 10px;
+}
+
+.category-card p {
+    color: var(--cinza);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ---------- Como funciona ---------- */
+
+.steps {
+    display: flex;
+
+    gap: 40px;
+}
+
+.step {
+    flex: 1;
+
+    position: relative;
+
+    padding-top: 6px;
+}
+
+.step-number {
+    display: block;
+
+    font-size: 34px;
+    font-weight: bold;
+
+    color: var(--verde-principal);
+
+    opacity: .5;
+
+    margin-bottom: 12px;
+}
+
+.step h3 {
+    color: var(--texto);
+
+    font-size: 18px;
+
+    margin-bottom: 8px;
+}
+
+.step p {
+    color: var(--cinza);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ---------- Benefícios ---------- */
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 30px;
+}
+
+.benefit-item {
+    text-align: center;
+}
+
+.benefit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 56px;
+    height: 56px;
+
+    margin-bottom: 18px;
+
+    border-radius: 50%;
+
+    background: rgba(46, 139, 87, .1);
+
+    color: var(--verde-principal);
+}
+
+.benefit-icon svg {
+    width: 26px;
+    height: 26px;
+}
+
+.benefit-item h3 {
+    color: var(--texto);
+
+    font-size: 16px;
+
+    margin-bottom: 8px;
+}
+
+.benefit-item p {
+    color: var(--cinza);
+
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ---------- CTA final ---------- */
+
+.cta-banner {
+    text-align: center;
+
+    padding: 80px 30px;
+
+    background: linear-gradient(
+        135deg,
+        var(--verde-principal),
+        var(--azul-principal)
+    );
+
+    color: var(--branco);
+}
+
+.cta-banner h2 {
+    font-size: 28px;
+
+    margin-bottom: 12px;
+}
+
+.cta-banner p {
+    font-size: 16px;
+
+    color: rgba(255, 255, 255, .9);
+
+    margin-bottom: 32px;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+    background: var(--texto);
+
+    color: rgba(255, 255, 255, .85);
+}
+
+.footer-inner {
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 60px 30px 40px;
+
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+
+    gap: 40px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 14px;
+}
+
+.footer-logo img {
+    height: 34px;
+}
+
+.footer-logo span {
+    color: var(--branco);
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.footer-brand p {
+    font-size: 14px;
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, .65);
+}
+
+.footer-links,
+.footer-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-links h4,
+.footer-info h4 {
+    color: var(--branco);
+
+    font-size: 15px;
+
+    margin-bottom: 16px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, .75);
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+
+    transition: .3s;
+}
+
+.footer-links a:hover {
+    color: var(--branco);
+}
+
+.footer-info p {
+    font-size: 14px;
+    line-height: 1.6;
+
+    color: rgba(255, 255, 255, .65);
+
+    margin-bottom: 8px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, .12);
+
+    padding: 20px 30px;
+
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: 13px;
+
+    color: rgba(255, 255, 255, .55);
+}
+
+/* ==========================================================================
+   Responsivo
+   ========================================================================== */
+
+@media (max-width: 900px) {
+
+    .hero-inner {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .hero-content .lead {
+        max-width: none;
+    }
+
+    .hero-visual {
+        margin-top: 20px;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .benefits-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .steps {
+        flex-direction: column;
+
+        gap: 32px;
+    }
+
+    .footer-inner {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 560px) {
+
+    .hero {
+        padding: 50px 20px;
+    }
+
+    .hero-cta {
+        flex-direction: column;
+    }
+
+    .hero-stats {
+        flex-wrap: wrap;
+
+        gap: 24px;
+    }
+
+    .booking-card,
+    .booking-card-back {
+        width: 100%;
+    }
+
+    .section {
+        padding: 60px 20px;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

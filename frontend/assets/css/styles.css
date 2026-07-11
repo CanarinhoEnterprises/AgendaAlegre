@@ -1,24 +1,4 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-    min-height:100vh;
-}
-
-a{
-    text-decoration:none;
-}
-
-input,
-button{
-    font-size:16px;
-}
-
-:root{
+:root {
     --azul-principal: #0F4C81;
     --azul-claro: #EAF4FC;
 
@@ -32,5 +12,26 @@ button{
 
     --borda: #D9D9D9;
 
-    --sombra: 0 15px 40px rgba(0,0,0,.2);
+    --sombra: 0 15px 40px rgba(0, 0, 0, .2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+input,
+button,
+select {
+    font-size: 16px;
 }
