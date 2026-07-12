@@ -3,10 +3,9 @@ package br.ufes.reserva_espacos.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufes.reserva_espacos.dto.CidadeDropdownDTO;
-import br.ufes.reserva_espacos.dto.CidadeRequestDTO;
-import br.ufes.reserva_espacos.dto.CidadeResponseDTO;
-import br.ufes.reserva_espacos.entity.Cidade;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeDropdownDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeRequestDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeResponseDTO;
 import br.ufes.reserva_espacos.service.CidadeService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +30,7 @@ public class CidadeController {
     }
 
     @PostMapping
-    public Cidade cadastrar(@RequestBody CidadeRequestDTO dto) {
+    public CidadeResponseDTO cadastrar(@RequestBody CidadeRequestDTO dto) {
         return cidadeService.cadastrar(dto);
     }
 
@@ -46,8 +45,8 @@ public class CidadeController {
     }
 
     @GetMapping("/{id}")
-    public Cidade buscaPorId(@PathVariable Integer id) {
-        return cidadeService.buscaPorId(id);
+    public CidadeResponseDTO buscaPorIdGET(@PathVariable Integer id) {
+        return cidadeService.buscaPorIdGET(id);
     }
 
     @DeleteMapping("/{id}")
@@ -56,7 +55,7 @@ public class CidadeController {
     }
 
     @PutMapping("/{id}")
-    public Cidade atualizar(@PathVariable Integer id, @RequestBody Cidade dados) {
+    public CidadeResponseDTO atualizar(@PathVariable Integer id, @RequestBody CidadeRequestDTO dados) {
         return cidadeService.atualizar(id, dados);
     }
 }

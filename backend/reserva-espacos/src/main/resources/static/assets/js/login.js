@@ -25,8 +25,8 @@ async function fazerLogin(event){
     const usuario = await resposta.json();
 
     if(usuario.tipo === "ADMINISTRADOR"){
-        window.location.href = "/pages/dashboardAdmin.html";
+        window.location.href = "/pages/admin/dashboardAdmin.html";
     }else{
-        window.location.href = "/pages/dashboard.html";
+        window.location.href = "/pages/usuario/dashboard.html";
     }
 }

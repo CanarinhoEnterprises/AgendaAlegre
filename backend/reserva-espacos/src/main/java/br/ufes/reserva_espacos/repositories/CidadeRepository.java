@@ -10,4 +10,6 @@ public interface CidadeRepository extends JpaRepository<Cidade, Integer> {
     boolean existsByNomeAndUF(String nome, String uf); //verificar duplicidade antes de cadastrar
 
     List<Cidade> findAllByOrderByUFAscNomeAsc(); //lista todas as cidades pelo estado
+
+    boolean existsByNomeAndUFAndIdCidadeNot(String nome, String uf, Integer idCidade);
 }

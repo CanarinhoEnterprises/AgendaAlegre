@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.ufes.reserva_espacos.dto.CidadeDropdownDTO;
-import br.ufes.reserva_espacos.dto.CidadeRequestDTO;
-import br.ufes.reserva_espacos.dto.CidadeResponseDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeDropdownDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeRequestDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeResponseDTO;
 import br.ufes.reserva_espacos.entity.Cidade;
 import br.ufes.reserva_espacos.repositories.CidadeRepository;
 import jakarta.transaction.Transactional;
@@ -20,7 +20,7 @@ public class CidadeService {
     }
 
     @Transactional
-    public Cidade cadastrar(CidadeRequestDTO dto){
+    public CidadeResponseDTO cadastrar(CidadeRequestDTO dto){
         if (cidadeRepository.existsByNomeAndUF(dto.getNome(),dto.getUF())){
             throw new RuntimeException("Cidade já cadastrada.");
         }
@@ -32,7 +32,7 @@ public class CidadeService {
 
         cidade = cidadeRepository.save(cidade);
 
-        return cidade;
+        return CidadeResponseDTO.from(cidade);
     }
 
     public List<CidadeResponseDTO> listarUF_Nome(){
@@ -54,6 +54,10 @@ public class CidadeService {
         .orElseThrow(() -> new RuntimeException("Cidade não encontrada."));
     }
 
+    public CidadeResponseDTO buscaPorIdGET(Integer id){
+        return CidadeResponseDTO.from(buscaPorId(id));
+    }
+
     public void excluir(Integer id){
         if(!cidadeRepository.existsById(id)){
             throw new RuntimeException("Cidade não encontrada.");
@@ -61,17 +65,23 @@ public class CidadeService {
         cidadeRepository.deleteById(id);
     }
 
-    public Cidade atualizar(Integer id, Cidade dados){
+    public CidadeResponseDTO atualizar(Integer id, CidadeRequestDTO dados){
         
         Cidade cidade = buscaPorId(id);
+        
+        if (cidadeRepository.existsByNomeAndUFAndIdCidadeNot(
+        dados.getNome(),
+        dados.getUF(),
+        id)) {
 
-        if (!cidade.getUF().equals(dados.getUF()) || !cidade.getNome().equals(dados.getNome()) && cidadeRepository.existsByNomeAndUF(dados.getNome(),dados.getUF())){
             throw new RuntimeException("Cidade já cadastrada.");
         }
 
         cidade.setNome(dados.getNome());
         cidade.setUF(dados.getUF());
+        
+        cidade = cidadeRepository.save(cidade);
 
-        return cidadeRepository.save(cidade);
+        return CidadeResponseDTO.from(cidade);
     }
 }
