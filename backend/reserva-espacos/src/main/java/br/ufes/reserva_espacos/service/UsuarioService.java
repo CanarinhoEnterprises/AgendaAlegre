@@ -75,6 +75,7 @@ public class UsuarioService {
             throw new RuntimeException("Usuário não encontrado.");
         }
 
+        solicitanteRepository.deleteById(id);
         usuarioRepository.deleteById(id);
     }
 
