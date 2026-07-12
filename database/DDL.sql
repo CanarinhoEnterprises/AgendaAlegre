@@ -215,3 +215,14 @@ CREATE TABLE Restricao_TipoDoc(
  CONSTRAINT fk_rt_restricao FOREIGN KEY(idRestricao) REFERENCES RestricaoReserva(idRestricao) ON DELETE CASCADE,
  CONSTRAINT fk_rt_tipodoc FOREIGN KEY(idTipoDoc) REFERENCES TipoDoc(idTipoDoc)
 );
+
+Notificacao(
+    idNotificacao INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    idUsuario INT NOT NULL,
+    titulo VARCHAR(100) NOT NULL,
+    mensagem TEXT NOT NULL,
+    dtEnvio TIMESTAMP NOT NULL,
+    lida BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT fk_notificacao_usuario
+        FOREIGN KEY(idUsuario) REFERENCES Usuario(idUsuario)
+);
