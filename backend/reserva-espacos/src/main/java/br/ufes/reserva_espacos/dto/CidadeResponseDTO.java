@@ -41,11 +41,11 @@ public class CidadeResponseDTO {
         this.nome = nome;
     }
 
-    public String getUf() {
+    public String getUF() {
         return uf;
     }
 
-    public void setUf(String uf) {
+    public void setUF(String uf) {
         this.uf = uf;
     }
 }
