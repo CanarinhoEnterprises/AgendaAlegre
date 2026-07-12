@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufes.reserva_espacos.dto.usuariodto.CadastroUsuarioDTO;
+import br.ufes.reserva_espacos.dto.usuariodto.UsuarioResponseDTO;
 import br.ufes.reserva_espacos.entity.Usuario;
 import br.ufes.reserva_espacos.service.UsuarioService;
 import jakarta.validation.Valid;
@@ -27,18 +28,18 @@ public class UsuarioController {
     }
 
      @PostMapping
-    public Usuario cadastrar(@Valid @RequestBody CadastroUsuarioDTO dto) {
+    public UsuarioResponseDTO cadastrar(@Valid @RequestBody CadastroUsuarioDTO dto) {
         return usuarioService.cadastrar(dto);
     }
 
     @GetMapping
-    public List<Usuario> listar() {
+    public List<UsuarioResponseDTO> listar() {
         return usuarioService.listar();
     }
 
 
     @GetMapping("/{id}")
-    public Usuario buscarPorId(@PathVariable Integer id) {
+    public UsuarioResponseDTO buscarPorId(@PathVariable Integer id) {
         return usuarioService.buscarPorId(id);
     }
 
@@ -49,7 +50,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public Usuario atualizar(@PathVariable Integer id, @RequestBody Usuario dados) {
+    public UsuarioResponseDTO atualizar(@PathVariable Integer id, @RequestBody Usuario dados) {
         return usuarioService.atualizar(id, dados);
     }
 
