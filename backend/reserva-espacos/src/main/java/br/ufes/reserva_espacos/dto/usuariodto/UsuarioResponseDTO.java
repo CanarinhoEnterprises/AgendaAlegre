@@ -1,5 +1,7 @@
 package br.ufes.reserva_espacos.dto.usuariodto;
 
+import br.ufes.reserva_espacos.entity.Usuario;
+
 public class UsuarioResponseDTO {
 
     private Integer idUsuario;
@@ -16,6 +18,15 @@ public class UsuarioResponseDTO {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
+    }
+
+    public static UsuarioResponseDTO from(Usuario usuario) {
+        return new UsuarioResponseDTO(
+            usuario.getIdUsuario(),
+            usuario.getNome(),
+            usuario.getTelefone(),
+            usuario.getEmail()
+        );
     }
 
     public Integer getIdUsuario() {

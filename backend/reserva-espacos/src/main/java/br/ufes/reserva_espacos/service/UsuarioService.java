@@ -2,12 +2,16 @@ package br.ufes.reserva_espacos.service;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import br.ufes.reserva_espacos.dto.usuariodto.CadastroUsuarioDTO;
+import br.ufes.reserva_espacos.dto.usuariodto.UsuarioResponseDTO;
+import br.ufes.reserva_espacos.entity.Administrador;
 import br.ufes.reserva_espacos.entity.Solicitante;
 import br.ufes.reserva_espacos.entity.Usuario;
+import br.ufes.reserva_espacos.repositories.AdministradorRepository;
 import br.ufes.reserva_espacos.repositories.SolicitanteRepository;
 import br.ufes.reserva_espacos.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -18,15 +22,18 @@ public class UsuarioService {
     
     private final UsuarioRepository usuarioRepository;
     private final SolicitanteRepository solicitanteRepository;
+    private final AdministradorRepository administradorRepository;
 
     public UsuarioService(UsuarioRepository usuarioRepository,
-                          SolicitanteRepository solicitanteRepository) {
+                          SolicitanteRepository solicitanteRepository,
+                          AdministradorRepository administradorRepository) {
         this.usuarioRepository = usuarioRepository;
         this.solicitanteRepository = solicitanteRepository;
+        this.administradorRepository = administradorRepository;
     }
 
     @Transactional
-    public Usuario cadastrar(CadastroUsuarioDTO dto) {
+    public UsuarioResponseDTO cadastrar(CadastroUsuarioDTO dto) {
 
         if (usuarioRepository.existsByEmail(dto.getEmail())) {
             throw new RuntimeException("Email já cadastrado.");
@@ -56,32 +63,48 @@ public class UsuarioService {
         solicitanteRepository.save(solicitante);
 
 
-        return usuario;
+        return UsuarioResponseDTO.from(usuario);
     }
 
-    public List<Usuario> listar(){
-        return usuarioRepository.findAll();
+    public List<UsuarioResponseDTO> listar(){
+        return usuarioRepository.findAll()
+                .stream()
+                .map(UsuarioResponseDTO::from)
+                .toList();
     }
 
-    public Usuario buscarPorId(Integer id) {
+    public UsuarioResponseDTO buscarPorId(Integer id) {
 
-        return usuarioRepository.findById(id)
+        Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        return UsuarioResponseDTO.from(usuario);
     }
 
+    @Transactional
     public void excluir(Integer id) {
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        Optional<Solicitante> solicitante = solicitanteRepository.findByUsuario(usuario);
+        solicitante.ifPresent(solicitanteRepository::delete);
+
+        Optional<Administrador> administrador = administradorRepository.findByUsuario(usuario);
+        administrador.ifPresent(administradorRepository::delete);
 
         if (!usuarioRepository.existsById(id)) {
             throw new RuntimeException("Usuário não encontrado.");
         }
 
-        solicitanteRepository.deleteById(id);
         usuarioRepository.deleteById(id);
     }
 
-        public Usuario atualizar(Integer id, Usuario dados) {
+    @Transactional
+    public UsuarioResponseDTO atualizar(Integer id, Usuario dados) {
 
-        Usuario usuario = buscarPorId(id);
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
         if (!usuario.getEmail().equals(dados.getEmail())
                 && usuarioRepository.existsByEmail(dados.getEmail())) {
@@ -93,6 +116,6 @@ public class UsuarioService {
         usuario.setEmail(dados.getEmail());
         usuario.setSenha(dados.getSenha());
 
-        return usuarioRepository.save(usuario);
+        return UsuarioResponseDTO.from(usuarioRepository.save(usuario));
     }
 }
