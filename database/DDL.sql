@@ -216,7 +216,7 @@ CREATE TABLE Restricao_TipoDoc(
  CONSTRAINT fk_rt_tipodoc FOREIGN KEY(idTipoDoc) REFERENCES TipoDoc(idTipoDoc)
 );
 
-Notificacao(
+CREATE TABLE Notificacao(
     idNotificacao INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     idUsuario INT NOT NULL,
     titulo VARCHAR(100) NOT NULL,
