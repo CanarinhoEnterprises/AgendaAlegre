@@ -1,0 +1,125 @@
+:root {
+    --amarelo: #C9971C;
+}
+
+/* ---------- Linha de data/horário dentro do card ---------- */
+
+.reserva-data {
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+
+    color: var(--cinza);
+
+    margin-bottom: 18px;
+
+}
+
+.reserva-data svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+    color: var(--azul-principal);
+}
+
+/* ---------- Status da reserva (além de status-disponivel/indisponivel) ---------- */
+
+.status-confirmada {
+    background: rgba(46, 139, 87, .15);
+    color: var(--verde-principal);
+}
+
+.status-pendente {
+    background: rgba(201, 151, 28, .15);
+    color: var(--amarelo);
+}
+
+.status-concluida {
+    background: var(--azul-claro);
+    color: var(--azul-principal);
+}
+
+.status-cancelada {
+    background: rgba(192, 57, 43, .12);
+    color: var(--vermelho);
+}
+
+/* ---------- Ações do card ---------- */
+
+.btn-cancelar {
+
+    padding: 9px 16px;
+
+    border: 1.5px solid var(--vermelho);
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: var(--vermelho);
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.btn-cancelar:hover {
+    background: rgba(192, 57, 43, .08);
+}
+
+.btn-avaliar {
+
+    padding: 9px 16px;
+
+    border: 1.5px solid var(--azul-principal);
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: var(--azul-principal);
+
+    font-size: 13px;
+    font-weight: bold;
+
+    transition: .3s;
+
+}
+
+.btn-avaliar:hover {
+    background: var(--azul-claro);
+}
+
+/* ---------- Nota de protótipo ---------- */
+
+.espacos-nota {
+
+    color: var(--cinza);
+
+    font-size: 13px;
+    font-style: italic;
+
+    margin-top: 20px;
+
+}
+
+.espacos-nota code {
+
+    background: var(--azul-claro);
+
+    color: var(--azul-principal);
+
+    padding: 2px 6px;
+
+    border-radius: 4px;
+
+    font-size: 12px;
+
+}

@@ -1,0 +1,283 @@
+:root {
+    --amarelo: #C9971C;
+}
+
+/* ---------- Blocos e títulos de seção ---------- */
+
+.bloco-avaliar {
+    margin-bottom: 36px;
+}
+
+.bloco-avaliar h2,
+.secao-titulo {
+
+    color: var(--azul-principal);
+
+    font-size: 19px;
+
+    margin-bottom: 18px;
+
+}
+
+/* ---------- Linha "concluída em" dentro do card pendente ---------- */
+
+.reserva-data {
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    font-size: 13px;
+
+    color: var(--cinza);
+
+    margin-bottom: 18px;
+
+}
+
+.reserva-data svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+    color: var(--azul-principal);
+}
+
+/* ---------- Estrelas ---------- */
+
+.icone-estrela {
+    width: 20px;
+    height: 20px;
+
+    color: var(--borda);
+
+    transition: .15s;
+}
+
+.icone-estrela.preenchida {
+    color: var(--amarelo);
+}
+
+.estrelas-display {
+
+    display: flex;
+
+    gap: 2px;
+
+    margin-bottom: 14px;
+
+}
+
+.estrelas-display .icone-estrela {
+    width: 17px;
+    height: 17px;
+}
+
+.estrelas-input {
+
+    display: flex;
+
+    gap: 4px;
+
+    margin-bottom: 16px;
+
+}
+
+.estrela-btn {
+
+    background: none;
+    border: none;
+
+    padding: 2px;
+
+    line-height: 0;
+
+    cursor: pointer;
+
+}
+
+.estrela-btn .icone-estrela {
+    width: 26px;
+    height: 26px;
+}
+
+/* ---------- Formulário de avaliação (dentro do card pendente) ---------- */
+
+.form-avaliacao {
+
+    display: none;
+
+    margin-top: 18px;
+    padding-top: 18px;
+
+    border-top: 1px dashed var(--borda);
+
+}
+
+.form-avaliacao.aberto {
+    display: block;
+}
+
+.form-avaliacao label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--texto);
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+}
+
+.form-avaliacao textarea {
+
+    width: 100%;
+
+    min-height: 90px;
+
+    padding: 12px;
+
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-family: inherit;
+
+    color: var(--texto);
+
+    resize: vertical;
+
+    margin-bottom: 16px;
+
+    transition: .3s;
+
+}
+
+.form-avaliacao textarea:focus {
+
+    outline: none;
+
+    border-color: var(--azul-principal);
+
+    box-shadow: 0 0 5px rgba(15, 76, 129, .3);
+
+}
+
+.form-avaliacao-acoes {
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+}
+
+.btn-texto-secundario {
+
+    background: none;
+    border: none;
+
+    padding: 0;
+
+    color: var(--cinza);
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.btn-texto-secundario:hover {
+    color: var(--azul-principal);
+}
+
+/* ---------- Cards de avaliação já feita ---------- */
+
+.avaliacao-comentario {
+
+    color: var(--texto);
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    margin-bottom: 16px;
+
+}
+
+.avaliacao-data {
+
+    font-size: 12px;
+
+    color: var(--cinza);
+
+}
+
+.btn-excluir {
+
+    padding: 9px 16px;
+
+    border: 1.5px solid var(--vermelho);
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: var(--vermelho);
+
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.btn-excluir:hover {
+    background: rgba(192, 57, 43, .08);
+}
+
+/* ---------- Nota de protótipo ---------- */
+
+.espacos-nota {
+
+    color: var(--cinza);
+
+    font-size: 13px;
+    font-style: italic;
+
+    margin-top: 20px;
+
+}
+
+.espacos-nota code {
+
+    background: var(--azul-claro);
+
+    color: var(--azul-principal);
+
+    padding: 2px 6px;
+
+    border-radius: 4px;
+
+    font-size: 12px;
+
+}
+
+/* ==========================================================
+   Responsivo
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .form-avaliacao-acoes {
+        flex-wrap: wrap;
+    }
+
+}
