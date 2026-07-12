@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import br.ufes.reserva_espacos.dto.CadastroUsuarioDTO;
+import br.ufes.reserva_espacos.dto.LoginDTO;
+import br.ufes.reserva_espacos.dto.LoginResponseDTO;
 import br.ufes.reserva_espacos.entity.Solicitante;
 import br.ufes.reserva_espacos.entity.Usuario;
+import br.ufes.reserva_espacos.repositories.AdministradorRepository;
 import br.ufes.reserva_espacos.repositories.SolicitanteRepository;
 import br.ufes.reserva_espacos.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -94,5 +97,4 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
-
 }
