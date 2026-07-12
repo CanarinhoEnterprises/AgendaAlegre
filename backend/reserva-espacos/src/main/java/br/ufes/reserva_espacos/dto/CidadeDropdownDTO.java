@@ -3,37 +3,28 @@ package br.ufes.reserva_espacos.dto;
 import br.ufes.reserva_espacos.entity.Cidade;
 
 public class CidadeDropdownDTO {
-    private Integer idCidade;
     private String comboNomeUF;
 
     public CidadeDropdownDTO(){
 
     }
 
-    public CidadeDropdownDTO(Integer idCidade, String comboNomeUF){
-        this.idCidade = idCidade;
+    public CidadeDropdownDTO(String comboNomeUF){
+        
         this.comboNomeUF = comboNomeUF;
     }
 
     public static CidadeDropdownDTO from(Cidade cidade) {
         return new CidadeDropdownDTO(
-            cidade.getIdCidade(), cidade.getNome() + " | " + cidade.getUF()
+            cidade.getNome() + " | " + cidade.getUF()
         );
     } 
 
-    public Integer getIdCidade() {
-        return idCidade;
-    }
-
-    public void setIdCidade(Integer idCidade) {
-        this.idCidade = idCidade;
-    }
-
-    public String getcomboNomeUF() {
+    public String getComboNomeUF() {
         return comboNomeUF;
     }
 
-    public void setcomboNomeUF(String comboNomeUF) {
+    public void setComboNomeUF(String comboNomeUF) {
         this.comboNomeUF = comboNomeUF;
     }
 }

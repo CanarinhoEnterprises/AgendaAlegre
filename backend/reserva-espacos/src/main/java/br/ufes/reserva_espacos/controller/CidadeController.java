@@ -31,7 +31,7 @@ public class CidadeController {
     }
 
     @PostMapping
-    public Cidade cadastrar(@RequestBody CidadeRequestDTO dto) {
+    public CidadeResponseDTO cadastrar(@RequestBody CidadeRequestDTO dto) {
         return cidadeService.cadastrar(dto);
     }
 
@@ -46,8 +46,8 @@ public class CidadeController {
     }
 
     @GetMapping("/{id}")
-    public Cidade buscaPorId(@PathVariable Integer id) {
-        return cidadeService.buscaPorId(id);
+    public CidadeResponseDTO buscaPorIdGET(@PathVariable Integer id) {
+        return cidadeService.buscaPorIdGET(id);
     }
 
     @DeleteMapping("/{id}")
@@ -56,7 +56,7 @@ public class CidadeController {
     }
 
     @PutMapping("/{id}")
-    public Cidade atualizar(@PathVariable Integer id, @RequestBody Cidade dados) {
+    public CidadeResponseDTO atualizar(@PathVariable Integer id, @RequestBody CidadeRequestDTO dados) {
         return cidadeService.atualizar(id, dados);
     }
 }
