@@ -2,7 +2,7 @@ package br.ufes.reserva_espacos.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufes.reserva_espacos.dto.CadastroAdministradorDTO;
+import br.ufes.reserva_espacos.dto.usuariodto.CadastroAdministradorDTO;
 import br.ufes.reserva_espacos.entity.Administrador;
 import br.ufes.reserva_espacos.service.AdministradorService;
 import org.springframework.web.bind.annotation.PostMapping;

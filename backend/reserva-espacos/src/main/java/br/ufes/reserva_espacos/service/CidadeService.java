@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.ufes.reserva_espacos.dto.CidadeDropdownDTO;
-import br.ufes.reserva_espacos.dto.CidadeRequestDTO;
-import br.ufes.reserva_espacos.dto.CidadeResponseDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeDropdownDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeRequestDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeResponseDTO;
 import br.ufes.reserva_espacos.entity.Cidade;
 import br.ufes.reserva_espacos.repositories.CidadeRepository;
 import jakarta.transaction.Transactional;

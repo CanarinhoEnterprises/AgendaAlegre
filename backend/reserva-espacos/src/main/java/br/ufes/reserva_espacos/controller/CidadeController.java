@@ -3,9 +3,9 @@ package br.ufes.reserva_espacos.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufes.reserva_espacos.dto.CidadeDropdownDTO;
-import br.ufes.reserva_espacos.dto.CidadeRequestDTO;
-import br.ufes.reserva_espacos.dto.CidadeResponseDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeDropdownDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeRequestDTO;
+import br.ufes.reserva_espacos.dto.cidadedto.CidadeResponseDTO;
 import br.ufes.reserva_espacos.service.CidadeService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

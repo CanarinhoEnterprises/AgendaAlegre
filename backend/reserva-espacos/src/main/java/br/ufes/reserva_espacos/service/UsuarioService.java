@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.ufes.reserva_espacos.dto.CadastroUsuarioDTO;
+import br.ufes.reserva_espacos.dto.usuariodto.CadastroUsuarioDTO;
 import br.ufes.reserva_espacos.entity.Solicitante;
 import br.ufes.reserva_espacos.entity.Usuario;
 import br.ufes.reserva_espacos.repositories.SolicitanteRepository;

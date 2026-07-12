@@ -1,4 +1,4 @@
-package br.ufes.reserva_espacos.dto;
+package br.ufes.reserva_espacos.dto.usuariodto;
 
 import br.ufes.reserva_espacos.enums.TipoPessoa;
 import jakarta.validation.constraints.NotBlank;

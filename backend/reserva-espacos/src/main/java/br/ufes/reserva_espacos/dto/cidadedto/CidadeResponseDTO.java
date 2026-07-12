@@ -1,4 +1,4 @@
-package br.ufes.reserva_espacos.dto;
+package br.ufes.reserva_espacos.dto.cidadedto;
 
 import br.ufes.reserva_espacos.entity.Cidade;
 
