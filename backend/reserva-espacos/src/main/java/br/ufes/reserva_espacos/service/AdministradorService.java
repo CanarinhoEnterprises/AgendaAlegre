@@ -2,7 +2,7 @@ package br.ufes.reserva_espacos.service;
 
 import org.springframework.stereotype.Service;
 
-import br.ufes.reserva_espacos.dto.CadastroAdministradorDTO;
+import br.ufes.reserva_espacos.dto.usuariodto.CadastroAdministradorDTO;
 import br.ufes.reserva_espacos.entity.Administrador;
 import br.ufes.reserva_espacos.entity.Usuario;
 import br.ufes.reserva_espacos.repositories.AdministradorRepository;

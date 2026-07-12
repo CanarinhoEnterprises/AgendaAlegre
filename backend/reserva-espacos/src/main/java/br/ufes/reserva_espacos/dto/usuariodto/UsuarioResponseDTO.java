@@ -1,4 +1,4 @@
-package br.ufes.reserva_espacos.dto;
+package br.ufes.reserva_espacos.dto.usuariodto;
 
 public class UsuarioResponseDTO {
 
