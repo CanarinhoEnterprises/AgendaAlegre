@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar Espaço | Agenda Alegre</title>
+
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/auth.css">
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="header-container">
+
+            <div class="logo">
+
+                <a href="espacoAdmin.html">
+                    <img src="../../assets/img/logo.png" alt="Logo Agenda Alegre">
+                </a>
+
+                <h1>Agenda Alegre</h1>
+
+            </div>
+
+            <nav>
+
+                <a href="espacoAdmin.html">
+                    Voltar
+                </a>
+
+                <a href="../landingpage.html" class="cadastro-btn">
+                    Sair
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <!-- FORMULÁRIO -->
+
+    <main class="auth-container">
+
+        <section class="auth-box">
+
+            <h1>Cadastrar Espaço</h1>
+
+            <p>Preencha os dados do novo espaço público.</p>
+
+            <form id="formCadastroEspaco">
+
+                <label for="nome">
+                    Nome do Espaço
+                </label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Ex.: Ginásio Municipal"
+                    required>
+
+                <label for="descricao">
+                    Descrição
+                </label>
+
+                <textarea
+                    id="descricao"
+                    rows="4"
+                    placeholder="Descreva o espaço..."></textarea>
+
+                <label for="capacidade">
+                    Capacidade
+                </label>
+
+                <input
+                    type="number"
+                    id="capacidade"
+                    min="1"
+                    placeholder="Quantidade de pessoas"
+                    required>
+
+                <label for="tipoEspaco">
+                    Tipo de Espaço
+                </label>
+
+                <select id="tipoEspaco" required>
+
+                    <option selected disabled>
+                        Selecione um tipo
+                    </option>
+
+                    <!-- Preenchido pelo backend -->
+                    <option value="1">Quadra</option>
+                    <option value="2">Parque</option>
+                    <option value="3">Salão</option>
+                    <option value="4">Auditório</option>
+
+                </select>
+
+                <label for="endereco">
+                    Endereço
+                </label>
+
+                <input
+                    type="text"
+                    id="endereco"
+                    placeholder="Digite o endereço do espaço"
+                    required>
+
+                <label for="urlCapa">
+                    URL da imagem de capa
+                </label>
+
+                <input
+                    type="url"
+                    id="urlCapa"
+                    placeholder="https://site.com/imagem.jpg">
+
+                <label for="status">
+                    Status
+                </label>
+
+                <select id="status" required>
+
+                    <option value="ATIVO" selected>
+                        Ativo
+                    </option>
+
+                    <option value="INATIVO">
+                        Inativo
+                    </option>
+
+                </select>
+
+                <button type="submit">
+                    Cadastrar Espaço
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/cadastroEspaco.js"></script>
+
+</body>
+
+</html>
