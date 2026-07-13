@@ -69,10 +69,14 @@ body {
 }
 
 .sidebar-menu a {
+    display: flex;
+    align-items: center;
 
-    display: block;
+    gap:12px;
+    
+    width: 100%;
 
-    padding: 14px 16px;
+    padding: 14px 18px;
 
     border-radius: 10px;
 
@@ -81,6 +85,14 @@ body {
     font-weight: bold;
 
     transition: .3s;
+
+    justify-content: flex-start;
+}
+
+.sidebar-menu i{
+
+    width:20px;
+    height:20px;
 
 }
 

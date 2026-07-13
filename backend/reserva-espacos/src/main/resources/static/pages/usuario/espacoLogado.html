@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../../assets/css/header.css">
     <link rel="stylesheet" href="../../assets/css/espaco.css">
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body id="topo">
@@ -54,27 +56,24 @@
 
         <!-- Sidebar -->
 
-        <aside class="sidebar">
+        <nav class="sidebar-menu">
 
-            <h2>Menu</h2>
+            <a href="espacoLogado.html" class="active">
+                <i data-lucide="building-2"></i>
+                <span>Espaços</span>
+            </a>
 
-            <nav class="sidebar-menu">
+            <a href="reservaLogado.html">
+                <i data-lucide="calendar-days"></i>
+                <span>Reservas</span>
+            </a>
 
-                <a href="espacoLogado.html" class="active">
-                    🏟 Espaços
-                </a>
+            <a href="avaliacoes.html">
+                <i data-lucide="star"></i>
+                <span>Avaliações</span>
+            </a>
 
-                <a href="reservaLogado.html">
-                    📅 Reservas
-                </a>
-
-                <a href="avaliacoes.html">
-                    ⭐ Avaliações
-                </a>
-
-            </nav>
-
-        </aside>
+        </nav>
 
         <!-- Conteúdo -->
 
@@ -222,6 +221,10 @@
 
         });
 
+    </script>
+
+    <script>
+        lucide.createIcons();
     </script>
 
 </body>

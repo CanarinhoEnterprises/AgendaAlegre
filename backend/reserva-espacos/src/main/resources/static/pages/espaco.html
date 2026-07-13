@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/espaco.css">
 
+    <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body>
@@ -52,27 +54,24 @@
 
         <!-- Sidebar -->
 
-        <aside class="sidebar">
+        <nav class="sidebar-menu">
 
-            <h2>Menu</h2>
+            <a href="espaco.html" class="active">
+                <i data-lucide="building-2"></i>
+                <span>Espaços</span>
+            </a>
 
-            <nav class="sidebar-menu">
+            <a href="login.html">
+                <i data-lucide="calendar-days"></i>
+                <span>Reservas</span>
+            </a>
 
-                <a href="espaco.html" class="active">
-                    🏟 Espaços
-                </a>
+            <a href="login.html">
+                <i data-lucide="star"></i>
+                <span>Avaliações</span>
+            </a>
 
-                <a href="login.html">
-                    📅 Reservas
-                </a>
-
-                <a href="login.html">
-                    ⭐ Avaliações
-                </a>
-
-            </nav>
-
-        </aside>
+        </nav>
 
         <!-- Conteúdo -->
 
@@ -177,7 +176,7 @@
 
                 <h4>Navegação</h4>
 
-                <a href="landingpage.html">Início</a>
+                <a href="espaco.html">Início</a>
 
                 <a href="espaco.html">Espaços</a>
 
@@ -231,6 +230,10 @@
 
         });
 
+    </script>
+
+    <script>
+        lucide.createIcons();
     </script>
 
 </body>
