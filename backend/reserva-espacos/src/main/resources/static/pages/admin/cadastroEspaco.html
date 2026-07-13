@@ -94,7 +94,7 @@
                     Tipo de Espaço
                 </label>
 
-                <select id="tipoEspaco" required>
+                <select id="idTipoEspaco" required>
 
                     <option selected disabled>
                         Selecione um tipo
@@ -108,15 +108,60 @@
 
                 </select>
 
-                <label for="endereco">
-                    Endereço
-                </label>
+                <label for="logradouro">Logradouro</label>
+                    <input
+                        type="text"
+                        id="logradouro"
+                        placeholder="Ex.: Rua XV de Novembro"
+                        required>
 
-                <input
-                    type="text"
-                    id="endereco"
-                    placeholder="Digite o endereço do espaço"
-                    required>
+                    <label for="numero">Número</label>
+                    <input
+                        type="number"
+                        id="numero"
+                        placeholder="123">
+
+                    <label for="bairro">Bairro</label>
+                    <input
+                        type="text"
+                        id="bairro"
+                        placeholder="Centro"
+                        required>
+
+                    <label for="cep">CEP</label>
+                    <input
+                        type="text"
+                        id="cep"
+                        placeholder="29500000"
+                        maxlength="8"
+                        required>
+
+                    <label for="cidade">Cidade</label>
+                    <select id="idCidade" required>
+
+                        <!-- Depois o backend poderá carregar as cidades -->
+
+                        <option value="" selected disabled>
+                            Selecione a cidade
+                        </option>
+
+                        <option value="1">
+                            Alegre
+                        </option>
+
+                    </select>
+
+                    <label for="complemento">Complemento</label>
+                    <input
+                        type="text"
+                        id="complemento"
+                        placeholder="Apartamento, bloco, sala...">
+
+                    <label for="referencia">Ponto de referência</label>
+                    <input
+                        type="text"
+                        id="referencia"
+                        placeholder="Próximo à prefeitura">
 
                 <label for="urlCapa">
                     URL da imagem de capa
