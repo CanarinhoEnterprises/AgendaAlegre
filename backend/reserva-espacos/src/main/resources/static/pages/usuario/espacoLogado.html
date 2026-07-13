@@ -8,9 +8,12 @@
 
     <title>Espaços | Agenda Alegre</title>
 
-    <link rel="stylesheet" href="../../assets/css/styles.css">
-    <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/espaco.css">
+    <link href="../../assets/css/styles.css" rel="stylesheet" />
+    <link href="../../assets/css/header.css" rel="stylesheet" />
+    <link href="../../assets/css/espaco.css" rel="stylesheet" />
+    <link href="../../assets/css/reservaLogado.css" rel="stylesheet" />
+    <link href="../../assets/css/modal.css" rel="stylesheet" />
+    <link href="../../assets/css/notificacao.css" rel="stylesheet" />
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -120,13 +123,13 @@
 
             <!-- Espaços carregados pelo JS -->
 
-            <section id="lista-espacos" class="espacos-grid">
+            <section class="espacos-grid" id="espacosGrid"></section>
 
             </section>
 
             <!-- Mensagem padrão -->
 
-            <div class="sem-espacos">
+            <div class="espacos-nota" id="espacosNota">
 
                 <h3>Nenhum espaço carregado.</h3>
 
@@ -198,29 +201,19 @@
 
     <!-- ================= JS ================= -->
 
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/utils.js"></script>
+    <script src="../../assets/js/notificacao.js"></script>
     <script>
+        protegerPagina();
 
-        const filtros = document.querySelectorAll(".filtro-btn");
-
-        filtros.forEach(botao => {
-
-            botao.addEventListener("click", () => {
-
-                filtros.forEach(btn => btn.classList.remove("active"));
-
-                botao.classList.add("active");
-
-                /*
-                    Aqui ficará o filtro dos espaços
-                    vindos do banco de dados.
-                */
-
-            });
-
+        document.getElementById("btn-sair").addEventListener("click", function (evento) {
+            evento.preventDefault();
+            encerrarSessao();
+            window.location.href = "../landingpage.html";
         });
-
     </script>
-
+    <script src="../../assets/js/espacos.js"></script>
     <script>
         lucide.createIcons();
     </script>

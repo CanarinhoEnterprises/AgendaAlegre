@@ -48,7 +48,10 @@ public class SecurityConfig {
                 .requestMatchers("/assets/css/**").permitAll()
                 .requestMatchers("/assets/img/**").permitAll()
                 .requestMatchers("/assets/js/**").permitAll()
-
+                .requestMatchers("/enderecos/**").permitAll()
+                .requestMatchers("/espacos/**").permitAll()
+                .requestMatchers("/tipos-espaco/**").permitAll()
+                .requestMatchers("/recursos-acessibilidade/**").permitAll()
                 .requestMatchers("/usuarios/admin").hasRole("ADMINISTRADOR")
 
                 .anyRequest().authenticated()

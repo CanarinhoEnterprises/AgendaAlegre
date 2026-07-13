@@ -1,0 +1,115 @@
+/* ==========================================================
+   Notificações (toasts)
+========================================================== */
+
+.notificacoes-container {
+
+    position: fixed;
+
+    top: 95px;
+    right: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    z-index: 3000;
+
+    max-width: 360px;
+}
+
+.notificacao {
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    background: var(--branco);
+
+    border-left: 5px solid var(--azul-principal);
+    border-radius: 10px;
+
+    padding: 14px 16px;
+
+    box-shadow: var(--sombra);
+
+    font-size: 14px;
+    color: var(--texto);
+
+    opacity: 0;
+    transform: translateX(30px);
+
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.notificacao.visivel {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.notificacao.saindo {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.notificacao svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.notificacao-texto {
+    flex: 1;
+    line-height: 1.4;
+}
+
+.notificacao-fechar {
+
+    background: none;
+    border: none;
+
+    font-size: 18px;
+    line-height: 1;
+
+    color: var(--cinza);
+    cursor: pointer;
+
+    flex-shrink: 0;
+}
+
+.notificacao-sucesso {
+    border-left-color: var(--verde-principal);
+}
+
+.notificacao-sucesso svg {
+    color: var(--verde-principal);
+}
+
+.notificacao-erro {
+    border-left-color: var(--vermelho, #C0392B);
+}
+
+.notificacao-erro svg {
+    color: var(--vermelho, #C0392B);
+}
+
+.notificacao-aviso {
+    border-left-color: #C9971C;
+}
+
+.notificacao-aviso svg {
+    color: #C9971C;
+}
+
+.notificacao-info svg {
+    color: var(--azul-principal);
+}
+
+@media (max-width: 500px) {
+
+    .notificacoes-container {
+        left: 16px;
+        right: 16px;
+        max-width: none;
+    }
+}

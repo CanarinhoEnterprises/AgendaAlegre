@@ -10,13 +10,15 @@
 
     <link rel="stylesheet" href="../../assets/css/styles.css">
     <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/auth.css">
+    <link rel="stylesheet" href="../../assets/css/espaco.css">
+    <link rel="stylesheet" href="../../assets/css/modal.css">
+    <link rel="stylesheet" href="../../assets/css/notificacao.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
 
 </head>
 
-<body>
-
-    <!-- HEADER -->
+<body id="topo">
 
     <header>
 
@@ -34,11 +36,13 @@
 
             <nav>
 
-                <a href="espacoAdmin.html">
-                    Voltar
+                <a href="#topo">
+                    Início
                 </a>
 
-                <button onclick="logout()" class="cadastro-btn">Sair</button>
+                <a href="../landingpage.html" class="cadastro-btn" id="btn-sair">
+                    Sair
+                </a>
 
             </nav>
 
@@ -46,169 +50,442 @@
 
     </header>
 
-    <!-- FORMULÁRIO -->
+    <main class="pagina-espacos">
 
-    <main class="auth-container">
+        <nav class="sidebar-menu">
 
-        <section class="auth-box">
+            <a href="espacoAdmin.html">
+                <i data-lucide="building-2"></i>
+                <span>Espaços</span>
+            </a>
 
-            <h1>Cadastrar Espaço</h1>
+            <a href="reservaAdmin.html">
+                <i data-lucide="calendar-days"></i>
+                <span>Reservas</span>
+            </a>
 
-            <p>Preencha os dados do novo espaço público.</p>
+            <a href="avaliacoesAdmin.html">
+                <i data-lucide="star"></i>
+                <span>Avaliações</span>
+            </a>
 
-            <form id="formCadastroEspaco">
+            <a href="cadastroEspaco.html" class="active">
+                <i data-lucide="plus-circle"></i>
+                <span>Cadastrar Espaço</span>
+            </a>
 
-                <label for="nome">
-                    Nome do Espaço
-                </label>
+            <a href="analiseReserva.html">
+                <i data-lucide="bar-chart-2"></i>
+                <span>Análise de Reservas</span>
+            </a>
 
-                <input
-                    type="text"
-                    id="nome"
-                    placeholder="Ex.: Ginásio Municipal"
-                    required>
+        </nav>
 
-                <label for="descricao">
-                    Descrição
-                </label>
+        <section class="conteudo">
 
-                <textarea
-                    id="descricao"
-                    rows="4"
-                    placeholder="Descreva o espaço..."></textarea>
+            <section class="espacos-topo">
 
-                <label for="capacidade">
-                    Capacidade
-                </label>
+                <h1>Cadastrar novo espaço</h1>
 
-                <input
-                    type="number"
-                    id="capacidade"
-                    min="1"
-                    placeholder="Quantidade de pessoas"
-                    required>
+                <p>
+                    Preencha os dados abaixo para cadastrar um novo espaço público
+                    no sistema. Os dados são enviados diretamente para a API.
+                </p>
 
-                <label for="tipoEspaco">
-                    Tipo de Espaço
-                </label>
+            </section>
 
-                <select id="idTipoEspaco" required>
+            <section class="modal-caixa" style="max-width: 640px; margin: 0;">
 
-                    <option selected disabled>
-                        Selecione um tipo
-                    </option>
+                <div class="modal-erros" id="form-espaco-erros"><ul></ul></div>
 
-                    <!-- Preenchido pelo backend -->
-                    <option value="1">Quadra</option>
-                    <option value="2">Parque</option>
-                    <option value="3">Salão</option>
-                    <option value="4">Auditório</option>
+                <form id="form-espaco">
 
-                </select>
+                    <div class="modal-campo">
+                        <label for="espaco-nome">Nome do espaço</label>
+                        <input type="text" id="espaco-nome" required>
+                    </div>
 
-                <label for="logradouro">Logradouro</label>
-                    <input
-                        type="text"
-                        id="logradouro"
-                        placeholder="Ex.: Rua XV de Novembro"
-                        required>
+                    <div class="modal-campo">
+                        <label for="espaco-descricao">Descrição</label>
+                        <textarea id="espaco-descricao" placeholder="Descreva o espaço..."></textarea>
+                    </div>
 
-                    <label for="numero">Número</label>
-                    <input
-                        type="number"
-                        id="numero"
-                        placeholder="123">
+                    <div class="modal-linha-dupla">
 
-                    <label for="bairro">Bairro</label>
-                    <input
-                        type="text"
-                        id="bairro"
-                        placeholder="Centro"
-                        required>
+                        <div class="modal-campo">
+                            <label for="espaco-tipo">Tipo de espaço</label>
+                            <select id="espaco-tipo" required>
+                                <option value="">Carregando...</option>
+                            </select>
+                        </div>
 
-                    <label for="cep">CEP</label>
-                    <input
-                        type="text"
-                        id="cep"
-                        placeholder="29500000"
-                        maxlength="8"
-                        required>
+                        <div class="modal-campo">
+                            <label for="espaco-capacidade">Capacidade (pessoas)</label>
+                            <input type="number" id="espaco-capacidade" min="1" required>
+                        </div>
 
-                    <label for="cidade">Cidade</label>
-                    <select id="idCidade" required>
+                    </div>
 
-                        <!-- Depois o backend poderá carregar as cidades -->
+                    <div class="modal-campo">
+                        <label for="espaco-status">Status</label>
+                        <select id="espaco-status" required>
+                            <option value="ATIVO">Disponível</option>
+                            <option value="INTERDITADO">Interditado</option>
+                            <option value="INATIVO">Indisponível</option>
+                        </select>
+                    </div>
 
-                        <option value="" selected disabled>
-                            Selecione a cidade
-                        </option>
+                    <div class="modal-campo">
+                        <label for="espaco-url-capa">URL da imagem de capa</label>
+                        <input type="url" id="espaco-url-capa" placeholder="https://...">
+                    </div>
 
-                        <option value="1">
-                            Alegre
-                        </option>
+                    <div class="modal-campo">
+                        <label for="espaco-recursos">Recursos de acessibilidade</label>
+                        <div id="espaco-recursos" class="modal-detalhes-lista">
+                            <p class="espacos-nota">Carregando recursos...</p>
+                        </div>
+                    </div>
 
-                    </select>
+                    <hr>
 
-                    <label for="complemento">Complemento</label>
-                    <input
-                        type="text"
-                        id="complemento"
-                        placeholder="Apartamento, bloco, sala...">
+                    <div class="modal-campo">
+                        <label for="espaco-endereco">Endereço</label>
+                        <select id="espaco-endereco">
+                            <option value="">Carregando endereços...</option>
+                        </select>
+                    </div>
 
-                    <label for="referencia">Ponto de referência</label>
-                    <input
-                        type="text"
-                        id="referencia"
-                        placeholder="Próximo à prefeitura">
+                    <div id="espaco-endereco-novo" style="display: none;">
 
-                <label for="urlCapa">
-                    URL da imagem de capa
-                </label>
+                        <div class="modal-linha-dupla">
 
-                <input
-                    type="url"
-                    id="urlCapa"
-                    placeholder="https://site.com/imagem.jpg">
+                            <div class="modal-campo">
+                                <label for="endereco-cidade">Cidade</label>
+                                <select id="endereco-cidade">
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
 
-                <label for="status">
-                    Status
-                </label>
+                            <div class="modal-campo">
+                                <label for="endereco-cep">CEP</label>
+                                <input type="text" id="endereco-cep" maxlength="8" placeholder="Somente números">
+                            </div>
 
-                <select id="status" required>
+                        </div>
 
-                    <option value="ATIVO" selected>
-                        Ativo
-                    </option>
+                        <div class="modal-campo">
+                            <label for="endereco-logradouro">Logradouro</label>
+                            <input type="text" id="endereco-logradouro">
+                        </div>
 
-                    <option value="INATIVO">
-                        Inativo
-                    </option>
+                        <div class="modal-linha-dupla">
 
-                </select>
+                            <div class="modal-campo">
+                                <label for="endereco-bairro">Bairro</label>
+                                <input type="text" id="endereco-bairro">
+                            </div>
 
-                <button type="submit">
-                    Cadastrar Espaço
-                </button>
+                            <div class="modal-campo">
+                                <label for="endereco-num">Número</label>
+                                <input type="number" id="endereco-num">
+                            </div>
 
-            </form>
+                        </div>
+
+                        <div class="modal-linha-dupla">
+
+                            <div class="modal-campo">
+                                <label for="endereco-comp">Complemento</label>
+                                <input type="text" id="endereco-comp">
+                            </div>
+
+                            <div class="modal-campo">
+                                <label for="endereco-referencia">Referência</label>
+                                <input type="text" id="endereco-referencia">
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal-acoes">
+                        <button type="submit" class="modal-btn modal-btn-confirmar" id="espaco-salvar-btn">
+                            Cadastrar espaço
+                        </button>
+                    </div>
+
+                </form>
+
+            </section>
 
         </section>
 
     </main>
 
-    <script src="../../assets/js/api.js"></script>
-    <script src="../../assets/js/cadastroEspaco.js"></script>
+    <footer class="site-footer">
 
-    <script src="../../assets/js/auth.js"></script>
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+                    <img src="../../assets/img/logo.png" alt="Logo Agenda Alegre">
+                    <span>Agenda Alegre</span>
+                </div>
+
+                <p>Espaços públicos de Alegre, ES, ao seu alcance.</p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Agenda Alegre. Todos os direitos reservados.</p>
+        </div>
+
+    </footer>
+
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/utils.js"></script>
+    <script src="../../assets/js/notificacao.js"></script>
+    <script>
+        protegerPagina("ADMINISTRADOR");
+    </script>
 
     <script>
+        (function () {
 
-    if(!possuiRole("ADMINISTRADOR")){
+            const selectTipo = document.getElementById("espaco-tipo");
+            const selectEndereco = document.getElementById("espaco-endereco");
+            const selectCidade = document.getElementById("endereco-cidade");
+            const areaEnderecoNovo = document.getElementById("espaco-endereco-novo");
+            const areaRecursos = document.getElementById("espaco-recursos");
+            const areaErros = document.getElementById("form-espaco-erros");
 
-        window.location.href = "../login.html";
+            function exibirErros(erros) {
 
-    }
+                const lista = areaErros.querySelector("ul");
+                lista.innerHTML = "";
 
+                if (!erros || erros.length === 0) {
+                    areaErros.classList.remove("visivel");
+                    return;
+                }
+
+                erros.forEach(function (erro) {
+                    const item = document.createElement("li");
+                    item.textContent = erro;
+                    lista.appendChild(item);
+                });
+
+                areaErros.classList.add("visivel");
+            }
+
+            async function carregarTiposEspaco() {
+                try {
+                    const tipos = await apiListarTiposEspaco();
+                    selectTipo.innerHTML = "";
+
+                    if (!tipos || tipos.length === 0) {
+                        selectTipo.innerHTML = '<option value="">Nenhum tipo cadastrado</option>';
+                        return;
+                    }
+
+                    tipos.forEach(function (tipo) {
+                        const opcao = document.createElement("option");
+                        opcao.value = tipo.idTipoEspaco;
+                        opcao.textContent = tipo.nome;
+                        selectTipo.appendChild(opcao);
+                    });
+
+                } catch (erro) {
+                    notificar(erro.message, "erro");
+                }
+            }
+
+            async function carregarRecursos() {
+                try {
+                    const recursos = await apiListarRecursosAcessibilidadeCombo();
+                    areaRecursos.innerHTML = "";
+
+                    if (!recursos || recursos.length === 0) {
+                        areaRecursos.innerHTML = '<p class="espacos-nota">Nenhum recurso cadastrado.</p>';
+                        return;
+                    }
+
+                    recursos.forEach(function (recurso) {
+                        const label = document.createElement("label");
+                        label.style.display = "flex";
+                        label.style.alignItems = "center";
+                        label.style.gap = "8px";
+                        label.style.fontWeight = "400";
+
+                        label.innerHTML =
+                            '<input type="checkbox" value="' + recurso.idRecurso + '" class="recurso-checkbox"> ' +
+                            escaparHtml(recurso.descricao);
+
+                        areaRecursos.appendChild(label);
+                    });
+
+                } catch (erro) {
+                    areaRecursos.innerHTML = "";
+                    notificar(erro.message, "erro");
+                }
+            }
+
+            async function carregarEnderecos() {
+                try {
+                    const enderecos = await apiListarEnderecos() || [];
+
+                    selectEndereco.innerHTML = "";
+
+                    const opcaoVazia = document.createElement("option");
+                    opcaoVazia.value = "";
+                    opcaoVazia.textContent = "Selecione um endereço existente";
+                    selectEndereco.appendChild(opcaoVazia);
+
+                    enderecos.forEach(function (endereco) {
+                        const opcao = document.createElement("option");
+                        opcao.value = endereco.idEndereco;
+                        opcao.textContent = endereco.logradouro + ", " + (endereco.num || "s/n") +
+                            " - " + endereco.bairro + " - " + endereco.nomeCidade + "/" + endereco.ufCidade;
+                        selectEndereco.appendChild(opcao);
+                    });
+
+                    const opcaoNova = document.createElement("option");
+                    opcaoNova.value = "novo";
+                    opcaoNova.textContent = "Cadastrar novo endereço";
+                    selectEndereco.appendChild(opcaoNova);
+
+                } catch (erro) {
+                    notificar(erro.message, "erro");
+                }
+            }
+
+            async function carregarCidades() {
+                try {
+                    const cidades = await apiListarCidades();
+                    selectCidade.innerHTML = "";
+
+                    if (!cidades || cidades.length === 0) {
+                        selectCidade.innerHTML = '<option value="">Nenhuma cidade cadastrada</option>';
+                        return;
+                    }
+
+                    cidades.forEach(function (cidade) {
+                        const opcao = document.createElement("option");
+                        opcao.value = cidade.idCidade;
+                        opcao.textContent = cidade.nome + " - " + cidade.UF;
+                        selectCidade.appendChild(opcao);
+                    });
+
+                } catch (erro) {
+                    notificar(erro.message, "erro");
+                }
+            }
+
+            selectEndereco.addEventListener("change", function () {
+                areaEnderecoNovo.style.display = selectEndereco.value === "novo" ? "block" : "none";
+            });
+
+            async function obterIdEndereco() {
+
+                if (selectEndereco.value && selectEndereco.value !== "novo") {
+                    return Number(selectEndereco.value);
+                }
+
+                const enderecoDto = {
+                    idCidade: Number(selectCidade.value),
+                    logradouro: document.getElementById("endereco-logradouro").value,
+                    bairro: document.getElementById("endereco-bairro").value,
+                    cep: document.getElementById("endereco-cep").value,
+                    num: document.getElementById("endereco-num").value ? Number(document.getElementById("endereco-num").value) : null,
+                    comp: document.getElementById("endereco-comp").value || null,
+                    referencia: document.getElementById("endereco-referencia").value || null
+                };
+
+                const enderecoCriado = await apiCadastrarEndereco(enderecoDto);
+                return enderecoCriado.idEndereco;
+            }
+
+            document.getElementById("form-espaco").addEventListener("submit", async function (evento) {
+
+                evento.preventDefault();
+                exibirErros([]);
+
+                const nome = document.getElementById("espaco-nome").value.trim();
+                const capacidade = Number(document.getElementById("espaco-capacidade").value);
+                const idTipoEspaco = Number(selectTipo.value);
+
+                const erros = [];
+
+                if (!nome) {
+                    erros.push("Informe o nome do espaço.");
+                }
+                if (!idTipoEspaco) {
+                    erros.push("Selecione o tipo de espaço.");
+                }
+                if (!capacidade || capacidade <= 0) {
+                    erros.push("Informe uma capacidade válida.");
+                }
+                if (!selectEndereco.value) {
+                    erros.push("Selecione ou cadastre um endereço.");
+                }
+
+                if (erros.length > 0) {
+                    exibirErros(erros);
+                    return;
+                }
+
+                const botao = document.getElementById("espaco-salvar-btn");
+                botao.disabled = true;
+                botao.textContent = "Salvando...";
+
+                try {
+
+                    const idEndereco = await obterIdEndereco();
+
+                    const idsRecursos = Array.from(document.querySelectorAll(".recurso-checkbox:checked"))
+                        .map(function (chk) { return Number(chk.value); });
+
+                    const dto = {
+                        idEndereco: idEndereco,
+                        idTipoEspaco: idTipoEspaco,
+                        capacidade: capacidade,
+                        nome: nome,
+                        descricao: document.getElementById("espaco-descricao").value || null,
+                        urlCapa: document.getElementById("espaco-url-capa").value || null,
+                        status: document.getElementById("espaco-status").value,
+                        idsRecursosAcessibilidade: idsRecursos
+                    };
+
+                    await apiCadastrarEspaco(dto);
+
+                    notificar("Espaço cadastrado com sucesso!", "sucesso");
+                    document.getElementById("form-espaco").reset();
+                    areaEnderecoNovo.style.display = "none";
+                    await carregarEnderecos();
+
+                } catch (erro) {
+                    exibirErros([erro.message]);
+
+                } finally {
+                    botao.disabled = false;
+                    botao.textContent = "Cadastrar espaço";
+                }
+            });
+
+            carregarTiposEspaco();
+            carregarRecursos();
+            carregarEnderecos();
+            carregarCidades();
+
+        })();
+    </script>
+
+    <script>
+        lucide.createIcons();
     </script>
 
 </body>
