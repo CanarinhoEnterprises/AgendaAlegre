@@ -1,5 +1,7 @@
 package br.ufes.reserva_espacos.controller;
 
+import java.util.Map;
+
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,12 @@ public class TermoAceitoController {
     }
 
     @PostMapping
-    public ResponseEntity<TermoAceito> cadastrar(@RequestBody CadastroTermoAceitoDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody CadastroTermoAceitoDTO dto) {
         try {
             TermoAceito termo = termoAceitoService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(termo);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
         }
     }
 
@@ -55,22 +57,22 @@ public class TermoAceitoController {
     }
 
     @PutMapping("/{id}/aceitar")
-    public ResponseEntity<TermoAceito> aceitar(@PathVariable Integer id) {
+    public ResponseEntity<?> aceitar(@PathVariable Integer id) {
         try {
             TermoAceito termo = termoAceitoService.aceitar(id);
             return ResponseEntity.ok(termo);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    public ResponseEntity<?> excluir(@PathVariable Integer id) {
         try {
             termoAceitoService.excluir(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 }

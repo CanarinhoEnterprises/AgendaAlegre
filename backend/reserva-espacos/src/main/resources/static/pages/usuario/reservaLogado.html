@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../../assets/css/header.css">
     <link rel="stylesheet" href="../../assets/css/espaco.css">
     <link rel="stylesheet" href="../../assets/css/reservaLogado.css">
+    <link rel="stylesheet" href="../../assets/css/modal.css">
+    <link rel="stylesheet" href="../../assets/css/notificacao.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -38,11 +40,11 @@
 
             <nav>
 
-                <a href="reservaLogado.html">
-                    Início
+                <a href="espacoLogado.html">
+                    Espaços
                 </a>
 
-                <a href="../landingpage.html" class="cadastro-btn">
+                <a href="#" class="cadastro-btn" id="btn-sair">
                     Sair
                 </a>
 
@@ -96,22 +98,26 @@
 
             <section class="filtros-wrap">
 
-                <div class="filtros">
+                                <div class="filtros">
 
                     <button class="filtro-btn active" data-status="todas">
                         Todas
+                    </button>
+
+                    <button class="filtro-btn" data-status="EM_ANALISE">
+                        Em análise
+                    </button>
+
+                    <button class="filtro-btn" data-status="APROVADA">
+                        Aprovadas
                     </button>
 
                     <button class="filtro-btn" data-status="CONFIRMADA">
                         Confirmadas
                     </button>
 
-                    <button class="filtro-btn" data-status="PENDENTE">
-                        Pendentes
-                    </button>
-
-                    <button class="filtro-btn" data-status="CONCLUIDA">
-                        Concluídas
+                    <button class="filtro-btn" data-status="REJEITADA">
+                        Rejeitadas
                     </button>
 
                     <button class="filtro-btn" data-status="CANCELADA">
@@ -139,11 +145,6 @@
                 </p>
 
             </div>
-
-            <p class="espacos-nota">
-                * Reservas de exemplo — serão substituídas pelos dados reais
-                assim que o endpoint <code>/api/reservas/minhas</code> estiver pronto.
-            </p>
 
         </section>
 
@@ -175,8 +176,6 @@
 
                 <h4>Navegação</h4>
 
-                <a href="reservaLogado.html">Início</a>
-
                 <a href="espacoLogado.html">Espaços</a>
 
                 <a href="reservaLogado.html">Reservas</a>
@@ -207,238 +206,19 @@
 
     <!-- ================= JS ================= -->
 
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/utils.js"></script>
+    <script src="../../assets/js/notificacao.js"></script>
     <script>
+        protegerPagina();
 
-        /*
-            FORMATO ESPERADO DO BACKEND
-            GET /api/reservas/minhas  (usuário identificado pela sessão/token)
-
-            Resposta esperada, um array de objetos assim:
-            [
-              {
-                "id": "3f2a1c9e-...",              // uuid da reserva, usado pra cancelar
-                "espacoId": "9b7e...",             // uuid do espaço
-                "espacoNome": "Quadra Poliesportiva Central",
-                "categoria": "quadras",            // quadras | parques | saloes | auditorios
-                "localizacao": "Centro, Alegre - ES",
-                "data": "2026-07-25",              // yyyy-mm-dd (LocalDate)
-                "horarioInicio": "10:00",
-                "horarioFim": "11:00",
-                "status": "CONFIRMADA"             // PENDENTE | CONFIRMADA | CONCLUIDA | CANCELADA
-              }
-            ]
-
-            Isso bate com a entidade Reserva (usuario_id vem implícito da sessão).
-        */
-
-        // ---- MOCK: remover quando a API estiver pronta ----
-        let reservas = [
-            {
-                id: "res-001",
-                espacoId: "esp-001",
-                espacoNome: "Quadra Poliesportiva Central",
-                categoria: "quadras",
-                localizacao: "Centro, Alegre - ES",
-                data: "2026-07-25",
-                horarioInicio: "10:00",
-                horarioFim: "11:00",
-                status: "CONFIRMADA"
-            },
-            {
-                id: "res-002",
-                espacoId: "esp-002",
-                espacoNome: "Quadra do Bairro Boa Vista",
-                categoria: "quadras",
-                localizacao: "Boa Vista, Alegre - ES",
-                data: "2026-07-30",
-                horarioInicio: "17:00",
-                horarioFim: "18:00",
-                status: "PENDENTE"
-            },
-            {
-                id: "res-003",
-                espacoId: "esp-003",
-                espacoNome: "Parque Municipal",
-                categoria: "parques",
-                localizacao: "Centro, Alegre - ES",
-                data: "2026-07-18",
-                horarioInicio: "09:00",
-                horarioFim: "10:00",
-                status: "PENDENTE"
-            },
-            {
-                id: "res-004",
-                espacoId: "esp-004",
-                espacoNome: "Salão Comunitário São José",
-                categoria: "saloes",
-                localizacao: "São José, Alegre - ES",
-                data: "2026-06-14",
-                horarioInicio: "15:00",
-                horarioFim: "17:00",
-                status: "CONCLUIDA"
-            },
-            {
-                id: "res-005",
-                espacoId: "esp-005",
-                espacoNome: "Auditório Municipal",
-                categoria: "auditorios",
-                localizacao: "Centro, Alegre - ES",
-                data: "2026-06-02",
-                horarioInicio: "19:00",
-                horarioFim: "21:00",
-                status: "CANCELADA"
-            }
-        ];
-        // ---- fim do mock ----
-
-        const listaReservas = document.getElementById("lista-reservas");
-        const semReservas = document.getElementById("sem-reservas");
-        const filtroBotoes = document.querySelectorAll(".filtro-btn");
-
-        const categoriaLabels = {
-            quadras: "Quadra esportiva",
-            parques: "Parque",
-            saloes: "Salão de festas",
-            auditorios: "Auditório"
-        };
-
-        const categoriaIcones = {
-            quadras: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="12" y1="5" x2="12" y2="19"/><circle cx="12" cy="12" r="3"/></svg>',
-            parques: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 7 11h3l-4 6h12l-4-6h3z"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
-            saloes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="1.5"/><line x1="4" y1="14" x2="20" y2="14"/><line x1="12" y1="10" x2="12" y2="20"/><path d="M12 10c-3 0-4-3 0-4 4 1 3 4 0 4Z"/></svg>',
-            auditorios: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9 12 4l8 5"/><line x1="4" y1="9" x2="20" y2="9"/><line x1="6" y1="9" x2="6" y2="18"/><line x1="10" y1="9" x2="10" y2="18"/><line x1="14" y1="9" x2="14" y2="18"/><line x1="18" y1="9" x2="18" y2="18"/><line x1="4" y1="18" x2="20" y2="18"/><line x1="4" y1="21" x2="20" y2="21"/></svg>'
-        };
-
-        const statusLabels = {
-            PENDENTE: "Pendente",
-            CONFIRMADA: "Confirmada",
-            CONCLUIDA: "Concluída",
-            CANCELADA: "Cancelada"
-        };
-
-        const statusClasses = {
-            PENDENTE: "status-pendente",
-            CONFIRMADA: "status-confirmada",
-            CONCLUIDA: "status-concluida",
-            CANCELADA: "status-cancelada"
-        };
-
-        function formatarData(dataIso) {
-            const [ano, mes, dia] = dataIso.split("-");
-            return dia + "/" + mes + "/" + ano;
-        }
-
-        function acaoParaStatus(reserva) {
-
-            if (reserva.status === "CONFIRMADA" || reserva.status === "PENDENTE") {
-                return '<button type="button" class="btn-cancelar" data-reserva-id="' + reserva.id + '">Cancelar</button>';
-            }
-
-            if (reserva.status === "CONCLUIDA") {
-                return '<a href="avaliacoes.html" class="btn-avaliar">Avaliar</a>';
-            }
-
-            return "";
-        }
-
-        function criarCardReserva(reserva) {
-
-            const card = document.createElement("article");
-            card.className = "espaco-card";
-            card.dataset.reservaId = reserva.id;
-            card.dataset.status = reserva.status;
-
-            card.innerHTML =
-                '<div class="espaco-imagem">' + (categoriaIcones[reserva.categoria] || "") + '</div>' +
-                '<div class="espaco-info">' +
-                    '<span class="espaco-categoria">' + (categoriaLabels[reserva.categoria] || "") + '</span>' +
-                    '<h3>' + reserva.espacoNome + '</h3>' +
-                    '<div class="espaco-local">' + reserva.localizacao + '</div>' +
-                    '<div class="reserva-data">' +
-                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>' +
-                        '<span>' + formatarData(reserva.data) + ' · ' + reserva.horarioInicio + ' às ' + reserva.horarioFim + '</span>' +
-                    '</div>' +
-                    '<div class="espaco-rodape">' +
-                        '<span class="status ' + statusClasses[reserva.status] + '">' + statusLabels[reserva.status] + '</span>' +
-                        acaoParaStatus(reserva) +
-                    '</div>' +
-                '</div>';
-
-            const botaoCancelar = card.querySelector(".btn-cancelar");
-
-            if (botaoCancelar) {
-                botaoCancelar.addEventListener("click", function () {
-                    cancelarReserva(reserva.id);
-                });
-            }
-
-            return card;
-        }
-
-        function cancelarReserva(reservaId) {
-
-            // Integração real:
-            // fetch("/api/reservas/" + reservaId, { method: "DELETE" })
-            //     .then(function () {
-            //         reservas = reservas.filter(function (r) { return r.id !== reservaId; });
-            //         aplicarFiltro(filtroAtivo());
-            //     });
-
-            reservas = reservas.map(function (r) {
-                return r.id === reservaId ? Object.assign({}, r, { status: "CANCELADA" }) : r;
-            });
-
-            aplicarFiltro(filtroAtivo());
-        }
-
-        function renderizarReservas(lista) {
-
-            listaReservas.innerHTML = "";
-
-            if (!lista || lista.length === 0) {
-                semReservas.style.display = "block";
-                return;
-            }
-
-            semReservas.style.display = "none";
-
-            lista.forEach(function (reserva) {
-                listaReservas.appendChild(criarCardReserva(reserva));
-            });
-        }
-
-        function filtroAtivo() {
-            const botaoAtivo = document.querySelector(".filtro-btn.active");
-            return botaoAtivo ? botaoAtivo.dataset.status : "todas";
-        }
-
-        function aplicarFiltro(status) {
-
-            filtroBotoes.forEach(function (botao) {
-                botao.classList.toggle("active", botao.dataset.status === status);
-            });
-
-            const filtradas = status === "todas"
-                ? reservas
-                : reservas.filter(function (r) { return r.status === status; });
-
-            renderizarReservas(filtradas);
-        }
-
-        filtroBotoes.forEach(function (botao) {
-            botao.addEventListener("click", function () {
-                aplicarFiltro(botao.dataset.status);
-            });
+        document.getElementById("btn-sair").addEventListener("click", function (evento) {
+            evento.preventDefault();
+            encerrarSessao();
+            window.location.href = "../landingpage.html";
         });
-
-        // Carga inicial.
-        // Integração real: trocar as duas linhas abaixo por
-        // fetch("/api/reservas/minhas")
-        //     .then(function (resposta) { return resposta.json(); })
-        //     .then(function (dados) { reservas = dados; aplicarFiltro("todas"); });
-        aplicarFiltro("todas");
-
     </script>
+    <script src="../../assets/js/reservas.js"></script>
 
     <script>
         lucide.createIcons();

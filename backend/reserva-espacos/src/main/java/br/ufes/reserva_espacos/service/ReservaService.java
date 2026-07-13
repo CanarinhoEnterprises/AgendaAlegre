@@ -3,10 +3,13 @@ package br.ufes.reserva_espacos.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import br.ufes.reserva_espacos.dto.reservadto.CadastroReservaDTO;
+import br.ufes.reserva_espacos.dto.reservadto.CancelarReservaDTO;
+import br.ufes.reserva_espacos.dto.reservadto.ReservaResponseDTO;
 import br.ufes.reserva_espacos.entity.Espaco;
 import br.ufes.reserva_espacos.entity.Reserva;
 import br.ufes.reserva_espacos.entity.Solicitante;
@@ -40,11 +43,12 @@ public class ReservaService {
 		Espaco espaco = espacoRepository.findById(dto.getIdEspaco())
 				.orElseThrow(() -> new RuntimeException("Espaço não encontrado."));
 
-		validarReserva(dto, espaco, null);
+		validarDadosReserva(dto, espaco);
 
 		Reserva reserva = new Reserva();
 		preencherReserva(reserva, dto, solicitante, espaco);
 		reserva.setDtSolicitacao(LocalDateTime.now());
+		reserva.setStatus(StatusReserva.EM_ANALISE);
 		return reservaRepository.save(reserva);
 	}
 
@@ -54,6 +58,18 @@ public class ReservaService {
 
 	public List<Reserva> listarPorSolicitante(Integer idSolicitante) {
 		return reservaRepository.findBySolicitante_IdSolicitanteOrderByDtSolicitacaoDesc(idSolicitante);
+	}
+
+	public List<Reserva> listarPorStatus(StatusReserva status) {
+		return reservaRepository.findByStatusOrderByDtSolicitacaoDesc(status);
+	}
+
+	public List<Reserva> listarPorEspaco(Integer idEspaco) {
+		return reservaRepository.findByEspaco_IdEspacoOrderByDtUsoDesc(idEspaco);
+	}
+
+	public List<ReservaResponseDTO> listarDTO(List<Reserva> reservas) {
+		return reservas.stream().map(ReservaResponseDTO::fromEntity).collect(Collectors.toList());
 	}
 
 	public Reserva buscarPorId(Integer id) {
@@ -74,15 +90,73 @@ public class ReservaService {
 	public Reserva atualizar(Integer id, CadastroReservaDTO dto) {
 		Reserva reserva = buscarPorId(id);
 
+		if (reserva.getStatus() != StatusReserva.DOCUMENTOS_PENDENTES
+				&& reserva.getStatus() != StatusReserva.EM_ANALISE) {
+			throw new RuntimeException("Reserva não pode mais ser alterada nesse status.");
+		}
+
 		Solicitante solicitante = solicitanteRepository.findById(dto.getIdSolicitante())
 				.orElseThrow(() -> new RuntimeException("Solicitante não encontrado."));
 
 		Espaco espaco = espacoRepository.findById(dto.getIdEspaco())
 				.orElseThrow(() -> new RuntimeException("Espaço não encontrado."));
 
-		validarReserva(dto, espaco, id);
+		validarDadosReserva(dto, espaco);
 		preencherReserva(reserva, dto, solicitante, espaco);
 		return reservaRepository.save(reserva);
+	}
+
+	@Transactional
+	public Reserva cancelar(Integer id, CancelarReservaDTO dto) {
+		Reserva reserva = buscarPorId(id);
+
+		if (dto.getIdSolicitante() == null || reserva.getSolicitante() == null
+				|| !dto.getIdSolicitante().equals(reserva.getSolicitante().getId())) {
+			throw new RuntimeException("Apenas o solicitante que fez a reserva pode cancelá-la.");
+		}
+
+		if (reserva.getStatus() == StatusReserva.CANCELADA) {
+			throw new RuntimeException("Reserva já está cancelada.");
+		}
+
+		if (reserva.getStatus() == StatusReserva.REJEITADA) {
+			throw new RuntimeException("Reserva rejeitada não pode ser cancelada.");
+		}
+
+		reserva.setStatus(StatusReserva.CANCELADA);
+		reserva.setDtCancelamento(LocalDateTime.now());
+		return reservaRepository.save(reserva);
+	}
+
+	@Transactional
+	public void aprovar(Reserva reserva) {
+		reserva.setStatus(StatusReserva.APROVADA);
+		reservaRepository.save(reserva);
+	}
+
+	@Transactional
+	public void aprovarComVinculoDeTermo(Reserva reserva) {
+		reserva.setStatus(StatusReserva.AGUARDANDO_TERMO);
+		reservaRepository.save(reserva);
+	}
+
+	@Transactional
+	public void rejeitar(Reserva reserva) {
+		reserva.setStatus(StatusReserva.REJEITADA);
+		reservaRepository.save(reserva);
+	}
+
+	@Transactional
+	public void confirmar(Reserva reserva) {
+		reserva.setStatus(StatusReserva.CONFIRMADA);
+		reserva.setDtConfirmacao(LocalDateTime.now());
+		reservaRepository.save(reserva);
+	}
+
+	public boolean existeConflitoDeAprovacao(Integer idEspaco, LocalDate dtUso, java.time.LocalTime horaInicio,
+			java.time.LocalTime horaFim, Integer idReservaAtual) {
+		return reservaRepository.existsByEspaco_IdEspacoAndDtUsoAndStatusAndHoraInicioLessThanAndHoraFimGreaterThanAndIdReservaNot(
+				idEspaco, dtUso, StatusReserva.APROVADA, horaFim, horaInicio, idReservaAtual);
 	}
 
 	private void preencherReserva(Reserva reserva, CadastroReservaDTO dto, Solicitante solicitante, Espaco espaco) {
@@ -92,48 +166,37 @@ public class ReservaService {
 		reserva.setDtUso(dto.getDtUso());
 		reserva.setHoraFim(dto.getHoraFim());
 		reserva.setFinalidade(dto.getFinalidade());
-		reserva.setDtCancelamento(dto.getDtCancelamento());
-		reserva.setDtConfirmacao(dto.getDtConfirmacao());
 		reserva.setQtdPessoas(dto.getQtdPessoas());
-		reserva.setStatus(dto.getStatus() != null ? dto.getStatus() : StatusReserva.DOCUMENTOS_PENDENTES);
 	}
 
-	private void validarReserva(CadastroReservaDTO dto, Espaco espaco, Integer idReservaAtual) {
+	private void validarDadosReserva(CadastroReservaDTO dto, Espaco espaco) {
 		if (dto.getDtUso() == null || dto.getHoraInicio() == null || dto.getHoraFim() == null) {
 			throw new RuntimeException("Data e horários da reserva são obrigatórios.");
 		}
 
+		// RN15
 		if (!dto.getDtUso().isAfter(LocalDate.now())) {
 			throw new RuntimeException("Reservas só podem ser realizadas para datas futuras.");
 		}
 
+		// RN14
 		if (!dto.getHoraFim().isAfter(dto.getHoraInicio())) {
 			throw new RuntimeException("O horário de término deve ser posterior ao horário de início.");
 		}
 
+		// RN21
 		if (dto.getQtdPessoas() == null || dto.getQtdPessoas() <= 0) {
 			throw new RuntimeException("A quantidade prevista de participantes deve ser maior que zero.");
 		}
 
+		// RN29/RN30/RN31
 		if (espaco.getStatus() != StatusEspaco.ATIVO) {
 			throw new RuntimeException("Espaço indisponível para reservas.");
 		}
 
+		// RN22
 		if (dto.getQtdPessoas() > espaco.getCapacidade()) {
 			throw new RuntimeException("A quantidade prevista de participantes não pode ultrapassar a capacidade do espaço.");
-		}
-
-		StatusReserva status = dto.getStatus() != null ? dto.getStatus() : StatusReserva.DOCUMENTOS_PENDENTES;
-		if (status == StatusReserva.APROVADA) {
-			boolean conflito = idReservaAtual == null
-					? reservaRepository.existsByEspaco_IdEspacoAndDtUsoAndStatusAndHoraInicioLessThanAndHoraFimGreaterThan(
-							espaco.getIdEspaco(), dto.getDtUso(), StatusReserva.APROVADA, dto.getHoraFim(), dto.getHoraInicio())
-					: reservaRepository.existsByEspaco_IdEspacoAndDtUsoAndStatusAndHoraInicioLessThanAndHoraFimGreaterThanAndIdReservaNot(
-							espaco.getIdEspaco(), dto.getDtUso(), StatusReserva.APROVADA, dto.getHoraFim(), dto.getHoraInicio(), idReservaAtual);
-
-			if (conflito) {
-				throw new RuntimeException("Já existe reserva aprovada para o mesmo espaço e horário.");
-			}
 		}
 	}
 }

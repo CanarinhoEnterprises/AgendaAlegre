@@ -123,3 +123,51 @@
     font-size: 12px;
 
 }
+
+/* ---------- Ações múltiplas no card de reserva ---------- */
+
+.reserva-acoes {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-detalhes {
+    background: transparent;
+    cursor: pointer;
+}
+
+/* ---------- Tela de análise de reservas (admin) ---------- */
+
+.analise-info {
+
+    margin-bottom: 16px;
+
+}
+
+.analise-info p {
+
+    font-size: 13px;
+
+    color: var(--texto);
+
+    margin-bottom: 6px;
+
+    line-height: 1.5;
+
+}
+
+.analise-rodape {
+
+    justify-content: flex-start;
+
+    gap: 12px;
+
+}
+
+.analise-rodape .modal-btn {
+
+    padding: 9px 16px;
+
+    font-size: 13px;
+
+}

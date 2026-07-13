@@ -82,6 +82,19 @@ public class OcorrenciaService {
         }
 
         Ocorrencia ocor = ocorrencia.get();
+
+        // RN34: ocorrência de manutenção só pode ser encerrada após o espaço
+        // ser reativado (ATIVO) ou inativado (INATIVO)
+        if (ocor.getTipo() == TipoOcorrencia.MANUTENCAO
+                && dto.getStatus() == StatusOcorrencia.RESOLVIDA
+                && ocor.getStatus() != StatusOcorrencia.RESOLVIDA) {
+            StatusEspaco statusEspaco = espaco.get().getStatus();
+            if (statusEspaco != StatusEspaco.ATIVO && statusEspaco != StatusEspaco.INATIVO) {
+                throw new RuntimeException(
+                        "Ocorrência de manutenção só pode ser encerrada após o espaço ser reativado ou inativado.");
+            }
+        }
+
         ocor.setTitulo(dto.getTitulo());
         ocor.setDescricao(dto.getDescricao());
         ocor.setDtRegistro(dto.getDtRegistro());

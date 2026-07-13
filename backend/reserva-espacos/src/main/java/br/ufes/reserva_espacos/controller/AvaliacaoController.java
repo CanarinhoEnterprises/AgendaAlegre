@@ -1,5 +1,7 @@
 package br.ufes.reserva_espacos.controller;
 
+import java.util.Map;
+
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,12 @@ public class AvaliacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Avaliacao> cadastrar(@RequestBody CadastroAvaliacaoDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody CadastroAvaliacaoDTO dto) {
         try {
             Avaliacao avaliacao = avaliacaoService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(avaliacao);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
         }
     }
 
@@ -55,22 +57,22 @@ public class AvaliacaoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Avaliacao> atualizar(@PathVariable Integer id, @RequestBody CadastroAvaliacaoDTO dto) {
+    public ResponseEntity<?> atualizar(@PathVariable Integer id, @RequestBody CadastroAvaliacaoDTO dto) {
         try {
             Avaliacao avaliacao = avaliacaoService.atualizar(id, dto);
             return ResponseEntity.ok(avaliacao);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    public ResponseEntity<?> excluir(@PathVariable Integer id) {
         try {
             avaliacaoService.excluir(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 }

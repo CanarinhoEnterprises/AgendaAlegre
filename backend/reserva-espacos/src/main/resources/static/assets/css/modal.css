@@ -1,0 +1,281 @@
+/* ==========================================================
+   Modal genérico (reserva, detalhes, rejeição)
+========================================================== */
+
+.modal-overlay {
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(44, 62, 80, .55);
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 2000;
+}
+
+.modal-overlay.aberto {
+    display: flex;
+}
+
+.modal-caixa {
+
+    background: var(--branco);
+
+    border-radius: 18px;
+
+    width: 100%;
+    max-width: 480px;
+
+    max-height: 90vh;
+    overflow-y: auto;
+
+    padding: 30px;
+
+    box-shadow: var(--sombra);
+
+    position: relative;
+
+    animation: modal-entrada .2s ease;
+}
+
+@keyframes modal-entrada {
+
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-fechar {
+
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    background: none;
+    border: none;
+
+    font-size: 22px;
+    line-height: 1;
+
+    color: var(--cinza);
+    cursor: pointer;
+}
+
+.modal-caixa h2 {
+
+    color: var(--azul-principal);
+
+    font-size: 22px;
+
+    margin-bottom: 6px;
+
+    padding-right: 25px;
+}
+
+.modal-subtitulo {
+
+    color: var(--cinza);
+
+    font-size: 14px;
+
+    margin-bottom: 22px;
+}
+
+.modal-campo {
+    margin-bottom: 16px;
+}
+
+.modal-campo label {
+
+    display: block;
+
+    font-weight: bold;
+
+    color: var(--texto);
+
+    font-size: 14px;
+
+    margin-bottom: 6px;
+}
+
+.modal-linha-dupla {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.modal-campo input,
+.modal-campo select,
+.modal-campo textarea {
+
+    width: 100%;
+
+    padding: 11px 14px;
+
+    border: 1.5px solid var(--borda);
+    border-radius: 8px;
+
+    color: var(--texto);
+
+    background: var(--branco);
+}
+
+.modal-campo input:focus,
+.modal-campo select:focus,
+.modal-campo textarea:focus {
+    outline: none;
+    border-color: var(--azul-principal);
+}
+
+.modal-campo textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.modal-erros {
+
+    background: rgba(192, 57, 43, .08);
+
+    border: 1px solid var(--vermelho, #C0392B);
+    border-radius: 10px;
+
+    padding: 12px 16px;
+
+    margin-bottom: 16px;
+
+    display: none;
+}
+
+.modal-erros.visivel {
+    display: block;
+}
+
+.modal-erros ul {
+    margin: 0;
+    padding-left: 18px;
+
+    color: var(--vermelho, #C0392B);
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.modal-acoes {
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 12px;
+
+    margin-top: 22px;
+}
+
+.modal-btn {
+
+    padding: 11px 22px;
+
+    border-radius: 8px;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    border: 1.5px solid transparent;
+
+    transition: .25s;
+}
+
+.modal-btn-cancelar {
+
+    background: transparent;
+
+    border-color: var(--borda);
+
+    color: var(--texto);
+}
+
+.modal-btn-cancelar:hover {
+    background: var(--cinza-claro);
+}
+
+.modal-btn-confirmar {
+
+    background: var(--verde-principal);
+
+    color: var(--branco);
+}
+
+.modal-btn-confirmar:hover {
+    background: var(--verde-hover);
+}
+
+.modal-btn-perigo {
+    background: var(--vermelho, #C0392B);
+    color: var(--branco);
+}
+
+.modal-btn-perigo:hover {
+    opacity: .88;
+}
+
+.modal-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* ---------- Lista de detalhes (usada no modal de detalhes da reserva) ---------- */
+
+.modal-detalhes-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.modal-detalhe-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.modal-detalhe-item span.rotulo {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: var(--cinza);
+}
+
+.modal-detalhe-item span.valor {
+    font-size: 15px;
+    color: var(--texto);
+}
+
+.modal-detalhe-motivo {
+    background: rgba(192, 57, 43, .08);
+    border-radius: 10px;
+    padding: 12px 14px;
+    color: var(--vermelho, #C0392B);
+    font-size: 14px;
+}
+
+@media (max-width: 500px) {
+
+    .modal-linha-dupla {
+        grid-template-columns: 1fr;
+    }
+}

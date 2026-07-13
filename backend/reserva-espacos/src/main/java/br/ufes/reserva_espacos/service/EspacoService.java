@@ -45,6 +45,20 @@ public class EspacoService {
 		return espacoRepository.findAllByOrderByNomeAsc();
 	}
 
+	public List<Espaco> listarPorStatus(br.ufes.reserva_espacos.enums.StatusEspaco status) {
+		return espacoRepository.findAllByStatusOrderByNomeAsc(status);
+	}
+
+	@Transactional
+	public Espaco alterarStatus(Integer id, br.ufes.reserva_espacos.enums.StatusEspaco status) {
+		if (status == null) {
+			throw new RuntimeException("Status é obrigatório.");
+		}
+		Espaco espaco = buscarPorId(id);
+		espaco.setStatus(status);
+		return espacoRepository.save(espaco);
+	}
+
 	public Espaco buscarPorId(Integer id) {
 		return espacoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Espaço não encontrado."));

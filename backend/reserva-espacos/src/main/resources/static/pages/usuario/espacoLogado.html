@@ -1,24 +1,23 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
     <title>Espaços | Agenda Alegre</title>
 
-    <link rel="stylesheet" href="../../assets/css/styles.css">
-    <link rel="stylesheet" href="../../assets/css/header.css">
-    <link rel="stylesheet" href="../../assets/css/espaco.css">
+    <link href="../../assets/css/styles.css" rel="stylesheet" />
+    <link href="../../assets/css/header.css" rel="stylesheet" />
+    <link href="../../assets/css/espaco.css" rel="stylesheet" />
+    <link href="../../assets/css/reservaLogado.css" rel="stylesheet" />
+    <link href="../../assets/css/modal.css" rel="stylesheet" />
+    <link href="../../assets/css/notificacao.css" rel="stylesheet" />
 
     <script src="https://unpkg.com/lucide@latest"></script>
-
 </head>
 
 <body id="topo">
-
-    <!-- ================= HEADER ================= -->
 
     <header>
 
@@ -27,7 +26,7 @@
             <div class="logo">
 
                 <a href="espacoLogado.html">
-                    <img src="../../assets/img/logo.png" alt="Logo Agenda Alegre">
+                    <img alt="Logo Agenda Alegre" src="../../assets/img/logo.png" />
                 </a>
 
                 <h1>Agenda Alegre</h1>
@@ -36,11 +35,9 @@
 
             <nav>
 
-                <a href="#topo">
-                    Início
-                </a>
+                <a href="espacoLogado.html">Início</a>
 
-                <a href="../landingpage.html" class="cadastro-btn">
+                <a class="cadastro-btn" href="#" id="btn-sair">
                     Sair
                 </a>
 
@@ -49,8 +46,6 @@
         </div>
 
     </header>
-
-    <!-- ================= CONTEÚDO ================= -->
 
     <main class="pagina-espacos">
 
@@ -84,65 +79,37 @@
                 <h1>Espaços públicos disponíveis</h1>
 
                 <p>
-                    Consulte os espaços públicos disponíveis e realize reservas
-                    diretamente pelo sistema Agenda Alegre.
+                    Escolha um dos espaços disponíveis para realizar sua reserva. Clique
+                    em "Reservar" para selecionar a data e o horário desejados.
                 </p>
 
             </section>
 
             <!-- Filtros -->
-
             <section class="filtros-wrap">
 
                 <div class="filtros">
 
-                    <button class="filtro-btn active" data-categoria="todos">
-                        Todos
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="quadras">
-                        Quadras
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="parques">
-                        Parques
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="saloes">
-                        Salões
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="auditorios">
-                        Auditórios
-                    </button>
+                    <button class="filtro-btn active" data-categoria="todos">Todos</button>
+                    <button class="filtro-btn" data-categoria="quadras">Quadras esportivas</button>
+                    <button class="filtro-btn" data-categoria="parques">Parques e praças</button>
+                    <button class="filtro-btn" data-categoria="saloes">Salões de festas</button>
+                    <button class="filtro-btn" data-categoria="auditorios">Auditórios e centros culturais</button>
 
                 </div>
 
             </section>
 
-            <!-- Espaços carregados pelo JS -->
+            <!-- Lista de espaços carregada via backend -->
+            <section class="espacos-grid" id="espacosGrid"></section>
 
-            <section id="lista-espacos" class="espacos-grid">
-
-            </section>
-
-            <!-- Mensagem padrão -->
-
-            <div class="sem-espacos">
-
-                <h3>Nenhum espaço carregado.</h3>
-
-                <p>
-                    Os espaços serão carregados automaticamente pelo sistema.
-                </p>
-
-            </div>
+            <p class="espacos-nota" id="espacosNota">
+                Espaços carregados diretamente do banco de dados.
+            </p>
 
         </section>
 
     </main>
-
-    <!-- ================= FOOTER ================= -->
 
     <footer class="site-footer">
 
@@ -151,16 +118,11 @@
             <div class="footer-brand">
 
                 <div class="footer-logo">
-
-                    <img src="../../assets/img/logo.png" alt="Logo Agenda Alegre">
-
+                    <img alt="Logo Agenda Alegre" src="../../assets/img/logo.png" />
                     <span>Agenda Alegre</span>
-
                 </div>
 
-                <p>
-                    Espaços públicos de Alegre - ES ao alcance da população.
-                </p>
+                <p>Espaços públicos de Alegre, ES, ao seu alcance.</p>
 
             </div>
 
@@ -168,12 +130,8 @@
 
                 <h4>Navegação</h4>
 
-                <a href="#topo">Início</a>
-
                 <a href="espacoLogado.html">Espaços</a>
-
-                <a href="reservaLogado.html">Reservas</a>
-
+                <a href="reservaLogado.html">Minhas Reservas</a>
                 <a href="avaliacoes.html">Avaliações</a>
 
             </div>
@@ -182,8 +140,7 @@
 
                 <h4>Sobre</h4>
 
-                <p>Projeto desenvolvido por alunos da UFES.</p>
-
+                <p>Uma iniciativa dos alunos da UFES.</p>
                 <p>contato@agendaalegre.es.gov.br</p>
 
             </div>
@@ -191,38 +148,24 @@
         </div>
 
         <div class="footer-bottom">
-
-            <p>&copy; 2026 Agenda Alegre. Todos os direitos reservados.</p>
-
+            <p>© 2026 Agenda Alegre. Todos os direitos reservados.</p>
         </div>
 
     </footer>
 
-    <!-- ================= JS ================= -->
-
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/utils.js"></script>
+    <script src="../../assets/js/notificacao.js"></script>
     <script>
+        protegerPagina();
 
-        const filtros = document.querySelectorAll(".filtro-btn");
-
-        filtros.forEach(botao => {
-
-            botao.addEventListener("click", () => {
-
-                filtros.forEach(btn => btn.classList.remove("active"));
-
-                botao.classList.add("active");
-
-                /*
-                    Aqui ficará o filtro dos espaços
-                    vindos do banco de dados.
-                */
-
-            });
-
+        document.getElementById("btn-sair").addEventListener("click", function (evento) {
+            evento.preventDefault();
+            encerrarSessao();
+            window.location.href = "../landingpage.html";
         });
-
     </script>
-
+    <script src="../../assets/js/espacos.js"></script>
     <script>
         lucide.createIcons();
     </script>

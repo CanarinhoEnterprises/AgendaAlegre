@@ -1,6 +1,7 @@
 package br.ufes.reserva_espacos.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -28,12 +29,12 @@ public class EquipamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Equipamento> cadastrar(@RequestBody CadastroEquipamentoDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody CadastroEquipamentoDTO dto) {
         try {
             Equipamento equipamento = equipamentoService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(equipamento);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
         }
     }
 
@@ -59,22 +60,22 @@ public class EquipamentoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Equipamento> atualizar(@PathVariable Integer id, @RequestBody CadastroEquipamentoDTO dto) {
+    public ResponseEntity<?> atualizar(@PathVariable Integer id, @RequestBody CadastroEquipamentoDTO dto) {
         try {
             Equipamento equipamento = equipamentoService.atualizar(id, dto);
             return ResponseEntity.ok(equipamento);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    public ResponseEntity<?> excluir(@PathVariable Integer id) {
         try {
             equipamentoService.excluir(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 }

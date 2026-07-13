@@ -9,26 +9,31 @@ async function cadastrarUsuario(){
         tipoPessoa: document.getElementById("tipoPessoa").value
     };
 
-
-    const resposta = await fetch("/usuarios", {
-        method: "POST",
-
-        headers:{
-            "Content-Type":"application/json"
-        },
-
-        body: JSON.stringify(usuario)
-    });
-
-
-    if(resposta.ok){
-        alert("Usuário cadastrado!");
-    } else {
-        alert("Erro!");
+    const botao = document.querySelector("#formCadastro button[type=submit]");
+    if (botao) {
+        botao.disabled = true;
+        botao.textContent = "Enviando...";
     }
 
-}
+    try {
+        await apiCadastrarUsuario(usuario);
 
+        notificar("Usuário cadastrado com sucesso! Faça login para continuar.", "sucesso");
+
+        setTimeout(function () {
+            window.location.href = "login.html";
+        }, 1200);
+
+    } catch (erro) {
+        notificar(erro.message, "erro");
+
+    } finally {
+        if (botao) {
+            botao.disabled = false;
+            botao.textContent = "Criar Conta";
+        }
+    }
+}
 
 document.getElementById("formCadastro").addEventListener("submit", async function(event){
 

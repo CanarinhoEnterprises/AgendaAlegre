@@ -1,6 +1,7 @@
 package br.ufes.reserva_espacos.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,12 @@ public class PendenciaController {
     }
 
     @PostMapping
-    public ResponseEntity<Pendencia> cadastrar(@RequestBody @Valid CadastroPendenciaDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastroPendenciaDTO dto) {
         try {
             Pendencia pendencia = pendenciaService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(pendencia);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
@@ -69,23 +70,23 @@ public class PendenciaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Pendencia> atualizar(@PathVariable Integer id,
+    public ResponseEntity<?> atualizar(@PathVariable Integer id,
             @RequestBody @Valid CadastroPendenciaDTO dto) {
         try {
             Pendencia pendencia = pendenciaService.atualizar(id, dto);
             return ResponseEntity.ok(pendencia);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    public ResponseEntity<?> excluir(@PathVariable Integer id) {
         try {
             pendenciaService.excluir(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 }

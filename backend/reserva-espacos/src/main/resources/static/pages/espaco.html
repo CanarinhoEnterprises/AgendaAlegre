@@ -2,7 +2,6 @@
 <html lang="pt-BR">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,14 +10,11 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/espaco.css">
-
-    <script src="https://unpkg.com/lucide@latest"></script>
-
+    <link rel="stylesheet" href="../assets/css/modal.css">
+    <link rel="stylesheet" href="../assets/css/notificacao.css">
 </head>
 
 <body>
-
-    <!-- ================= HEADER ================= -->
 
     <header>
 
@@ -48,109 +44,43 @@
 
     </header>
 
-    <!-- ================= CONTEÚDO ================= -->
+    <main>
 
-    <main class="pagina-espacos">
+        <!-- Cabeçalho da página -->
+        <section class="espacos-topo">
 
-        <!-- Sidebar -->
+            <h1>Espaços públicos disponíveis</h1>
 
-        <nav class="sidebar-menu">
+            <p>
+                Veja o status de cada espaço da cidade de Alegre em tempo real.
+                Não é preciso estar logado para consultar — só para reservar.
+            </p>
 
-            <a href="espaco.html" class="active">
-                <i data-lucide="building-2"></i>
-                <span>Espaços</span>
-            </a>
+        </section>
 
-            <a href="login.html">
-                <i data-lucide="calendar-days"></i>
-                <span>Reservas</span>
-            </a>
+        <!-- Filtros -->
+        <section class="filtros-wrap">
 
-            <a href="login.html">
-                <i data-lucide="star"></i>
-                <span>Avaliações</span>
-            </a>
+            <div class="filtros">
 
-        </nav>
-
-        <!-- Conteúdo -->
-
-        <section class="conteudo">
-
-            <section class="espacos-topo">
-
-                <h1>Espaços públicos disponíveis</h1>
-
-                <p>
-                    Consulte todos os espaços públicos disponíveis para reserva.
-                    Para realizar uma reserva é necessário estar logado.
-                </p>
-
-            </section>
-
-            <!-- Filtros -->
-
-            <section class="filtros-wrap">
-
-                <div class="filtros">
-
-                    <button class="filtro-btn active" data-categoria="todos">
-                        Todos
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="quadras">
-                        Quadras
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="parques">
-                        Parques
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="saloes">
-                        Salões
-                    </button>
-
-                    <button class="filtro-btn" data-categoria="auditorios">
-                        Auditórios
-                    </button>
-
-                </div>
-
-            </section>
-
-            <!-- O JavaScript irá inserir os cards aqui -->
-
-            <section id="lista-espacos" class="espacos-grid">
-
-                <!--
-                    Exemplo:
-
-                    <article class="espaco-card">
-                        ...
-                    </article>
-
-                    Será criado dinamicamente pelo JavaScript.
-                -->
-
-            </section>
-
-            <!-- Estado inicial -->
-
-            <div class="sem-espacos">
-
-                <h3>Nenhum espaço carregado.</h3>
-
-                <p>
-                    Os espaços serão carregados automaticamente pelo sistema.
-                </p>
+                <button class="filtro-btn" data-categoria="todos">Todos</button>
+                <button class="filtro-btn" data-categoria="quadras">Quadras esportivas</button>
+                <button class="filtro-btn" data-categoria="parques">Parques e praças</button>
+                <button class="filtro-btn" data-categoria="saloes">Salões de festas</button>
+                <button class="filtro-btn" data-categoria="auditorios">Auditórios e centros culturais</button>
 
             </div>
 
         </section>
 
-    </main>
+        <!-- Lista de espaços carregada via backend -->
+        <section class="espacos-grid" id="espacosGrid"></section>
 
-    <!-- ================= FOOTER ================= -->
+        <p class="espacos-nota" id="espacosNota">
+            Espaços carregados diretamente do banco de dados.
+        </p>
+
+    </main>
 
     <footer class="site-footer">
 
@@ -159,16 +89,11 @@
             <div class="footer-brand">
 
                 <div class="footer-logo">
-
-                    <img src="../assets/img/logo.png" alt="Logo">
-
+                    <img src="../assets/img/logo.png" alt="Logo Agenda Alegre">
                     <span>Agenda Alegre</span>
-
                 </div>
 
-                <p>
-                    Espaços públicos de Alegre - ES ao alcance da população.
-                </p>
+                <p>Espaços públicos de Alegre, ES, ao seu alcance.</p>
 
             </div>
 
@@ -176,12 +101,10 @@
 
                 <h4>Navegação</h4>
 
-                <a href="espaco.html">Início</a>
-
+                <a href="landingpage.html">Início</a>
                 <a href="espaco.html">Espaços</a>
-
+                <a href="landingpage.html#como-funciona">Como funciona</a>
                 <a href="login.html">Entrar</a>
-
                 <a href="cadastro.html">Cadastre-se</a>
 
             </div>
@@ -190,8 +113,7 @@
 
                 <h4>Sobre</h4>
 
-                <p>Projeto desenvolvido por alunos da UFES.</p>
-
+                <p>Uma iniciativa dos alundos da UFES.</p>
                 <p>contato@agendaalegre.es.gov.br</p>
 
             </div>
@@ -199,39 +121,16 @@
         </div>
 
         <div class="footer-bottom">
-
             <p>&copy; 2026 Agenda Alegre. Todos os direitos reservados.</p>
-
         </div>
 
     </footer>
 
-    <!-- ================= JS ================= -->
-
-    <script>
-
-        const filtros = document.querySelectorAll(".filtro-btn");
-
-        filtros.forEach(botao => {
-
-            botao.addEventListener("click", () => {
-
-                filtros.forEach(btn => btn.classList.remove("active"));
-
-                botao.classList.add("active");
-
-                /*
-                    Aqui posteriormente será feita
-                    a chamada para filtrar os espaços
-                    vindos do banco de dados.
-                */
-
-            });
-
-        });
-
-    </script>
-
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../assets/js/api.js"></script>
+    <script src="../assets/js/utils.js"></script>
+    <script src="../assets/js/notificacao.js"></script>
+    <script src="../assets/js/espacos.js"></script>
     <script>
         lucide.createIcons();
     </script>

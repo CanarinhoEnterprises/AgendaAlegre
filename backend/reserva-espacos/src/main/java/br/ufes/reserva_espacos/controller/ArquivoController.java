@@ -1,6 +1,7 @@
 package br.ufes.reserva_espacos.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -31,12 +32,12 @@ public class ArquivoController {
     }
 
     @PostMapping
-    public ResponseEntity<Arquivo> cadastrar(@RequestBody @Valid CadastroArquivoDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastroArquivoDTO dto) {
         try {
             Arquivo arquivo = arquivoService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(arquivo);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
@@ -68,23 +69,23 @@ public class ArquivoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Arquivo> atualizar(@PathVariable Integer id,
+    public ResponseEntity<?> atualizar(@PathVariable Integer id,
             @RequestBody @Valid CadastroArquivoDTO dto) {
         try {
             Arquivo arquivo = arquivoService.atualizar(id, dto);
             return ResponseEntity.ok(arquivo);
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    public ResponseEntity<?> excluir(@PathVariable Integer id) {
         try {
             arquivoService.excluir(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 }

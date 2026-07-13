@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufes.reserva_espacos.dto.espacodto.CadastroEspacoDTO;
 import br.ufes.reserva_espacos.entity.Espaco;
+import br.ufes.reserva_espacos.enums.StatusEspaco;
 import br.ufes.reserva_espacos.service.EspacoService;
 
 @RestController
@@ -38,6 +40,16 @@ public class EspacoController {
 	@GetMapping("/{id}")
 	public Espaco buscarPorId(@PathVariable Integer id) {
 		return espacoService.buscarPorId(id);
+	}
+
+	@GetMapping("/status/{status}")
+	public List<Espaco> listarPorStatus(@PathVariable StatusEspaco status) {
+		return espacoService.listarPorStatus(status);
+	}
+
+	@PatchMapping("/{id}/status")
+	public Espaco alterarStatus(@PathVariable Integer id, @RequestBody StatusEspaco status) {
+		return espacoService.alterarStatus(id, status);
 	}
 
 	@DeleteMapping("/{id}")

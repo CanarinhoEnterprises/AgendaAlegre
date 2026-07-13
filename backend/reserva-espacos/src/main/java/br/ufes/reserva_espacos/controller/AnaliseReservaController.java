@@ -1,5 +1,7 @@
 package br.ufes.reserva_espacos.controller;
 
+import java.util.Map;
+
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,12 @@ public class AnaliseReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<AnaliseReserva> cadastrar(@RequestBody CadastroAnaliseReservaDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody CadastroAnaliseReservaDTO dto) {
         try {
             AnaliseReserva analise = analiseReservaService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(analise);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
         }
     }
 
@@ -55,22 +57,22 @@ public class AnaliseReservaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AnaliseReserva> atualizar(@PathVariable Integer id, @RequestBody CadastroAnaliseReservaDTO dto) {
+    public ResponseEntity<?> atualizar(@PathVariable Integer id, @RequestBody CadastroAnaliseReservaDTO dto) {
         try {
             AnaliseReserva analise = analiseReservaService.atualizar(id, dto);
             return ResponseEntity.ok(analise);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    public ResponseEntity<?> excluir(@PathVariable Integer id) {
         try {
             analiseReservaService.excluir(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 }

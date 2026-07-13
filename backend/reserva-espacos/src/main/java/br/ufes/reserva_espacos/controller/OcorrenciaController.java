@@ -1,6 +1,7 @@
 package br.ufes.reserva_espacos.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -28,12 +29,12 @@ public class OcorrenciaController {
     }
 
     @PostMapping
-    public ResponseEntity<Ocorrencia> cadastrar(@RequestBody CadastroOcorrenciaDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody CadastroOcorrenciaDTO dto) {
         try {
             Ocorrencia ocorrencia = ocorrenciaService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(ocorrencia);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
         }
     }
 
@@ -59,22 +60,22 @@ public class OcorrenciaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Ocorrencia> atualizar(@PathVariable Integer id, @RequestBody CadastroOcorrenciaDTO dto) {
+    public ResponseEntity<?> atualizar(@PathVariable Integer id, @RequestBody CadastroOcorrenciaDTO dto) {
         try {
             Ocorrencia ocorrencia = ocorrenciaService.atualizar(id, dto);
             return ResponseEntity.ok(ocorrencia);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id) {
+    public ResponseEntity<?> excluir(@PathVariable Integer id) {
         try {
             ocorrenciaService.excluir(id);
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("mensagem", e.getMessage()));
         }
     }
 }
