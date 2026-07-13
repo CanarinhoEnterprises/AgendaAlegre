@@ -56,17 +56,25 @@
         card.dataset.reservaId = reserva.idReserva;
         card.dataset.status = reserva.status;
 
+        const imagem = reserva.urlCapa
+    ? '<img src="' + escaparHtml(reserva.urlCapa) + '" alt="' + escaparHtml(reserva.nomeEspaco || "") + '">'
+    : ESPACO_ICONE_PADRAO;
+
         card.innerHTML =
-            '<div class="espaco-imagem">' + ESPACO_ICONE_PADRAO + '</div>' +
+            '<div class="espaco-imagem">' + imagem + '</div>' +
             '<div class="espaco-info">' +
-                (admin && reserva.nomeSolicitante ? '<span class="espaco-categoria">' + escaparHtml(reserva.nomeSolicitante) + '</span>' : '') +
+                (admin && reserva.nomeSolicitante
+                    ? '<span class="espaco-categoria">' + escaparHtml(reserva.nomeSolicitante) + '</span>'
+                    : '') +
                 '<h3>' + escaparHtml(reserva.nomeEspaco || "") + '</h3>' +
                 '<div class="reserva-data">' +
                     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>' +
                     '<span>' + formatarDataBr(reserva.dtUso) + ' · ' + formatarHora(reserva.horaInicio) + ' às ' + formatarHora(reserva.horaFim) + '</span>' +
                 '</div>' +
                 '<div class="espaco-rodape">' +
-                    '<span class="status ' + (RESERVA_STATUS_CLASSES[reserva.status] || "") + '">' + (RESERVA_STATUS_LABELS[reserva.status] || reserva.status) + '</span>' +
+                    '<span class="status ' + (RESERVA_STATUS_CLASSES[reserva.status] || "") + '">' +
+                        (RESERVA_STATUS_LABELS[reserva.status] || reserva.status) +
+                    '</span>' +
                     '<span class="reserva-acoes">' + acaoParaStatus(reserva) + '</span>' +
                 '</div>' +
             '</div>';

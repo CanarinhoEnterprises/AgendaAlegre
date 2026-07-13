@@ -22,6 +22,7 @@ public class ReservaResponseDTO {
     private LocalDateTime dtCancelamento;
     private LocalDateTime dtConfirmacao;
     private StatusReserva status;
+    private String urlCapa;
 
     public ReservaResponseDTO() {
     }
@@ -34,6 +35,7 @@ public class ReservaResponseDTO {
                 ? reserva.getSolicitante().getUsuario().getNome() : null;
         dto.idEspaco = reserva.getEspaco() != null ? reserva.getEspaco().getIdEspaco() : null;
         dto.nomeEspaco = reserva.getEspaco() != null ? reserva.getEspaco().getNome() : null;
+        dto.urlCapa = reserva.getEspaco() != null ? reserva.getEspaco().getUrlCapa() : null;
         dto.dtUso = reserva.getDtUso();
         dto.horaInicio = reserva.getHoraInicio();
         dto.horaFim = reserva.getHoraFim();
@@ -100,5 +102,8 @@ public class ReservaResponseDTO {
 
     public StatusReserva getStatus() {
         return status;
+    }
+    public String getUrlCapa() {
+        return urlCapa;
     }
 }
