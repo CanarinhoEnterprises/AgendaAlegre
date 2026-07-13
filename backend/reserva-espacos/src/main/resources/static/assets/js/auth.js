@@ -4,6 +4,11 @@ function pegarToken(){
 
 }
 
+function pegarIdUsuario(){
+
+    return localStorage.getItem("idUsuario");
+
+}
 
 function pegarPayload(){
 

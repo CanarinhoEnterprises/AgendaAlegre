@@ -37,6 +37,8 @@ async function fazerLogin(event){
 
     const usuario = await resposta.json();
 
+    localStorage.setItem("idUsuario", usuario.id);
+
     localStorage.setItem("token", usuario.token);
 
     if (typeof salvarUsuarioLogado === "function") {

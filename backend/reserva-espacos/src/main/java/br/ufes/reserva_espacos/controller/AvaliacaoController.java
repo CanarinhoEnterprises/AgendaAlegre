@@ -54,7 +54,6 @@ public class AvaliacaoController {
 }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMINISTRADOR')")
     public ResponseEntity<List<AvaliacaoResponseDTO>> listarTodas() {
         return ResponseEntity.ok(avaliacaoService.buscarTodas());
     }
