@@ -91,4 +91,14 @@ public class ReservaController {
 			return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
 		}
 	}
+
+	@PutMapping("/{id}/cancelar-admin")
+	public ResponseEntity<?> cancelarComoAdministrador(@PathVariable Integer id) {
+		try {
+			Reserva reserva = reservaService.cancelarComoAdministrador(id);
+			return ResponseEntity.ok(reserva);
+		} catch (RuntimeException e) {
+			return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
+		}
+	}
 }

@@ -10,14 +10,18 @@ import org.springframework.stereotype.Service;
 import br.ufes.reserva_espacos.dto.reservadto.CadastroReservaDTO;
 import br.ufes.reserva_espacos.dto.reservadto.CancelarReservaDTO;
 import br.ufes.reserva_espacos.dto.reservadto.ReservaResponseDTO;
+import br.ufes.reserva_espacos.entity.Administrador;
 import br.ufes.reserva_espacos.entity.Espaco;
 import br.ufes.reserva_espacos.entity.Reserva;
 import br.ufes.reserva_espacos.entity.Solicitante;
+import br.ufes.reserva_espacos.entity.Usuario;
 import br.ufes.reserva_espacos.enums.StatusEspaco;
 import br.ufes.reserva_espacos.enums.StatusReserva;
+import br.ufes.reserva_espacos.repositories.AdministradorRepository;
 import br.ufes.reserva_espacos.repositories.EspacoRepository;
 import br.ufes.reserva_espacos.repositories.ReservaRepository;
 import br.ufes.reserva_espacos.repositories.SolicitanteRepository;
+import br.ufes.reserva_espacos.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -26,13 +30,16 @@ public class ReservaService {
 	private final ReservaRepository reservaRepository;
 	private final SolicitanteRepository solicitanteRepository;
 	private final EspacoRepository espacoRepository;
+	private final AdministradorRepository administradorRepository;
+
 
 	public ReservaService(ReservaRepository reservaRepository,
 			SolicitanteRepository solicitanteRepository,
-			EspacoRepository espacoRepository) {
+			EspacoRepository espacoRepository,AdministradorRepository administradorRepository) {
 		this.reservaRepository = reservaRepository;
 		this.solicitanteRepository = solicitanteRepository;
 		this.espacoRepository = espacoRepository;
+		this.administradorRepository = administradorRepository;
 	}
 
 	@Transactional
@@ -108,9 +115,20 @@ public class ReservaService {
 	public Reserva cancelar(Integer id, CancelarReservaDTO dto) {
 		Reserva reserva = buscarPorId(id);
 
-		if (dto.getIdSolicitante() == null || reserva.getSolicitante() == null
-				|| !dto.getIdSolicitante().equals(reserva.getSolicitante().getId())) {
-			throw new RuntimeException("Apenas o solicitante que fez a reserva pode cancelá-la.");
+
+		boolean administrador = administradorRepository.existsById(dto.getIdSolicitante());
+
+		if (administrador) {
+			// É administrador
+		}
+		else {
+			if (dto.getIdSolicitante() == null
+					|| reserva.getSolicitante() == null
+					|| !dto.getIdSolicitante().equals(reserva.getSolicitante().getId())) {
+
+				throw new RuntimeException(
+						"Apenas o solicitante que fez a reserva pode cancelá-la.");
+			}
 		}
 
 		if (reserva.getStatus() == StatusReserva.CANCELADA) {
@@ -123,6 +141,20 @@ public class ReservaService {
 
 		reserva.setStatus(StatusReserva.CANCELADA);
 		reserva.setDtCancelamento(LocalDateTime.now());
+		return reservaRepository.save(reserva);
+	}
+
+	@Transactional
+	public Reserva cancelarComoAdministrador(Integer id) {
+		Reserva reserva = buscarPorId(id);
+
+		if (reserva.getStatus() == StatusReserva.CANCELADA) {
+			throw new RuntimeException("Reserva já está cancelada.");
+		}
+
+		reserva.setStatus(StatusReserva.CANCELADA);
+		reserva.setDtCancelamento(LocalDateTime.now());
+
 		return reservaRepository.save(reserva);
 	}
 
