@@ -35,6 +35,7 @@ public class ReservaController {
 	@PostMapping
 	public ResponseEntity<?> cadastrar(@RequestBody CadastroReservaDTO dto) {
 		try {
+			
 			Reserva reserva = reservaService.cadastrar(dto);
 			return ResponseEntity.status(HttpStatus.CREATED).body(ReservaResponseDTO.fromEntity(reserva));
 		} catch (RuntimeException e) {

@@ -37,6 +37,13 @@ public class ReservaService {
 
 	@Transactional
 	public Reserva cadastrar(CadastroReservaDTO dto) {
+
+
+		if (reservaRepository.existsByEspaco_IdEspacoAndDtUsoAndStatusAndHoraInicioLessThanAndHoraFimGreaterThan(
+				dto.getIdEspaco(), dto.getDtUso(), StatusReserva.APROVADA, dto.getHoraFim(), dto.getHoraInicio())) {
+			throw new RuntimeException("Já existe uma reserva para este espaço no mesmo horário.");
+		}
+
 		Solicitante solicitante = solicitanteRepository.findById(dto.getIdSolicitante())
 				.orElseThrow(() -> new RuntimeException("Solicitante não encontrado."));
 
