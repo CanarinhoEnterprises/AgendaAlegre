@@ -40,9 +40,7 @@
                     Início
                 </a>
 
-                <a href="../landingpage.html" class="cadastro-btn">
-                    Sair
-                </a>
+                <button onclick="logout()" class="cadastro-btn">Sair</button>
 
             </nav>
 
@@ -226,17 +224,18 @@
     <script>
         lucide.createIcons();
     </script>
-    <script src="/js/auth.js"></script>
+    
+    <script src="../../assets/js/auth.js"></script>
 
-<script>
+    <script>
 
-if(!possuiRole("SOLICITANTE")){
+        if(!possuiRole("SOLICITANTE")){
 
-    window.location.href = "../login.html";
+            window.location.href = "../login.html";
 
-}
+        }
 
-</script>
+    </script>
 
 </body>
 
