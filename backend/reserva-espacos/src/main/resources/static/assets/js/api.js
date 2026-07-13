@@ -1,66 +1,58 @@
-
 const API_URL = "http://localhost:8081";
 
-async function post(url, dados){
+// Função auxiliar para pegar os cabeçalhos com o Token
+function obterHeaders() {
+    const headers = {
+        "Content-Type": "application/json"
+    };
+    
+    // Pega o token gerado no login
+    const token = localStorage.getItem("token");
+    if (token) {
+        headers["Authorization"] = "Bearer " + token;
+    }
+    
+    return headers;
+}
 
+async function post(url, dados) {
     const resposta = await fetch(API_URL + url, {
         method: "POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
+        headers: obterHeaders(),
         body: JSON.stringify(dados)
     });
-
     return resposta;
 }
 
-async function put(url, dados){
-
+async function put(url, dados) {
     const resposta = await fetch(API_URL + url, {
         method: "PUT",
-        credentials: "include",
-        headers:{
-            "Content-Type":"application/json"
-        },
+        headers: obterHeaders(),
         body: JSON.stringify(dados)
     });
-
     return resposta;
 }
 
-async function patch(url, dados){
-
+async function patch(url, dados) {
     const resposta = await fetch(API_URL + url, {
         method: "PATCH",
-        credentials: "include",
-        headers:{
-            "Content-Type":"application/json"
-        },
+        headers: obterHeaders(),
         body: JSON.stringify(dados)
     });
-
     return resposta;
 }
 
-async function get(url){
-
+async function get(url) {
     return fetch(API_URL + url, {
         method: "GET",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: obterHeaders()
     });
 }
 
-async function del(url){
-
+async function del(url) {
     return fetch(API_URL + url, {
         method: "DELETE",
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: obterHeaders()
     });
 }
 
@@ -321,4 +313,52 @@ async function apiRejeitarReserva(idReserva, idAdministrador, motivo){
     }
 
     return lerCorpo(resposta);
+}
+
+async function apiExcluirEspaco(idEspaco) {
+    const resposta = await del("/espacos/" + idEspaco);
+    if (!resposta.ok) {
+        throw new Error(await mensagemDeErro(resposta, "Não foi possível excluir o espaço."));
+    }
+}
+
+async function apiAtualizarEspaco(idEspaco, dados) {
+    const resposta = await put("/espacos/" + idEspaco, dados);
+
+    if (!resposta.ok) {
+        throw new Error(await mensagemDeErro(resposta, "Não foi possível atualizar o espaço."));
+    }
+
+    return lerCorpo(resposta);
+}
+
+async function apiListarAvaliacoesPorSolicitante(idSolicitante){
+
+    const resposta = await get("/avaliacoes/solicitante/" + idSolicitante);
+
+    if (!resposta.ok) {
+        throw new Error(await mensagemDeErro(resposta, "Não foi possível carregar suas avaliações."));
+    }
+
+    return lerCorpo(resposta);
+}
+
+async function apiCriarAvaliacao(dados){
+
+    const resposta = await post("/avaliacoes", dados);
+
+    if (!resposta.ok) {
+        throw new Error(await mensagemDeErro(resposta, "Não foi possível enviar a avaliação."));
+    }
+
+    return lerCorpo(resposta);
+}
+
+async function apiExcluirAvaliacao(idAvaliacao){
+
+    const resposta = await del("/avaliacoes/" + idAvaliacao);
+
+    if (!resposta.ok) {
+        throw new Error(await mensagemDeErro(resposta, "Não foi possível excluir a avaliação."));
+    }
 }

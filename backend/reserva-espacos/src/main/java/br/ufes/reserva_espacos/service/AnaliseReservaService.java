@@ -9,43 +9,66 @@ import br.ufes.reserva_espacos.dto.analisereservadto.CadastroAnaliseReservaDTO;
 import br.ufes.reserva_espacos.entity.Administrador;
 import br.ufes.reserva_espacos.entity.AnaliseReserva;
 import br.ufes.reserva_espacos.entity.Reserva;
+import br.ufes.reserva_espacos.enums.StatusReserva;
 import br.ufes.reserva_espacos.repositories.AdministradorRepository;
 import br.ufes.reserva_espacos.repositories.AnaliseReservaRepository;
 import br.ufes.reserva_espacos.repositories.ReservaRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class AnaliseReservaService {
     private final AnaliseReservaRepository analiseReservaRepository;
     private final ReservaRepository reservaRepository;
     private final AdministradorRepository administradorRepository;
+    private final ReservaService reservaService;
 
     public AnaliseReservaService(AnaliseReservaRepository analiseReservaRepository, ReservaRepository reservaRepository,
-                                  AdministradorRepository administradorRepository) {
+                                  AdministradorRepository administradorRepository, ReservaService reservaService) {
         this.analiseReservaRepository = analiseReservaRepository;
         this.reservaRepository = reservaRepository;
         this.administradorRepository = administradorRepository;
+        this.reservaService = reservaService;
     }
 
+    @Transactional
     public AnaliseReserva cadastrar(CadastroAnaliseReservaDTO dto) {
         validarAnaliseReserva(dto);
 
-        Optional<Reserva> reserva = reservaRepository.findById(dto.getIdReserva());
-        if (reserva.isEmpty()) {
-            throw new RuntimeException("Reserva não encontrada");
+        Reserva reserva = reservaRepository.findById(dto.getIdReserva())
+                .orElseThrow(() -> new RuntimeException("Reserva não encontrada"));
+
+        if (reserva.getStatus() != StatusReserva.EM_ANALISE) {
+            throw new RuntimeException("Reserva não está em análise");
         }
 
-        Optional<Administrador> admin = administradorRepository.findById(dto.getIdAdministrador());
-        if (admin.isEmpty()) {
-            throw new RuntimeException("Administrador não encontrado");
+        if (analiseReservaRepository.findByReserva_IdReserva(dto.getIdReserva()).isPresent()) {
+            throw new RuntimeException("Reserva já possui uma análise");
+        }
+
+        Administrador admin = administradorRepository.findById(dto.getIdAdministrador())
+                .orElseThrow(() -> new RuntimeException("Administrador não encontrado"));
+
+        LocalDate dtAnalise = dto.getDtAnalise() != null ? dto.getDtAnalise() : LocalDate.now();
+
+        if (Boolean.FALSE.equals(dto.getAprovado()) && (dto.getObservacao() == null || dto.getObservacao().trim().isEmpty())) {
+            throw new RuntimeException("O motivo da rejeição é obrigatório.");
         }
 
         AnaliseReserva analise = new AnaliseReserva();
         analise.setObservacao(dto.getObservacao());
-        analise.setDtAnalise(dto.getDtAnalise() != null ? dto.getDtAnalise() : LocalDate.now());
-        analise.setReserva(reserva.get());
-        analise.setAdministrador(admin.get());
+        analise.setDtAnalise(dtAnalise);
+        analise.setReserva(reserva);
+        analise.setAdministrador(admin);
 
-        return analiseReservaRepository.save(analise);
+        AnaliseReserva salva = analiseReservaRepository.save(analise);
+
+        if (Boolean.TRUE.equals(dto.getAprovado())) {
+            reservaService.aprovar(reserva);
+        } else {
+            reservaService.rejeitar(reserva);
+        }
+
+        return salva;
     }
 
     public Optional<AnaliseReserva> consultarPorReserva(Integer idReserva) {
@@ -91,6 +114,9 @@ public class AnaliseReservaService {
         }
         if (dto.getIdAdministrador() == null) {
             throw new RuntimeException("ID do administrador é obrigatório");
+        }
+        if (dto.getAprovado() == null) {
+            throw new RuntimeException("É necessário informar se a reserva foi aprovada ou rejeitada");
         }
     }
 }

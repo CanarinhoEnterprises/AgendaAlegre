@@ -164,7 +164,6 @@
         const areaAcao = card.querySelector(".acao-espaco");
 
         if (!paginaLogada) {
-
             const link = document.createElement("a");
             link.href = "login.html";
             link.className = "btn-reservar";
@@ -172,11 +171,29 @@
             areaAcao.appendChild(link);
 
         } else if (ehAdministrador()) {
+            
+            const btnEditar = document.createElement("button");
+            btnEditar.type = "button";
+            btnEditar.className = "btn-reservar"; 
+            btnEditar.style.marginRight = "8px";
+            btnEditar.textContent = "Editar";
+            btnEditar.addEventListener("click", function () {
+                window.location.href = "cadastroEspaco.html?id=" + espaco.idEspaco;
+            });
 
-            // Administrador apenas consulta os espaços nesta tela.
+            const btnExcluir = document.createElement("button");
+            btnExcluir.type = "button";
+            btnExcluir.className = "btn-cancelar"; // <--- Trocado! Vai puxar o estilo vermelho existente
+            btnExcluir.textContent = "Excluir";
+            btnExcluir.addEventListener("click", function () {
+                confirmarExclusaoEspaco(espaco);
+            });
+
+            areaAcao.appendChild(btnEditar);
+            areaAcao.appendChild(btnExcluir);
 
         } else if (!disponivel) {
-
+            
             const botao = document.createElement("button");
             botao.type = "button";
             botao.className = "btn-reservar btn-desabilitado";
@@ -185,16 +202,14 @@
             areaAcao.appendChild(botao);
 
         } else {
-
+            
             const botao = document.createElement("button");
             botao.type = "button";
             botao.className = "btn-reservar";
             botao.textContent = "Reservar";
-
             botao.addEventListener("click", function () {
                 abrirModalReserva(espaco);
             });
-
             areaAcao.appendChild(botao);
         }
 
@@ -369,6 +384,80 @@
         } finally {
             botao.disabled = false;
             botao.textContent = "Solicitar reserva";
+        }
+    }
+
+    let modalExclusaoEspaco = null;
+    let espacoParaExcluir = null;
+
+    function garantirModalExclusaoEspaco() {
+        if (modalExclusaoEspaco) return modalExclusaoEspaco;
+
+        const overlay = document.createElement("div");
+        overlay.className = "modal-overlay";
+        overlay.id = "modal-excluir-espaco";
+
+        overlay.innerHTML =
+            '<div class="modal-caixa">' +
+                '<button type="button" class="modal-fechar" aria-label="Fechar">&times;</button>' +
+                '<h2>Excluir Espaço</h2>' +
+                '<p class="modal-subtitulo" id="modal-excluir-espaco-texto"></p>' +
+                '<div class="modal-acoes">' +
+                    '<button type="button" class="modal-btn modal-btn-cancelar" id="excluir-espaco-cancelar">Cancelar</button>' +
+                    '<button type="button" class="modal-btn modal-btn-perigo" id="excluir-espaco-confirmar">Excluir espaço</button>' +
+                '</div>' +
+            '</div>';
+
+        document.body.appendChild(overlay);
+
+        overlay.addEventListener("click", function (evento) {
+            if (evento.target === overlay) {
+                overlay.classList.remove("aberto");
+            }
+        });
+
+        overlay.querySelector(".modal-fechar").addEventListener("click", () => overlay.classList.remove("aberto"));
+        overlay.querySelector("#excluir-espaco-cancelar").addEventListener("click", () => overlay.classList.remove("aberto"));
+        
+        // Ação de confirmar exclusão
+        overlay.querySelector("#excluir-espaco-confirmar").addEventListener("click", efetivarExclusaoEspaco);
+
+        modalExclusaoEspaco = overlay;
+        return overlay;
+    }
+
+    function confirmarExclusaoEspaco(espaco) {
+        espacoParaExcluir = espaco;
+        const overlay = garantirModalExclusaoEspaco();
+        
+        overlay.querySelector("#modal-excluir-espaco-texto").textContent =
+            'Tem certeza que deseja excluir permanentemente o espaço "' + espaco.nome + '"? Esta ação não pode ser desfeita.';
+            
+        overlay.classList.add("aberto");
+    }
+
+    async function efetivarExclusaoEspaco() {
+        if (!espacoParaExcluir) return;
+
+        const botao = document.getElementById("excluir-espaco-confirmar");
+        botao.disabled = true;
+        botao.textContent = "Excluindo...";
+
+        try {
+            await apiExcluirEspaco(espacoParaExcluir.idEspaco);
+            
+            notificar("Espaço excluído com sucesso.", "sucesso");
+            modalExclusaoEspaco.classList.remove("aberto");
+            
+            // Recarrega a grade de espaços na tela para sumir com o card
+            carregarEspacos(); 
+
+        } catch (erro) {
+            notificar(erro.message, "erro");
+        } finally {
+            botao.disabled = false;
+            botao.textContent = "Excluir espaço";
+            espacoParaExcluir = null;
         }
     }
 

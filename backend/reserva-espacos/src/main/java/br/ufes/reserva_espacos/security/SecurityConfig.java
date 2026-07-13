@@ -53,7 +53,8 @@ public class SecurityConfig {
                 .requestMatchers("/tipos-espaco/**").permitAll()
                 .requestMatchers("/recursos-acessibilidade/**").permitAll()
                 .requestMatchers("/usuarios/admin").hasRole("ADMINISTRADOR")
-
+                .requestMatchers("/favicon.ico").permitAll()
+                .requestMatchers("/avaliacoes/**").authenticated()
                 .anyRequest().authenticated()
             )
 
@@ -71,4 +72,6 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
 }

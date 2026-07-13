@@ -7,15 +7,17 @@ public class CadastroAnaliseReservaDTO {
     private LocalDate dtAnalise;
     private Integer idReserva;
     private Integer idAdministrador;
+    private Boolean aprovado;
 
     public CadastroAnaliseReservaDTO() {
     }
 
-    public CadastroAnaliseReservaDTO(String observacao, LocalDate dtAnalise, Integer idReserva, Integer idAdministrador) {
+    public CadastroAnaliseReservaDTO(String observacao, LocalDate dtAnalise, Integer idReserva, Integer idAdministrador, Boolean aprovado) {
         this.observacao = observacao;
         this.dtAnalise = dtAnalise;
         this.idReserva = idReserva;
         this.idAdministrador = idAdministrador;
+        this.aprovado = aprovado;
     }
 
     public String getObservacao() {
@@ -48,5 +50,13 @@ public class CadastroAnaliseReservaDTO {
 
     public void setIdAdministrador(Integer idAdministrador) {
         this.idAdministrador = idAdministrador;
+    }
+
+    public Boolean getAprovado() {
+        return aprovado;
+    }
+
+    public void setAprovado(Boolean aprovado) {
+        this.aprovado = aprovado;
     }
 }

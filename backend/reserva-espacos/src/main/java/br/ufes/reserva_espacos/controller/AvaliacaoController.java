@@ -1,9 +1,11 @@
 package br.ufes.reserva_espacos.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufes.reserva_espacos.dto.avaliacaodto.AvaliacaoResponseDTO;
 import br.ufes.reserva_espacos.dto.avaliacaodto.CadastroAvaliacaoDTO;
 import br.ufes.reserva_espacos.entity.Avaliacao;
 import br.ufes.reserva_espacos.service.AvaliacaoService;
@@ -43,6 +46,17 @@ public class AvaliacaoController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(avaliacao.get());
+    }
+
+    @GetMapping("/solicitante/{idSolicitante}")
+    public ResponseEntity<List<AvaliacaoResponseDTO>> listarPorSolicitante(@PathVariable Integer idSolicitante) {
+    return ResponseEntity.ok(avaliacaoService.buscarPorSolicitante(idSolicitante));
+}
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMINISTRADOR')")
+    public ResponseEntity<List<AvaliacaoResponseDTO>> listarTodas() {
+        return ResponseEntity.ok(avaliacaoService.buscarTodas());
     }
 
     @GetMapping("/{id}")

@@ -123,3 +123,22 @@
     font-size: 12px;
 
 }
+
+/* Estilo para o botão de detalhes */
+.btn-detalhes {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-right: 8px; /* Espaçamento entre ele e o botão de cancelar */
+}
+
+.btn-detalhes:hover {
+    background-color: #e0e0e0;
+    border-color: #ccc;
+}

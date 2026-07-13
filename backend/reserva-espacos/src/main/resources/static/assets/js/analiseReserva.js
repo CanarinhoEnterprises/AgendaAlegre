@@ -60,28 +60,47 @@
     function criarCardAnalise(reserva) {
 
         const card = document.createElement("article");
-        card.className = "espaco-card";
+        card.className = "card-reserva"; // Agora bate perfeitamente com o analiseReserva.css
         card.dataset.reservaId = reserva.idReserva;
 
         card.innerHTML =
-            '<div class="espaco-imagem">' + ESPACO_ICONE_PADRAO + '</div>' +
-            '<div class="espaco-info">' +
-                '<h3>' + escaparHtml(reserva.nomeEspaco || "") + '</h3>' +
-                '<div class="reserva-data">' +
-                    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>' +
-                    '<span>' + formatarDataBr(reserva.dtUso) + ' · ' + formatarHora(reserva.horaInicio) + ' às ' + formatarHora(reserva.horaFim) + '</span>' +
+            '<div class="card-header">' +
+                '<div>' +
+                    '<span class="status pendente">Pendente</span>' +
+                    '<h2>' + escaparHtml(reserva.nomeEspaco || "") + '</h2>' +
+                    '<p class="usuario">Solicitação realizada por <strong>' + escaparHtml(reserva.nomeSolicitante || "Usuário não identificado") + '</strong></p>' +
                 '</div>' +
-                '<div class="analise-info">' +
-                    (reserva.nomeSolicitante ? '<p><strong>Solicitante:</strong> ' + escaparHtml(reserva.nomeSolicitante) + '</p>' : '') +
-                    (reserva.qtdPessoas ? '<p><strong>Participantes previstos:</strong> ' + escaparHtml(reserva.qtdPessoas) + '</p>' : '') +
-                    (reserva.finalidade ? '<p><strong>Finalidade:</strong> ' + escaparHtml(reserva.finalidade) + '</p>' : '') +
+            '</div>' +
+            '<div class="detalhes">' +
+                '<div class="linha">' +
+                    '<div class="item">' +
+                        '<span>Data da Reserva</span>' +
+                        '<strong>' + formatarDataBr(reserva.dtUso) + '</strong>' +
+                    '</div>' +
+                    '<div class="item">' +
+                        '<span>Horário</span>' +
+                        '<strong>' + formatarHora(reserva.horaInicio) + ' às ' + formatarHora(reserva.horaFim) + '</strong>' +
+                    '</div>' +
                 '</div>' +
-                '<div class="espaco-rodape analise-rodape">' +
-                    '<button type="button" class="modal-btn modal-btn-confirmar btn-aprovar" data-reserva-id="' + reserva.idReserva + '">Aprovar</button>' +
-                    '<button type="button" class="modal-btn modal-btn-perigo btn-rejeitar" data-reserva-id="' + reserva.idReserva + '">Rejeitar</button>' +
+                '<div class="linha">' +
+                    '<div class="item">' +
+                        '<span>Finalidade</span>' +
+                        '<strong>' + escaparHtml(reserva.finalidade || "Não informada") + '</strong>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="linha">' +
+                    '<div class="item">' +
+                        '<span>Participantes previstos</span>' +
+                        '<strong>' + escaparHtml(reserva.qtdPessoas || "-") + ' pessoas</strong>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="acoes">' +
+                    '<button type="button" class="btn-aceitar btn-aprovar" data-reserva-id="' + reserva.idReserva + '">Aceitar Reserva</button>' +
+                    '<button type="button" class="btn-recusar btn-rejeitar" data-reserva-id="' + reserva.idReserva + '">Recusar Reserva</button>' +
                 '</div>' +
             '</div>';
 
+        // Os botões continuam executando as funções corretas de API
         card.querySelector(".btn-aprovar").addEventListener("click", function () {
             aprovarReserva(reserva);
         });

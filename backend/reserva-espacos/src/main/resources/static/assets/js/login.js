@@ -37,10 +37,13 @@ async function fazerLogin(event){
 
     const usuario = await resposta.json();
 
-    localStorage.setItem(
-        "token",
-        usuario.token
-    );
+    localStorage.setItem("token", usuario.token);
+
+    if (typeof salvarUsuarioLogado === "function") {
+        salvarUsuarioLogado(usuario);
+    } else {
+        localStorage.setItem("agendaAlegre.usuario", JSON.stringify(usuario));
+    }
 
     if(usuario.tipo === "ADMINISTRADOR"){
         window.location.href = "/pages/admin/espacoAdmin.html";

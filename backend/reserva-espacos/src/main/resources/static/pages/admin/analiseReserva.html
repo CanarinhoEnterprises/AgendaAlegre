@@ -12,6 +12,9 @@
     <link rel="stylesheet" href="../../assets/css/header.css">
     <link rel="stylesheet" href="../../assets/css/espaco.css">
     <link rel="stylesheet" href="../../assets/css/analiseReserva.css">
+    
+    <link rel="stylesheet" href="../../assets/css/modal.css">
+    <link rel="stylesheet" href="../../assets/css/notificacao.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -99,225 +102,11 @@
 
             </section>
 
-            <!-- Solicitações -->
-
-            <section class="lista-reservas">
-
-                <!-- CARD 1 -->
-
-                <article class="card-reserva">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <span class="status pendente">
-                                Pendente
-                            </span>
-
-                            <h2>Quadra Poliesportiva Central</h2>
-
-                            <p class="usuario">
-                                Solicitação realizada por <strong>João Pedro Silva</strong>
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="detalhes">
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Data da Reserva</span>
-
-                                <strong>18/07/2026</strong>
-
-                            </div>
-
-                            <div class="item">
-
-                                <span>Horário</span>
-
-                                <strong>08:00 às 10:00</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Finalidade</span>
-
-                                <strong>Treino da equipe municipal de vôlei.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Equipamentos Solicitados</span>
-
-                                <strong>Rede, bolas oficiais e placar eletrônico.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Recursos de Acessibilidade</span>
-
-                                <strong>Rampa de acesso.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Observações</span>
-
-                                <strong>Necessário abrir o depósito de materiais esportivos.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="acoes">
-
-                            <button class="btn-aceitar">
-                                Aceitar Reserva
-                            </button>
-
-                            <button class="btn-recusar">
-                                Recusar Reserva
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-                <!-- CARD 2 -->
-
-                <article class="card-reserva">
-
-                    <div class="card-header">
-
-                        <div>
-
-                            <span class="status pendente">
-                                Pendente
-                            </span>
-
-                            <h2>Auditório Municipal</h2>
-
-                            <p class="usuario">
-                                Solicitação realizada por <strong>Maria Oliveira</strong>
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="detalhes">
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Data da Reserva</span>
-
-                                <strong>20/07/2026</strong>
-
-                            </div>
-
-                            <div class="item">
-
-                                <span>Horário</span>
-
-                                <strong>19:00 às 22:00</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Finalidade</span>
-
-                                <strong>Palestra sobre empreendedorismo.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Equipamentos Solicitados</span>
-
-                                <strong>Projetor multimídia, microfone e caixa de som.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Recursos de Acessibilidade</span>
-
-                                <strong>Intérprete de Libras.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="linha">
-
-                            <div class="item">
-
-                                <span>Observações</span>
-
-                                <strong>Evento aberto ao público.</strong>
-
-                            </div>
-
-                        </div>
-
-                        <div class="acoes">
-
-                            <button class="btn-aceitar">
-                                Aceitar Reserva
-                            </button>
-
-                            <button class="btn-recusar">
-                                Recusar Reserva
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                </article>
+            <section class="lista-reservas" id="lista-analise">
+                
+                <p id="sem-pendentes" style="display: none; text-align: center; color: #666; margin-top: 2rem;">
+                    Não há reservas aguardando análise no momento.
+                </p>
 
             </section>
 
@@ -383,22 +172,23 @@
 
     </footer>
 
+    
+    <script src="../../assets/js/api.js"></script>
+    <script src="../../assets/js/utils.js"></script>
+    <script src="../../assets/js/notificacao.js"></script>
+    
     <script>
         lucide.createIcons();
     </script>
-
     <script src="../../assets/js/auth.js"></script>
 
     <script>
-
-    if(!possuiRole("ADMINISTRADOR")){
-
-        window.location.href = "../login.html";
-
-    }
-
+        if(!possuiRole("ADMINISTRADOR")){
+            window.location.href = "../login.html";
+        }
     </script>
 
-</body>
+    <script src="../../assets/js/analiseReserva.js"></script>
 
+</body>
 </html>

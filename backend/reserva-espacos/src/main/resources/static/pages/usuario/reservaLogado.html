@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../../assets/css/header.css">
     <link rel="stylesheet" href="../../assets/css/espaco.css">
     <link rel="stylesheet" href="../../assets/css/reservaLogado.css">
+    <link rel="stylesheet" href="../../assets/css/modal.css">
+    <link rel="stylesheet" href="../../assets/css/notificacao.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -92,32 +94,18 @@
 
             <!-- Filtros por status -->
 
+            <!-- Filtros por status -->
             <section class="filtros-wrap">
-
                 <div class="filtros">
-
-                    <button class="filtro-btn active" data-status="todas">
-                        Todas
-                    </button>
-
-                    <button class="filtro-btn" data-status="CONFIRMADA">
-                        Confirmadas
-                    </button>
-
-                    <button class="filtro-btn" data-status="PENDENTE">
-                        Pendentes
-                    </button>
-
-                    <button class="filtro-btn" data-status="CONCLUIDA">
-                        Concluídas
-                    </button>
-
-                    <button class="filtro-btn" data-status="CANCELADA">
-                        Canceladas
-                    </button>
-
+                    <button class="filtro-btn active" data-status="todas">Todas</button>
+                    <button class="filtro-btn" data-status="DOCUMENTOS_PENDENTES">Documentos pendentes</button>
+                    <button class="filtro-btn" data-status="EM_ANALISE">Em análise</button>
+                    <button class="filtro-btn" data-status="APROVADA">Aprovada</button>
+                    <button class="filtro-btn" data-status="AGUARDANDO_TERMO">Aguardando termo</button>
+                    <button class="filtro-btn" data-status="CONFIRMADA">Confirmada</button>
+                    <button class="filtro-btn" data-status="REJEITADA">Rejeitada</button>
+                    <button class="filtro-btn" data-status="CANCELADA">Cancelada</button>
                 </div>
-
             </section>
 
             <!-- Reservas carregadas pelo JS -->
@@ -138,10 +126,10 @@
 
             </div>
 
-            <p class="espacos-nota">
+            <!-- <p class="espacos-nota">
                 * Reservas de exemplo — serão substituídas pelos dados reais
                 assim que o endpoint <code>/api/reservas/minhas</code> estiver pronto.
-            </p>
+            </p> -->
 
         </section>
 
@@ -203,91 +191,7 @@
 
     </footer>
 
-    <!-- ================= JS ================= -->
-
     <script>
-
-        /*
-            FORMATO ESPERADO DO BACKEND
-            GET /api/reservas/minhas  (usuário identificado pela sessão/token)
-
-            Resposta esperada, um array de objetos assim:
-            [
-              {
-                "id": "3f2a1c9e-...",              // uuid da reserva, usado pra cancelar
-                "espacoId": "9b7e...",             // uuid do espaço
-                "espacoNome": "Quadra Poliesportiva Central",
-                "categoria": "quadras",            // quadras | parques | saloes | auditorios
-                "localizacao": "Centro, Alegre - ES",
-                "data": "2026-07-25",              // yyyy-mm-dd (LocalDate)
-                "horarioInicio": "10:00",
-                "horarioFim": "11:00",
-                "status": "CONFIRMADA"             // PENDENTE | CONFIRMADA | CONCLUIDA | CANCELADA
-              }
-            ]
-
-            Isso bate com a entidade Reserva (usuario_id vem implícito da sessão).
-        */
-
-        // ---- MOCK: remover quando a API estiver pronta ----
-        let reservas = [
-            {
-                id: "res-001",
-                espacoId: "esp-001",
-                espacoNome: "Quadra Poliesportiva Central",
-                categoria: "quadras",
-                localizacao: "Centro, Alegre - ES",
-                data: "2026-07-25",
-                horarioInicio: "10:00",
-                horarioFim: "11:00",
-                status: "CONFIRMADA"
-            },
-            {
-                id: "res-002",
-                espacoId: "esp-002",
-                espacoNome: "Quadra do Bairro Boa Vista",
-                categoria: "quadras",
-                localizacao: "Boa Vista, Alegre - ES",
-                data: "2026-07-30",
-                horarioInicio: "17:00",
-                horarioFim: "18:00",
-                status: "PENDENTE"
-            },
-            {
-                id: "res-003",
-                espacoId: "esp-003",
-                espacoNome: "Parque Municipal",
-                categoria: "parques",
-                localizacao: "Centro, Alegre - ES",
-                data: "2026-07-18",
-                horarioInicio: "09:00",
-                horarioFim: "10:00",
-                status: "PENDENTE"
-            },
-            {
-                id: "res-004",
-                espacoId: "esp-004",
-                espacoNome: "Salão Comunitário São José",
-                categoria: "saloes",
-                localizacao: "São José, Alegre - ES",
-                data: "2026-06-14",
-                horarioInicio: "15:00",
-                horarioFim: "17:00",
-                status: "CONCLUIDA"
-            },
-            {
-                id: "res-005",
-                espacoId: "esp-005",
-                espacoNome: "Auditório Municipal",
-                categoria: "auditorios",
-                localizacao: "Centro, Alegre - ES",
-                data: "2026-06-02",
-                horarioInicio: "19:00",
-                horarioFim: "21:00",
-                status: "CANCELADA"
-            }
-        ];
-        // ---- fim do mock ----
 
         const listaReservas = document.getElementById("lista-reservas");
         const semReservas = document.getElementById("sem-reservas");
@@ -438,11 +342,22 @@
 
     </script>
 
-    <script>
-        lucide.createIcons();
-    </script>
+        <script src="../../assets/js/api.js"></script>
+        <script src="../../assets/js/utils.js"></script>
+        <script src="../../assets/js/notificacao.js"></script>
+        <script src="../../assets/js/auth.js"></script>
 
-    <script src="../../assets/js/auth.js"></script>
+        <script>
+            if (!possuiRole("SOLICITANTE")) {
+                window.location.href = "../login.html";
+            }
+        </script>
+
+        <script>
+            lucide.createIcons();
+        </script>
+
+        <script src="../../assets/js/reservas.js"></script>
 
     <script>
 

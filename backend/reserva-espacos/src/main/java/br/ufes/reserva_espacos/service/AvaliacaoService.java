@@ -1,10 +1,13 @@
 package br.ufes.reserva_espacos.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.ufes.reserva_espacos.dto.avaliacaodto.AvaliacaoResponseDTO;
 import br.ufes.reserva_espacos.dto.avaliacaodto.CadastroAvaliacaoDTO;
 import br.ufes.reserva_espacos.entity.Avaliacao;
 import br.ufes.reserva_espacos.entity.Reserva;
@@ -50,6 +53,37 @@ public class AvaliacaoService {
 
         return avaliacaoRepository.save(avaliacao);
     }
+
+    public List<AvaliacaoResponseDTO> buscarTodas() {
+    return avaliacaoRepository.findAll().stream()
+        .map(avaliacao -> {
+            var solicitante = avaliacao.getReserva().getSolicitante();
+            String nome = (solicitante != null && solicitante.getUsuario() != null) 
+                          ? solicitante.getUsuario().getNome() 
+                          : "Usuário Desconhecido";
+            
+            // Forçamos a conversão para Long usando .longValue()
+            return new AvaliacaoResponseDTO(
+                avaliacao.getIdAvaliacao() != null ? avaliacao.getIdAvaliacao().longValue() : null,
+                avaliacao.getReserva().getIdReserva() != null ? avaliacao.getReserva().getIdReserva().longValue() : null,
+                avaliacao.getReserva().getEspaco().getNome(),
+                avaliacao.getReserva().getEspaco().getTipoEspaco().getNome(),
+                avaliacao.getReserva().getEspaco().getEndereco().getLogradouro(),
+                avaliacao.getNota(),
+                avaliacao.getComentario(),
+                avaliacao.getDtAvaliacao(),
+                nome
+            );
+        })
+        .collect(Collectors.toList());
+    }
+
+    public List<AvaliacaoResponseDTO> buscarPorSolicitante(Integer idSolicitante) {
+    return avaliacaoRepository.findByReserva_Solicitante_Id(idSolicitante)
+        .stream()
+        .map(AvaliacaoResponseDTO::from)
+        .toList();
+}
 
     public Optional<Avaliacao> consultarPorReserva(Integer idReserva) {
         return avaliacaoRepository.findByReserva_IdReserva(idReserva);

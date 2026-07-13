@@ -14,6 +14,8 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
 
     List<Reserva> findBySolicitante_IdSolicitanteOrderByDtSolicitacaoDesc(Integer idSolicitante);
 
+    List<Reserva> findByStatusOrderByDtSolicitacaoDesc(StatusReserva status);
+
     boolean existsByEspaco_IdEspacoAndDtUsoAndStatusAndHoraInicioLessThanAndHoraFimGreaterThan(
 	    Integer idEspaco,
 	    LocalDate dtUso,

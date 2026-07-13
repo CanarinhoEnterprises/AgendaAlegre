@@ -1,11 +1,3 @@
-/* ==========================================================
-   reservas.js
-   Listagem das reservas, com detalhes e cancelamento.
-   Usado em reservaLogado.html (reservas do próprio solicitante,
-   GET /reservas/solicitante/{id}) e em reservaAdmin.html (todas
-   as reservas do sistema, GET /reservas).
-========================================================== */
-
 (function () {
 
     const listaReservas = document.getElementById("lista-reservas");
@@ -44,22 +36,18 @@
     }
 
     function acaoParaStatus(reserva) {
+    let html = '<button type="button" class="btn-detalhes" data-reserva-id="' + reserva.idReserva + '">Detalhes</button>';
+    const statusPermitidosParaCancelar = ["DOCUMENTOS_PENDENTES", "EM_ANALISE", "APROVADA", "AGUARDANDO_TERMO", "CONFIRMADA"];
+    const estaAtiva = statusPermitidosParaCancelar.includes(reserva.status);
+    
+    const podeCancelar = (admin || !admin && reserva.idSolicitante == obterIdUsuarioLogado()) && estaAtiva;
 
-        let html = '<button type="button" class="btn-avaliar btn-detalhes" data-reserva-id="' + reserva.idReserva + '">Detalhes</button>';
-
-        const podeCancelar = !admin &&
-            (reserva.status === "DOCUMENTOS_PENDENTES" ||
-             reserva.status === "EM_ANALISE" ||
-             reserva.status === "APROVADA" ||
-             reserva.status === "AGUARDANDO_TERMO" ||
-             reserva.status === "CONFIRMADA");
-
-        if (podeCancelar) {
-            html += '<button type="button" class="btn-cancelar" data-reserva-id="' + reserva.idReserva + '">Cancelar</button>';
-        }
-
-        return html;
+    if (podeCancelar) {
+        html += '<button type="button" class="btn-cancelar" data-reserva-id="' + reserva.idReserva + '">Cancelar</button>';
     }
+
+    return html;
+}
 
     function criarCardReserva(reserva) {
 
@@ -164,6 +152,10 @@
                 '<button type="button" class="modal-fechar" aria-label="Fechar">&times;</button>' +
                 '<h2>Cancelar reserva</h2>' +
                 '<p class="modal-subtitulo" id="modal-cancelar-texto"></p>' +
+                '<div class="modal-campo">' +
+                    '<label for="cancelamento-motivo">Motivo do cancelamento' + (admin ? '' : ' (opcional)') + '</label>' +
+                    '<textarea id="cancelamento-motivo" placeholder="Descreva o motivo..."></textarea>' +
+                '</div>' +
                 '<div class="modal-acoes">' +
                     '<button type="button" class="modal-btn modal-btn-cancelar" id="cancelar-manter">Manter reserva</button>' +
                     '<button type="button" class="modal-btn modal-btn-perigo" id="cancelar-confirmar">Cancelar reserva</button>' +
@@ -205,37 +197,41 @@
     }
 
     async function efetivarCancelamento() {
+    if (!reservaParaCancelar) return;
 
-        if (!reservaParaCancelar) {
-            return;
-        }
-
-        const botao = document.getElementById("cancelar-confirmar");
-        botao.disabled = true;
-        botao.textContent = "Cancelando...";
-
-        try {
-
-            const idSolicitante = obterIdUsuarioLogado();
-            await apiCancelarReserva(reservaParaCancelar.idReserva, idSolicitante, null);
-
-            reservas = reservas.map(function (r) {
-                return r.idReserva === reservaParaCancelar.idReserva ? Object.assign({}, r, { status: "CANCELADA" }) : r;
-            });
-
-            aplicarFiltro(filtroAtivo());
-            notificar("Reserva cancelada com sucesso.", "sucesso");
-            modalConfirmacao.classList.remove("aberto");
-
-        } catch (erro) {
-            notificar(erro.message, "erro");
-
-        } finally {
-            botao.disabled = false;
-            botao.textContent = "Cancelar reserva";
-            reservaParaCancelar = null;
-        }
+    const motivo = document.getElementById("cancelamento-motivo").value.trim();
+    if (admin && !motivo) {
+        notificar("O motivo é obrigatório para administradores.", "erro");
+        return;
     }
+
+    const botao = document.getElementById("cancelar-confirmar");
+    botao.disabled = true;
+    botao.textContent = "Cancelando...";
+
+    try {
+        const idUsuario = obterIdUsuarioLogado();
+        await apiCancelarReserva(reservaParaCancelar.idReserva, idUsuario, motivo);
+
+        reservas = reservas.map(function (r) {
+            return r.idReserva === reservaParaCancelar.idReserva 
+                ? Object.assign({}, r, { status: "CANCELADA" }) 
+                : r;
+        });
+
+        aplicarFiltro(filtroAtivo());
+        notificar("Reserva cancelada com sucesso.", "sucesso");
+        modalConfirmacao.classList.remove("aberto");
+
+    } catch (erro) {
+        notificar(erro.message, "erro");
+
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Cancelar reserva";
+        reservaParaCancelar = null;
+    }
+}
 
     /* ---------- Detalhes ---------- */
 

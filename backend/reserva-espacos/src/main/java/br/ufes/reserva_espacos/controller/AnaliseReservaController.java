@@ -1,5 +1,6 @@
 package br.ufes.reserva_espacos.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -27,12 +28,12 @@ public class AnaliseReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<AnaliseReserva> cadastrar(@RequestBody CadastroAnaliseReservaDTO dto) {
+    public ResponseEntity<?> cadastrar(@RequestBody CadastroAnaliseReservaDTO dto) {
         try {
             AnaliseReserva analise = analiseReservaService.cadastrar(dto);
             return ResponseEntity.status(HttpStatus.CREATED).body(analise);
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of("mensagem", e.getMessage()));
         }
     }
 
