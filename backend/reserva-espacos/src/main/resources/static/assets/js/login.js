@@ -1,3 +1,15 @@
+window.addEventListener("DOMContentLoaded", () => {
+    const emailSalvo = sessionStorage.getItem("loginEmail");
+
+    if (emailSalvo) {
+        document.getElementById("email").value = emailSalvo;
+        document.getElementById("senha").focus();
+
+        // Remove para não ficar preenchendo sempre
+        sessionStorage.removeItem("loginEmail");
+    }
+});
+
 document.getElementById("formLogin").addEventListener("submit", fazerLogin);
 
 async function fazerLogin(event){

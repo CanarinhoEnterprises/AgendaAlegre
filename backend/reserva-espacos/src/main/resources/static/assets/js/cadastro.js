@@ -22,9 +22,15 @@ async function cadastrarUsuario(){
 
 
     if(resposta.ok){
+        const Email = document.getElementById("email").value;
+        sessionStorage.setItem("loginEmail", Email);
+
         alert("Usuário cadastrado!");
+        window.location.href = "login.html";
     } else {
-        alert("Erro!");
+        const mensagem = await resposta.text();
+
+        alert(mensagem);
     }
 
 }
