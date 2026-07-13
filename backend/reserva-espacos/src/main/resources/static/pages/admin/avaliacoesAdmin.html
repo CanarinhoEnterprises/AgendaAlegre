@@ -234,6 +234,12 @@
         const card = document.createElement("article");
         card.className = "espaco-card";
         card.innerHTML = `
+            <div class="espaco-imagem">
+                <img src="${av.urlCapa || '../../assets/img/espaco-placeholder.jpg'}"
+                    alt="${av.espacoNome}"
+                    onerror="this.src='../../assets/img/espaco-placeholder.jpg'">
+            </div>
+
             <div class="espaco-info">
                 <h3>${av.espacoNome || "Espaço"}</h3>
                 <p><strong>Usuário:</strong> ${av.nomeUsuario || "Anônimo"}</p>
@@ -242,7 +248,8 @@
                 <div class="espaco-rodape">
                     <span>Data: ${av.dataAvaliacao || "Sem data"}</span>
                 </div>
-            </div>`;
+            </div>
+        `;
         return card;
         }
 

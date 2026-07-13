@@ -14,14 +14,14 @@ public class AvaliacaoResponseDTO {
     private Integer nota;
     private String comentario;
     private LocalDate dataAvaliacao;
-    
+    private String urlCapa;
     private String nomeUsuario; 
 
     public AvaliacaoResponseDTO() {}
 
     public AvaliacaoResponseDTO(Long id, Long reservaId, String espacoNome, String categoria, 
                                 String localizacao, Integer nota, String comentario, 
-                                LocalDate dataAvaliacao, String nomeUsuario) {
+                                LocalDate dataAvaliacao, String nomeUsuario, String urlCapa) {
         this.id = id;
         this.reservaId = reservaId;
         this.espacoNome = espacoNome;
@@ -31,6 +31,7 @@ public class AvaliacaoResponseDTO {
         this.comentario = comentario;
         this.dataAvaliacao = dataAvaliacao;
         this.nomeUsuario = nomeUsuario;
+        this.urlCapa = urlCapa;
     }
 
     public static AvaliacaoResponseDTO from(Avaliacao avaliacao) {
@@ -43,7 +44,8 @@ public class AvaliacaoResponseDTO {
         avaliacao.getNota(),
         avaliacao.getComentario(),
         avaliacao.getDtAvaliacao(),
-        avaliacao.getReserva().getSolicitante().getUsuario().getNome()
+        avaliacao.getReserva().getSolicitante().getUsuario().getNome(),
+        avaliacao.getReserva().getEspaco().getUrlCapa()
     );
     }
 
@@ -80,4 +82,9 @@ public class AvaliacaoResponseDTO {
 
     public String getNomeUsuario() { return nomeUsuario; }
     public void setNomeUsuario(String nomeUsuario) { this.nomeUsuario = nomeUsuario; }
+
+    public String getUrlCapa() {return urlCapa;}
+    public void setUrlCapa(String urlCapa) {
+        this.urlCapa = urlCapa;
+    }
 }

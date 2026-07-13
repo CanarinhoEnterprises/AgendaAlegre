@@ -389,7 +389,15 @@
             card.dataset.avaliacaoId = avaliacao.id;
 
             card.innerHTML =
-                '<div class="espaco-imagem">' + ESPACO_ICONE_PADRAO + '</div>' +
+                '<div class="espaco-imagem">' +
+                    (
+                        avaliacao.urlCapa
+                            ? '<img src="' + escaparHtml(avaliacao.urlCapa) +
+                            '" alt="' + escaparHtml(avaliacao.espacoNome || "Espaço") +
+                            '" onerror="this.src=\'../../assets/img/espaco-placeholder.jpg\'">'
+                            : ESPACO_ICONE_PADRAO
+                    ) +
+                '</div>' +
                 '<div class="espaco-info">' +
                     (avaliacao.categoria ? '<span class="espaco-categoria">' + escaparHtml(avaliacao.categoria) + '</span>' : '') +
                     '<h3>' + escaparHtml(avaliacao.espacoNome || "") + '</h3>' +

@@ -72,7 +72,8 @@ public class AvaliacaoService {
                 avaliacao.getNota(),
                 avaliacao.getComentario(),
                 avaliacao.getDtAvaliacao(),
-                nome
+                nome,
+                avaliacao.getReserva().getEspaco().getUrlCapa()
             );
         })
         .collect(Collectors.toList());
