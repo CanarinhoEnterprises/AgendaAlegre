@@ -23,6 +23,9 @@ public class ReservaResponseDTO {
     private LocalDateTime dtConfirmacao;
     private StatusReserva status;
     private String urlCapa;
+    private String categoria;
+    private String localizacao;
+
 
     public ReservaResponseDTO() {
     }
@@ -45,6 +48,12 @@ public class ReservaResponseDTO {
         dto.dtCancelamento = reserva.getDtCancelamento();
         dto.dtConfirmacao = reserva.getDtConfirmacao();
         dto.status = reserva.getStatus();
+        dto.categoria = reserva.getEspaco().getTipoEspaco().getNome();
+
+        dto.localizacao =
+        reserva.getEspaco().getEndereco().getBairro() + " - " +
+        reserva.getEspaco().getEndereco().getCidade().getNome() + "/" +
+        reserva.getEspaco().getEndereco().getCidade().getUF();
         return dto;
     }
 
@@ -105,5 +114,12 @@ public class ReservaResponseDTO {
     }
     public String getUrlCapa() {
         return urlCapa;
+    }
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public String getLocalizacao() {
+        return localizacao;
     }
 }

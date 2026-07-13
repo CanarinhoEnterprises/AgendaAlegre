@@ -63,10 +63,24 @@ public class AnaliseReservaService {
         AnaliseReserva salva = analiseReservaRepository.save(analise);
 
         if (Boolean.TRUE.equals(dto.getAprovado())) {
-            reservaService.aprovar(reserva);
-        } else {
-            reservaService.rejeitar(reserva);
-        }
+
+    boolean conflito = reservaService.existeConflitoDeAprovacao(
+            reserva.getEspaco().getIdEspaco(),
+            reserva.getDtUso(),
+            reserva.getHoraInicio(),
+            reserva.getHoraFim(),
+            reserva.getIdReserva());
+
+    if (conflito) {
+        throw new RuntimeException(
+                "Já existe uma reserva aprovada para este espaço nesse horário.");
+    }
+
+    reservaService.aprovar(reserva);
+
+} else {
+    reservaService.rejeitar(reserva);
+}
 
         return salva;
     }
