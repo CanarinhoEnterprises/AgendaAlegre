@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Análise de Reservas | Agenda Alegre</title>
+
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/header.css">
+    <link rel="stylesheet" href="../../assets/css/espaco.css">
+    <link rel="stylesheet" href="../../assets/css/analiseReserva.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body id="topo">
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="header-container">
+
+            <div class="logo">
+
+                <a href="espacoAdmin.html">
+                    <img src="../../assets/img/logo.png" alt="Logo Agenda Alegre">
+                </a>
+
+                <h1>Agenda Alegre</h1>
+
+            </div>
+
+            <nav>
+
+                <a href="analiseReserva.html">
+                    Início
+                </a>
+
+                <a href="../landingpage.html" class="cadastro-btn">
+                    Sair
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+    <!-- ================= CONTEÚDO ================= -->
+
+    <main class="pagina-espacos">
+
+        <!-- Sidebar -->
+
+        <nav class="sidebar-menu">
+
+            <a href="espacoAdmin.html">
+                <i data-lucide="building-2"></i>
+                <span>Espaços</span>
+            </a>
+
+            <a href="reservaAdmin.html">
+                <i data-lucide="calendar-days"></i>
+                <span>Reservas</span>
+            </a>
+
+            <a href="avaliacoesAdmin.html">
+                <i data-lucide="star"></i>
+                <span>Avaliações</span>
+            </a>
+
+            <a href="cadastroEspaco.html">
+                <i data-lucide="plus-circle"></i>
+                <span>Cadastrar Espaço</span>
+            </a>
+
+            <a href="analiseReserva.html" class="active">
+                <i data-lucide="clipboard-check"></i>
+                <span>Análise de Reservas</span>
+            </a>
+
+        </nav>
+
+        <!-- Conteúdo -->
+
+        <section class="conteudo">
+
+            <section class="espacos-topo">
+
+                <h1>Análise de Reservas</h1>
+
+                <p>
+                    Analise todas as solicitações enviadas pelos usuários.
+                    Verifique os detalhes da reserva e decida se ela será aprovada ou recusada.
+                </p>
+
+            </section>
+
+            <!-- Solicitações -->
+
+            <section class="lista-reservas">
+
+                <!-- CARD 1 -->
+
+                <article class="card-reserva">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="status pendente">
+                                Pendente
+                            </span>
+
+                            <h2>Quadra Poliesportiva Central</h2>
+
+                            <p class="usuario">
+                                Solicitação realizada por <strong>João Pedro Silva</strong>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="detalhes">
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Data da Reserva</span>
+
+                                <strong>18/07/2026</strong>
+
+                            </div>
+
+                            <div class="item">
+
+                                <span>Horário</span>
+
+                                <strong>08:00 às 10:00</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Finalidade</span>
+
+                                <strong>Treino da equipe municipal de vôlei.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Equipamentos Solicitados</span>
+
+                                <strong>Rede, bolas oficiais e placar eletrônico.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Recursos de Acessibilidade</span>
+
+                                <strong>Rampa de acesso.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Observações</span>
+
+                                <strong>Necessário abrir o depósito de materiais esportivos.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="acoes">
+
+                            <button class="btn-aceitar">
+                                Aceitar Reserva
+                            </button>
+
+                            <button class="btn-recusar">
+                                Recusar Reserva
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <!-- CARD 2 -->
+
+                <article class="card-reserva">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="status pendente">
+                                Pendente
+                            </span>
+
+                            <h2>Auditório Municipal</h2>
+
+                            <p class="usuario">
+                                Solicitação realizada por <strong>Maria Oliveira</strong>
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="detalhes">
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Data da Reserva</span>
+
+                                <strong>20/07/2026</strong>
+
+                            </div>
+
+                            <div class="item">
+
+                                <span>Horário</span>
+
+                                <strong>19:00 às 22:00</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Finalidade</span>
+
+                                <strong>Palestra sobre empreendedorismo.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Equipamentos Solicitados</span>
+
+                                <strong>Projetor multimídia, microfone e caixa de som.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Recursos de Acessibilidade</span>
+
+                                <strong>Intérprete de Libras.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="linha">
+
+                            <div class="item">
+
+                                <span>Observações</span>
+
+                                <strong>Evento aberto ao público.</strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="acoes">
+
+                            <button class="btn-aceitar">
+                                Aceitar Reserva
+                            </button>
+
+                            <button class="btn-recusar">
+                                Recusar Reserva
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="site-footer">
+
+        <div class="footer-inner">
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+
+                    <img src="../../assets/img/logo.png" alt="Logo Agenda Alegre">
+
+                    <span>Agenda Alegre</span>
+
+                </div>
+
+                <p>
+                    Espaços públicos de Alegre - ES ao alcance da população.
+                </p>
+
+            </div>
+
+            <div class="footer-links">
+
+                <h4>Navegação</h4>
+
+                <a href="espacoAdmin.html">Espaços</a>
+
+                <a href="reservaAdmin.html">Reservas</a>
+
+                <a href="avaliacoesAdmin.html">Avaliações</a>
+
+                <a href="cadastroEspaco.html">Cadastrar Espaço</a>
+
+                <a href="analiseReserva.html">Análise de Reservas</a>
+
+            </div>
+
+            <div class="footer-info">
+
+                <h4>Sobre</h4>
+
+                <p>Projeto desenvolvido por alunos da UFES.</p>
+
+                <p>contato@agendaalegre.es.gov.br</p>
+
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+
+            <p>&copy; 2026 Agenda Alegre. Todos os direitos reservados.</p>
+
+        </div>
+
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+
+</html>
