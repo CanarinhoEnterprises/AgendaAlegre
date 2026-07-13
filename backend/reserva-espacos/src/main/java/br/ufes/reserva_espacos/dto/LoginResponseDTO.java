@@ -5,14 +5,16 @@ public class LoginResponseDTO {
     private String nome;
     private String email;
     private String tipo;
+    private String token;
 
     public LoginResponseDTO() {}
 
-    public LoginResponseDTO(Integer id, String nome, String email, String tipo) {
+    public LoginResponseDTO(Integer id, String nome, String email, String tipo, String token) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.tipo = tipo;
+        this.token = token;
     }
 
     public Integer getId(){
@@ -22,7 +24,7 @@ public class LoginResponseDTO {
     public String getNome() {
         return nome;
     }
-    
+
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -43,5 +45,9 @@ public class LoginResponseDTO {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+
+    public String getToken() {
+    return token;
+}
     
 }

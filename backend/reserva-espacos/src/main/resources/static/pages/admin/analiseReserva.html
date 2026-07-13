@@ -389,6 +389,18 @@
         lucide.createIcons();
     </script>
 
+    <script src="/js/auth.js"></script>
+
+    <script>
+
+    if(!possuiRole("ADMINISTRADOR")){
+
+        window.location.href = "../login.html";
+
+    }
+
+    </script>
+
 </body>
 
 </html>

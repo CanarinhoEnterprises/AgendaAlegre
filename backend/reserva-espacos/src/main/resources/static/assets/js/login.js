@@ -22,11 +22,17 @@ async function fazerLogin(event){
         return;
     }
 
+
     const usuario = await resposta.json();
 
+    localStorage.setItem(
+        "token",
+        usuario.token
+    );
+
     if(usuario.tipo === "ADMINISTRADOR"){
-        window.location.href = "/pages/admin/dashboardAdmin.html";
+        window.location.href = "/pages/admin/espacoAdmin.html";
     }else{
-        window.location.href = "/pages/usuario/dashboard.html";
+        window.location.href = "/pages/usuario/espacoLogado.html";
     }
 }

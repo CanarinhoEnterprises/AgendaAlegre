@@ -226,6 +226,17 @@
     <script>
         lucide.createIcons();
     </script>
+    <script src="/js/auth.js"></script>
+
+<script>
+
+if(!possuiRole("SOLICITANTE")){
+
+    window.location.href = "../login.html";
+
+}
+
+</script>
 
 </body>
 
