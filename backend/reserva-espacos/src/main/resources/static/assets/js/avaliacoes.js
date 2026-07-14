@@ -1,9 +1,14 @@
+let avaliacoes = [];
+
+const listaAvaliacoes = document.getElementById("lista-avaliacoes");
+const semAvaliacoes = document.getElementById("sem-avaliacoes");
+const filtroBotoes = document.querySelectorAll(".filtro-btn");
+
 async function carregarAvaliacoes() {
 
-    const idSolicitante = localStorage.getItem("idUsuario");
+    const idSolicitante = pegarIdUsuario();
 
     if (!idSolicitante) {
-        alert("Usuário não encontrado.");
         return;
     }
 
@@ -11,91 +16,17 @@ async function carregarAvaliacoes() {
 
         const resposta = await fetch(`/avaliacoes/solicitante/${idSolicitante}`, {
             headers: {
-                "Authorization": "Bearer " + pegarToken()
+                Authorization: "Bearer " + pegarToken()
             }
         });
 
         if (!resposta.ok) {
-            throw new Error("Erro ao carregar avaliações.");
+            throw new Error();
         }
 
-        const avaliacoes = await resposta.json();
+        avaliacoes = await resposta.json();
 
-        const lista = document.getElementById("lista-avaliacoes");
-        const semAvaliacoes = document.getElementById("sem-avaliacoes");
-
-        lista.innerHTML = "";
-
-        if (avaliacoes.length === 0) {
-
-    semAvaliacoes.style.display = "block";
-
-} else {
-
-    semAvaliacoes.style.display = "none";
-
-    avaliacoes.forEach(avaliacao => {
-
-        const estrelas = "★".repeat(avaliacao.nota) + "☆".repeat(5 - avaliacao.nota);
-
-        const card = document.createElement("article");
-        card.className = "card-espaco";
-        card.dataset.nota = avaliacao.nota;
-
-        card.innerHTML = `
-            ...
-        `;
-
-        lista.appendChild(card);
-
-    });
-
-}
-
-        semAvaliacoes.style.display = "none";
-
-        avaliacoes.forEach(avaliacao => {
-
-            const estrelas = "★".repeat(avaliacao.nota) + "☆".repeat(5 - avaliacao.nota);
-
-            const card = document.createElement("article");
-            card.className = "card-espaco";
-            card.dataset.nota = avaliacao.nota;
-
-            card.innerHTML = `
-
-                <img
-                    src="${avaliacao.urlCapa}"
-                    alt="${avaliacao.espacoNome}"
-                    class="espaco-img">
-
-                <div class="espaco-info">
-
-                    <h3>${avaliacao.espacoNome}</h3>
-
-                    <p><strong>Categoria:</strong> ${avaliacao.categoria}</p>
-
-                    <p><strong>Localização:</strong> ${avaliacao.localizacao}</p>
-
-                    <p><strong>Usuário:</strong> ${avaliacao.nomeUsuario}</p>
-
-                    <p><strong>Data:</strong> ${formatarData(avaliacao.dataAvaliacao)}</p>
-
-                    <div class="estrelas">
-                        ${estrelas}
-                    </div>
-
-                    <p class="comentario">
-                        "${avaliacao.comentario}"
-                    </p>
-
-                </div>
-
-            `;
-
-            lista.appendChild(card);
-
-        });
+        aplicarFiltro("todas");
 
     } catch (erro) {
 
@@ -107,46 +38,99 @@ async function carregarAvaliacoes() {
 
 }
 
-function formatarData(data) {
+function renderizarAvaliacoes(lista) {
 
-    return new Date(data).toLocaleDateString("pt-BR");
+    listaAvaliacoes.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+
+        semAvaliacoes.style.display = "block";
+        return;
+
+    }
+
+    semAvaliacoes.style.display = "none";
+
+    lista.forEach(av => {
+
+        listaAvaliacoes.appendChild(criarCardAvaliacao(av));
+
+    });
 
 }
 
-function configurarFiltros() {
+function criarCardAvaliacao(av) {
 
-    const botoes = document.querySelectorAll(".filtro-btn");
+    const card = document.createElement("article");
 
-    botoes.forEach(botao => {
+    card.className = "espaco-card";
 
-        botao.addEventListener("click", () => {
+    card.dataset.nota = av.nota;
 
-            botoes.forEach(btn => btn.classList.remove("active"));
+    card.innerHTML = `
 
-            botao.classList.add("active");
+        <div class="espaco-imagem">
 
-            const nota = botao.dataset.nota;
+            <img
+                src="${av.urlCapa || '../../assets/img/espaco-placeholder.jpg'}"
+                alt="${av.espacoNome}"
+                onerror="this.src='../../assets/img/espaco-placeholder.jpg'">
 
-            const cards = document.querySelectorAll("#lista-avaliacoes .card-espaco");
+        </div>
 
-            cards.forEach(card => {
+        <div class="espaco-info">
 
-                if (nota === "todas") {
+            <h3>${av.espacoNome}</h3>
 
-                    card.style.display = "block";
+            <p><strong>Usuário:</strong> ${av.nomeUsuario}</p>
 
-                } else {
+            <div class="estrelas-display">
+                Nota: ${av.nota}/5
+            </div>
 
-                    card.style.display =
-                        card.dataset.nota === nota ? "block" : "none";
+            <p>${av.comentario || "Sem comentário."}</p>
 
-                }
+            <div class="espaco-rodape">
+                <span>${formatarData(av.dataAvaliacao)}</span>
+            </div>
 
-            });
+        </div>
 
-        });
+    `;
+
+    return card;
+
+}
+
+function aplicarFiltro(nota) {
+
+    filtroBotoes.forEach(btn =>
+        btn.classList.toggle("active", btn.dataset.nota === nota)
+    );
+
+    const listaFiltrada = nota === "todas"
+        ? avaliacoes
+        : avaliacoes.filter(av => String(av.nota) === nota);
+
+    renderizarAvaliacoes(listaFiltrada);
+
+}
+
+filtroBotoes.forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        aplicarFiltro(btn.dataset.nota);
 
     });
+
+});
+
+function formatarData(data) {
+
+    if (!data) return "";
+
+    return new Date(data).toLocaleDateString("pt-BR");
 
 }
 
@@ -173,7 +157,8 @@ async function carregarAvaliacoesPendentes() {
         ]);
 
         const reservas = await respostaReservas.json();
-        const avaliacoes = await respostaAvaliacoes.json();
+
+        const avaliacoesUsuario = await respostaAvaliacoes.json();
 
         const hoje = new Date();
 
@@ -183,64 +168,109 @@ async function carregarAvaliacoesPendentes() {
 
             return reserva.status === "CONFIRMADA"
                 && dataUso <= hoje
-                && !avaliacoes.some(av =>
-                    Number(av.reservaId) === reserva.idReserva
-                );
+                && !avaliacoesUsuario.some(av => Number(av.reservaId) === reserva.idReserva);
 
         });
 
-
-        const semAvaliacoes = document.getElementById("sem-avaliacoes");
-
-        if (pendentes.length > 0) {
-            semAvaliacoes.style.display = "none";
-        }
-
         const lista = document.getElementById("lista-pendentes");
+
         const semPendentes = document.getElementById("sem-pendentes");
 
         lista.innerHTML = "";
+
+        if (pendentes.length === 0) {
+
+            semPendentes.style.display = "block";
+            return;
+
+        }
+
+        semPendentes.style.display = "none";
 
         pendentes.forEach(reserva => {
 
             const card = document.createElement("article");
 
-            card.className = "card-espaco pendente";
+            card.className = "espaco-card";
 
             card.innerHTML = `
 
-                <img
-                    src="${reserva.urlCapa}"
-                    class="espaco-img">
+                <div class="espaco-imagem">
+
+                    <img
+                        src="${reserva.urlCapa || '../../assets/img/espaco-placeholder.jpg'}"
+                        alt="${reserva.nomeEspaco}"
+                        onerror="this.src='../../assets/img/espaco-placeholder.jpg'">
+
+                </div>
 
                 <div class="espaco-info">
 
                     <h3>${reserva.nomeEspaco}</h3>
 
-                    <p><strong>Categoria:</strong> ${reserva.categoria}</p>
+                    <span class="status-pendente">
+                        Avaliação pendente
+                    </span>
 
-                    <p><strong>Localização:</strong> ${reserva.localizacao}</p>
+                    <button class="btn-abrir-avaliacao">
+                        Avaliar agora
+                    </button>
 
-                    <p><strong>Status:</strong> Avaliação pendente</p>
+                    <div class="form-avaliacao">
 
-                    <div class="estrelas">
+                        <label class="titulo-avaliacao">
 
-                        <span data-nota="1">☆</span>
-                        <span data-nota="2">☆</span>
-                        <span data-nota="3">☆</span>
-                        <span data-nota="4">☆</span>
-                        <span data-nota="5">☆</span>
+                            Como foi sua experiência?
+
+                        </label>
+
+                        <div class="estrelas-input">
+
+                            <button class="estrela-btn" data-nota="1">
+                                <i data-lucide="star" class="icone-estrela"></i>
+                            </button>
+
+                            <button class="estrela-btn" data-nota="2">
+                                <i data-lucide="star" class="icone-estrela"></i>
+                            </button>
+
+                            <button class="estrela-btn" data-nota="3">
+                                <i data-lucide="star" class="icone-estrela"></i>
+                            </button>
+
+                            <button class="estrela-btn" data-nota="4">
+                                <i data-lucide="star" class="icone-estrela"></i>
+                            </button>
+
+                            <button class="estrela-btn" data-nota="5">
+                                <i data-lucide="star" class="icone-estrela"></i>
+                            </button>
+
+                        </div>
+
+                        <textarea class="comentario-avaliacao" placeholder="Escreva um comentário..."></textarea>
+
+                        <div class="form-avaliacao-acoes">
+
+                            <button
+                                type="button"
+                                class="btn-texto-secundario btn-cancelar-avaliacao">
+
+                                Cancelar
+
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn-avaliar">
+
+                                Enviar avaliação
+
+                            </button>
+
+                        </div>
 
                     </div>
-
-                    <textarea
-                        placeholder="Escreva um comentário..."
-                        class="comentario-avaliacao">
-                    </textarea>
-
-                    <button class="btn-avaliar">
-                        Enviar avaliação
-                    </button>
 
                 </div>
 
@@ -248,84 +278,116 @@ async function carregarAvaliacoesPendentes() {
 
             lista.appendChild(card);
 
-            const estrelas = card.querySelectorAll(".estrelas span");
+            lucide.createIcons({
+                attrs: {
+                    "stroke-width": 2
+                }
+            });
 
-estrelas.forEach(estrela => {
+            const botaoAbrir = card.querySelector(".btn-abrir-avaliacao");
 
-    estrela.addEventListener("click", () => {
+            const formulario = card.querySelector(".form-avaliacao");
 
-        const nota = Number(estrela.dataset.nota);
+            const botaoCancelar = card.querySelector(".btn-cancelar-avaliacao");
 
-        card.dataset.nota = nota;
+            botaoAbrir.addEventListener("click", () => {
 
-        estrelas.forEach(s => {
+                formulario.classList.add("aberto");
 
-            s.textContent =
-                Number(s.dataset.nota) <= nota ? "★" : "☆";
+                botaoAbrir.style.display = "none";
 
-        });
+            });
 
-    });
+            botaoCancelar.addEventListener("click", () => {
 
-});
+                formulario.classList.remove("aberto");
 
-const botao = card.querySelector(".btn-avaliar");
+                botaoAbrir.style.display = "block";
 
-botao.addEventListener("click", async () => {
+            });
 
-    const comentario = card.querySelector(".comentario-avaliacao").value.trim();
+            let notaSelecionada = 0;
 
-    const nota = Number(card.dataset.nota);
+            const estrelas = card.querySelectorAll(".estrela-btn");
 
-    if (!nota) {
-        alert("Selecione uma nota.");
-        return;
-    }
+                estrelas.forEach(estrela => {
 
-    try {
+                    estrela.addEventListener("click", () => {
 
-        const resposta = await fetch("/avaliacoes", {
+                        notaSelecionada = Number(estrela.dataset.nota);
 
-            method: "POST",
+                        estrelas.forEach(s => {
 
-            headers: {
+                            const icone = s.querySelector(".icone-estrela");
 
-                "Content-Type": "application/json",
+                            icone.classList.toggle(
+                                "preenchida",
+                                Number(s.dataset.nota) <= notaSelecionada
+                            );
 
-                "Authorization": "Bearer " + pegarToken()
+                        });
 
-            },
+                    });
 
-            body: JSON.stringify({
+                });
 
-                idReserva: reserva.idReserva,
-                nota: nota,
-                comentario: comentario,
-                dtAvaliacao: new Date().toISOString().split("T")[0]
+            card.querySelector(".btn-avaliar").addEventListener("click", async () => {
 
-            })
+                const comentario = card.querySelector(".comentario-avaliacao").value.trim();
 
-        });
+                if (!notaSelecionada) {
 
-        if (!resposta.ok) {
-            throw new Error();
-        }
+                    alert("Selecione uma nota.");
+                    return;
 
-        alert("Avaliação enviada com sucesso!");
+                }
 
-        await carregarAvaliacoes();
+                try {
 
-        await carregarAvaliacoesPendentes();
+                    const resposta = await fetch("/avaliacoes", {
 
-    } catch (erro) {
+                        method: "POST",
 
-        console.error(erro);
+                        headers: {
 
-        alert("Erro ao enviar avaliação.");
+                            "Content-Type": "application/json",
 
-    }
+                            Authorization: "Bearer " + pegarToken()
 
-});
+                        },
+
+                        body: JSON.stringify({
+
+                            idReserva: reserva.idReserva,
+                            nota: notaSelecionada,
+                            comentario: comentario,
+                            dtAvaliacao: new Date().toISOString().split("T")[0]
+
+                        })
+
+                    });
+
+                    if (!resposta.ok) {
+
+                        throw new Error();
+
+                    }
+
+                    alert("Avaliação enviada com sucesso!");
+
+                    await carregarAvaliacoes();
+
+                    await carregarAvaliacoesPendentes();
+
+                } catch (erro) {
+
+                    console.error(erro);
+
+                    alert("Erro ao enviar avaliação.");
+
+                }
+
+            });
 
         });
 
@@ -338,8 +400,6 @@ botao.addEventListener("click", async () => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    configurarFiltros();
 
     carregarAvaliacoes();
 
