@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="../assets/css/styles.css">
     <link rel="stylesheet" href="../assets/css/header.css">
     <link rel="stylesheet" href="../assets/css/auth.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
@@ -79,11 +81,23 @@
 
                 <label for="senha">Senha</label>
 
-                <input
-                    type="password"
-                    id="senha"
-                    placeholder="Digite sua senha"
-                    required>
+                    <div class="campo-senha">
+
+                        <input
+                            type="password"
+                            id="senha"
+                            placeholder="Digite sua senha">
+
+                        <button
+                            type="button"
+                            class="toggle-senha"
+                            aria-label="Mostrar senha">
+
+                            <i data-lucide="eye"></i>
+
+                        </button>
+
+                    </div>
 
                 <label for="tipoPessoa">Tipo de Pessoa</label>
                 <select id="tipoPessoa" required>
@@ -121,6 +135,11 @@
 
     <script src="../assets/js/api.js"></script>
     <script src="../assets/js/cadastro.js"></script>
+    <script src="../assets/js/mostrarSenha.js"></script>
+
+    <script>
+        lucide.createIcons();
+    </script>
 
 </body>
 

@@ -47,8 +47,8 @@
 /* ---------- Estrelas ---------- */
 
 .icone-estrela {
-    width: 20px;
-    height: 20px;
+    width: 34px;
+    height: 34px;
 
     color: var(--borda);
 
@@ -74,44 +74,66 @@
     height: 17px;
 }
 
-.estrelas-input {
+.estrelas-input{
 
-    display: flex;
+    display:flex;
 
-    gap: 4px;
+    justify-content:center;
 
-    margin-bottom: 16px;
+    gap:12px;
+
+    margin:20px 0;
 
 }
 
 .estrela-btn {
 
-    background: none;
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
+    border-radius: 50%;
 
-    padding: 2px;
-
-    line-height: 0;
+    background: transparent;
 
     cursor: pointer;
+
+    transition: all .2s ease;
+
+}
+
+.estrela-btn:hover {
+
+    background: #FFF7D6;
+
+    transform: scale(1.12);
 
 }
 
 .estrela-btn .icone-estrela {
-    width: 26px;
-    height: 26px;
+
+    width: 30px;
+    height: 30px;
+
 }
 
 /* ---------- Formulário de avaliação (dentro do card pendente) ---------- */
 
-.form-avaliacao {
+.form-avaliacao{
 
-    display: none;
+    display:none;
 
-    margin-top: 18px;
-    padding-top: 18px;
+    margin-top:18px;
 
-    border-top: 1px dashed var(--borda);
+    padding-top:22px;
+
+    border-top:1px dashed var(--borda);
+
+    text-align:center;
 
 }
 
@@ -123,13 +145,13 @@
 
     display: block;
 
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 
-    color: var(--texto);
+    color:var(--azul-principal);
 
     font-weight: bold;
 
-    font-size: 14px;
+    font-size: 15px;
 
 }
 
@@ -137,65 +159,96 @@
 
     width: 100%;
 
-    min-height: 90px;
+    min-height: 95px;
 
-    padding: 12px;
+    padding: 14px 16px;
 
-    border: 1px solid var(--borda);
-    border-radius: 8px;
+    border: 1px solid #D7DEE8;
+    border-radius: 12px;
+
+    background: #FAFBFC;
 
     font-size: 14px;
     font-family: inherit;
 
     color: var(--texto);
 
-    resize: vertical;
+    resize: none;
 
     margin-bottom: 16px;
 
-    transition: .3s;
+    transition: .2s;
+
+    box-sizing: border-box;
+
+    text-align:left;
+
+}
+
+.form-avaliacao textarea::placeholder{
+
+    color:#98A2B3;
 
 }
 
 .form-avaliacao textarea:focus {
 
+    background:white;
+
     outline: none;
 
     border-color: var(--azul-principal);
 
-    box-shadow: 0 0 5px rgba(15, 76, 129, .3);
+    box-shadow:0 0 0 4px rgba(26,92,155,.12);
 
 }
 
-.form-avaliacao-acoes {
+.form-avaliacao-acoes{
 
-    display: flex;
-    align-items: center;
+    display:flex;
 
-    gap: 16px;
+    justify-content:space-between;
 
-}
+    align-items:center;
 
-.btn-texto-secundario {
+    margin-top:20px;
 
-    background: none;
-    border: none;
-
-    padding: 0;
-
-    color: var(--cinza);
-
-    font-size: 13px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    transition: .3s;
+    gap: 12px;;
 
 }
 
-.btn-texto-secundario:hover {
-    color: var(--azul-principal);
+.btn-texto-secundario{
+
+    padding:12px 22px;
+
+    border:1.5px solid var(--vermelho);
+    border-radius:10px;
+
+    background:transparent;
+
+    color:var(--vermelho);
+
+    font-size:14px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.btn-texto-secundario:hover{
+
+    background:rgba(192,57,43,.08);
+
+    transform:translateY(-2px);
+
+}
+
+.btn-texto-secundario:active{
+
+    transform:translateY(0);
+
 }
 
 /* ---------- Cards de avaliação já feita ---------- */
@@ -279,5 +332,117 @@
     .form-avaliacao-acoes {
         flex-wrap: wrap;
     }
+
+}
+
+.status-pendente{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:6px 12px;
+
+    margin:8px 0 14px;
+
+    border-radius:30px;
+
+    background:#FFF8E6;
+
+    color:#C9971C;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+/* ==========================================================
+   Botão Abrir Avaliação
+========================================================== */
+
+.btn-abrir-avaliacao{
+
+    width: 100%;
+
+    margin-top: 12px;
+
+    padding: 12px 18px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: var(--azul-principal);
+
+    color: var(--branco);
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+.btn-abrir-avaliacao:hover{
+
+    background: #154B80;
+
+}
+
+/* ==========================================================
+   Botão Avaliar
+========================================================== */
+
+.btn-avaliar{
+
+    padding:12px 22px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:var(--verde-principal);
+
+    color:white;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.btn-avaliar:hover{
+
+    background:var(--verde-hover);
+
+    transform:translateY(-2px);
+
+}
+
+.btn-avaliar:active{
+
+    transform:translateY(0);
+
+}
+
+.titulo-avaliacao{
+
+    display:block;
+
+    text-align:center;
+
+    color:var(--azul-principal);
+
+    font-weight:600;
+
+    margin-bottom:18px;
 
 }
