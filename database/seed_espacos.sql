@@ -18,13 +18,13 @@ INSERT INTO Endereco (idCidade, logradouro, bairro, cep, num, comp, referencia) 
 (1, 'Rua Sete de Setembro', 'Centro', '29500000', 520, NULL, 'Próximo à biblioteca');
 
 INSERT INTO Espaco (idEndereco, idTipoEspaco, capacidade, nome, descricao, urlCapa, status) VALUES
-(1, 1, 24, 'Quadra Poliesportiva Central', 'Quadra para futsal, vôlei e atividades comunitárias.', https://www.pmbsf.es.gov.br/uploads/files/quadra-do-vargem-alegre.jpg, 'ATIVO'),
-(2, 1, 18, 'Quadra do Bairro Boa Vista', 'Quadra de uso comunitário do bairro Boa Vista.', https://www.vitoria.es.gov.br/recursos/imagens/banco/2023/03/06/110731/normal@2x.jpg, 'INTERDITADO'),
-(3, 3, 120, 'Praça da Matriz', 'Praça central para encontro e eventos da cidade.', https://www.alegre.es.gov.br/wp-content/uploads/2021/06/DSC_5189-scaled.jpg, 'ATIVO'),
-(4, 4, 150, 'Salão Comunitário São José', 'Salão para festas e reuniões da comunidade.', https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWo0HUdFQRQNAqxaYpEJSfAyhUzhgia-wQ1Mry0B2J4zCQ7dMGgDyAn3Nt&s=10, 'INATIVO'),
-(5, 4, 180, 'Salão de Festas do Distrito', 'Salão comunitário do distrito de Celina.', https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDiTrxl5IAcPGvITz6vKhsxJL0zx0xnB_YT8WqvonwMMqQb5jkFdGn-WMq&s=10, 'ATIVO'),
-(6, 5, 220, 'Auditório Municipal', 'Auditório principal para eventos institucionais.', https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHPwTfbkwAljq-lG-h73E4ikC6nkn08fKQWY1F6I4xoOAsySut2v68A&s=10, 'ATIVO'),
-(6, 6, 160, 'Centro Cultural de Alegre', 'Espaço voltado para oficinas e apresentações culturais.', https://descubraoespiritosanto.es.gov.br/Media/DescubraOEspiritoSanto/_Profiles/7996852b/34b24092/Teatro%20Municipal%20de%20Alegre%20(3).jpg?v=639005206838552300, 'INATIVO');
+(1, 1, 24, 'Quadra Poliesportiva Central', 'Quadra para futsal, vôlei e atividades comunitárias.', 'https://www.pmbsf.es.gov.br/uploads/files/quadra-do-vargem-alegre.jpg', 'ATIVO'),
+(2, 1, 18, 'Quadra do Bairro Boa Vista', 'Quadra de uso comunitário do bairro Boa Vista.', 'https://www.vitoria.es.gov.br/recursos/imagens/banco/2023/03/06/110731/normal@2x.jpg', 'INTERDITADO'),
+(3, 3, 120, 'Praça da Matriz', 'Praça central para encontro e eventos da cidade.', 'https://www.alegre.es.gov.br/wp-content/uploads/2021/06/DSC_5189-scaled.jpg', 'ATIVO'),
+(4, 4, 150, 'Salão Comunitário São José', 'Salão para festas e reuniões da comunidade.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWo0HUdFQRQNAqxaYpEJSfAyhUzhgia-wQ1Mry0B2J4zCQ7dMGgDyAn3Nt&s=10', 'INATIVO'),
+(5, 4, 180, 'Salão de Festas do Distrito', 'Salão comunitário do distrito de Celina.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDiTrxl5IAcPGvITz6vKhsxJL0zx0xnB_YT8WqvonwMMqQb5jkFdGn-WMq&s=10', 'ATIVO'),
+(6, 5, 220, 'Auditório Municipal', 'Auditório principal para eventos institucionais.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmHPwTfbkwAljq-lG-h73E4ikC6nkn08fKQWY1F6I4xoOAsySut2v68A&s=10', 'ATIVO'),
+(6, 6, 160, 'Centro Cultural de Alegre', 'Espaço voltado para oficinas e apresentações culturais.', 'https://descubraoespiritosanto.es.gov.br/Media/DescubraOEspiritoSanto/_Profiles/7996852b/34b24092/Teatro%20Municipal%20de%20Alegre%20(3).jpg?v=639005206838552300, 'INATIVO');
 
 INSERT INTO Reserva (
     idSolicitante, idEspaco, horaInicio, dtUso, horaFim,
@@ -33,16 +33,16 @@ INSERT INTO Reserva (
 )
 VALUES (
     4,                                  -- idSolicitante
-    13,                                  -- idEspaco
-    '10:50:00',                        -- horaInicio
-    '2025-07-12',  -- dtUso
-    '10:56:00',                        -- horaFim
-    'Torneio de futsal comunitário',   -- finalidade
-    NOW(),                             -- dtSolicitacao
-    NULL,                              -- dtCancelamento
-    NULL,                              -- dtConfirmacao
-    30,                                -- qtdPessoas
-    'CONFIRMADA'                       -- status
+    9,                                 -- idEspaco
+    '10:50:00',                         -- horaInicio
+    '2025-07-12',                       -- dtUso
+    '10:56:00',                         -- horaFim
+    'Torneio de futsal comunitário',    -- finalidade
+    NOW(),                              -- dtSolicitacao
+    NULL,                               -- dtCancelamento
+    NULL,                               -- dtConfirmacao
+    30,                                 -- qtdPessoas
+    'CONFIRMADA'                        -- status
 );
 
 INSERT INTO Avaliacao (
